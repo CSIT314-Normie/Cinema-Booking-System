@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        java: [8, 11, 17]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Compile Java code
+        run: javac Driver.java
+
+      - name: Test Java code
+        run: java Driver
+
+      - name: Set up MySQL
+        uses: mysql/setup-mysql@v2
+        with:
+          mysql-version: '8.0'
+          configuration-mysqld: |
+            default_authentication_plugin=mysql_native_password
+            character-set-server=utf8mb4
+            collation-server=utf8mb4_unicode_ci
+
+      - name: Create DB and Tables
+        uses: mysql/mysql-docker@v2
+        with:
+          args: mysql -u booking -pjG9GfE6XkNF5BYKJJfe8 -h csit314-project-do-user-13025854-0.b.db.ondigitalocean.com -P 25060 -D Test -e "USE test; CREATE TABLE IF NOT EXISTS users (id INT, name VARCHAR(255))"
+
+      - name: Insert test data
+        uses: mysql/mysql-docker@v2
+        with:
+          args: mysql -u booking -pjG9GfE6XkNF5BYKJJfe8 -h csit314-project-do-user-13025854-0.b.db.ondigitalocean.com -P 25060 -D Test -e "USE test; INSERT INTO users VALUES (1, 'Alice'); INSERT INTO users VALUES (2, 'Bob')"
+
+      - name: Delete test data
+        uses: mysql/mysql-docker@v2
+        with:
+          args: mysql -u booking -pjG9GfE6XkNF5BYKJJfe8 -h csit314-project-do-user-13025854-0.b.db.ondigitalocean.com -P 25060 -D Test -e "USE test; DELETE FROM users"
