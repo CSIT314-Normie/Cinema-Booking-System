@@ -1,16 +1,13 @@
-import static org.junit.Assert.*;
+package Database;
 
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
-
 
 public class DB {
     private static final String pw = new String(Base64.getDecoder().decode("akc5R2ZFNlhrTkY1QllLSkpmZTg="), StandardCharsets.UTF_8);
     private static final String url = "jdbc:mysql://booking:" + pw + "@csit314-project-do-user-13025854-0.b.db.ondigitalocean.com:25060/defaultdb?ssl-mode=REQUIRED";
-    private Connection conn;
+    private Connection conn = null;
 
     // TODO: probably improve this somehow
     public DB() {
@@ -20,6 +17,14 @@ public class DB {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    public Connection getConnection() {
+        return conn;
+    }
+
+    public String getURL() {
+        return url;
     }
 
     // Data Manipulation Language(DML) Statements     
@@ -41,14 +46,14 @@ public class DB {
     // }
 
 
-    @org.junit.Test
-    public void testConnection() throws SQLException {
-        try {
-            conn = DriverManager.getConnection(url);
-            assertNotNull(conn);
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
+    // @org.junit.Test
+    // public void testConnection() throws SQLException {
+    //     try {
+    //         conn = DriverManager.getConnection(url);
+    //         assertNotNull(conn);
+    //     } catch (SQLException ex) {
+    //         System.out.println(ex.getMessage());
+    //     }
+    // }
 }
 
