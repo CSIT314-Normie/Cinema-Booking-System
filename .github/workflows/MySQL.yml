@@ -1,35 +1,30 @@
-name: MySQL DB CICD
+name: MySQL CI/CD Pipeline
 
 on:
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Start MySQL service
-        uses: docker/compose-action@1.0.0
-        with:
-          compose-file: docker-compose.yml
-          service: mysql
-          command: up -d
-
-      - name: Wait for MySQL to start
-        run: |
-          until docker exec mysql mysql -ubooking -pjG9GfE6XkNF5BYKJJfe8 -h csit314-project-do-user-13025854-0.b.db.ondigitalocean.com -e "SELECT 1"; do
-            sleep 1;
-          done
-
-      - name: Insert test data
-        uses: docker://mysql:latest
-        with:
-          args: mysql -u booking -pjG9GfE6XkNF5BYKJJfe8 -h csit314-project-do-user-13025854-0.b.db.ondigitalocean.com -P 25060 -D Test -e "USE Test; INSERT INTO users VALUES (1, 'Alice'); INSERT INTO users VALUES (2, 'Bob')"
-
-      - name: Delete test data
-        uses: docker://mysql:latest
-        with:
-          args: mysql -u booking -pjG9GfE6XkNF5BYKJJfe8 -h csit314-project-do-user-13025854-0.b.db.ondigitalocean.com -P 25060 -D Test -e "USE test; DELETE FROM users"
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up MySQL
+      uses: mysql-actions/setup-mysql@v1
+      with:
+        mysql-version: '8.0'
+        mysql-host: 'csit314-project-do-user-13025854-0.b.db.ondigitalocean.com'
+        mysql-port: '25060 '
+        mysql-user: 'booking'
+        mysql-password: ${{ secrets.MYSQL_PASSWORD }}
+    
+    - name: Insert test data
+      run: |
+        mysql -h  mysql -u booking -p${{ secrets.MYSQL_PASSWORD }} -h csit314-project-do-user-13025854-0.b.db.ondigitalocean.com -P 25060 -D Test -e "USE Test; INSERT INTO users VALUES (1, 'Alice'); INSERT INTO users VALUES (2, 'Bob')"
+    
+    - name: Delete test data
+      run: |
+        mysql -u booking -p${{ secrets.MYSQL_PASSWORD }} -h csit314-project-do-user-13025854-0.b.db.ondigitalocean.com -P 25060 -D Test -e "USE test; DELETE FROM users"
