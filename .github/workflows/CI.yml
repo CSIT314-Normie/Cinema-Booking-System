@@ -41,7 +41,7 @@ jobs:
         run: Xvfb :99 -ac &
 
       - name: Export DISPLAY
-        run: export DISPLAY=:99
+        run: export DISPLAY=:1
 
       - name: Launch Java application
         run: xvfb-run java -jar myapp.jar > output.txt
