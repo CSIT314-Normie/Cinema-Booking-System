@@ -1,5 +1,4 @@
-// Access Boundary
-import Main.Boundary.Init; 
+import Main.Boundary.*;
 
 
 public class Driver {
