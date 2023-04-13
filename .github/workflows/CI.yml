@@ -20,8 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Instlall XVFB
+      - name: Install XVFB
         run: sudo apt-get install xvfb
+
+      - name: Install XDOTOOL
+        run: sudo apt-get install xdotool
 
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v1
@@ -36,5 +39,9 @@ jobs:
 
       - name: Test Driver Java code
         run: xvfb-run java Driver
+
+      - name: Simulating user to close window
+        run: xdotool search --name "Welcome to CSIT 314 Cinema Booking System" windowactivate --sync key --clearmodifiers alt+F4
+
 
 
