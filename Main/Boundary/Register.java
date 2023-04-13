@@ -2,8 +2,6 @@ package Main.Boundary;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
-import java.util.function.Predicate;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -18,10 +16,11 @@ public class Register extends JFrame implements ActionListener {
     public Register() {
         super("Welcome to CSIT 314 Cinema Booking System - REGISTRATION");
         setLayout(new FlowLayout());
-        setSize(1920, 1080);
+        setSize(1035, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     @Override
