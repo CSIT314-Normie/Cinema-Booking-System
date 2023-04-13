@@ -36,7 +36,7 @@ jobs:
 
       - name: Validate JFrame opened
         run: |
-          if grep -q 'Compiled Su' output.txt; then
+          if grep -q 'Compiled Successfully' output.txt; then
             echo "JFrame opened successfully"
           else
             echo "JFrame not opened"
