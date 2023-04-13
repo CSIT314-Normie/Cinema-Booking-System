@@ -1,4 +1,4 @@
-package Main.Controller;
+package Main.Entity;
 
 public class User {
     private String fname;
