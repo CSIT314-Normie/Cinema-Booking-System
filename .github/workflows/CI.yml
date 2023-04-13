@@ -20,6 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install XVFB
+        run: sudo apt-get install xvfb
+
+      - name: Install XDOTOOL
+        run: sudo apt-get install xdotool
+
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v1
         with:
@@ -31,15 +37,21 @@ jobs:
       - name: Compile Java code
         run: javac Driver.java
 
-      - name: Test Java application
-        run: java Driver > output.txt
+      - name: Start Xvfb
+        run: Xvfb :99 -ac &
+
+      - name: Export DISPLAY
+        run: export DISPLAY=:99
+
+      - name: Launch Java application
+        run: xvfb-run java -jar myapp.jar > output.txt
 
       - name: Validate JFrame opened
         run: |
-          if grep -q 'Compiled Successfully' output.txt; then
+          if grep -q 'javax.swing.JFrame' output.txt; then
             echo "JFrame opened successfully"
           else
             echo "JFrame not opened"
-            exit 2
+            exit 1
           fi
 
