@@ -37,11 +37,18 @@ jobs:
       - name: Compile Java code
         run: javac Driver.java
 
-      - name: Test Driver Java code
-        run: xvfb-run java Driver
+      - name: Start Xvfb
+        run: Xvfb :99 -screen 0 1024x768x16 -ac &
 
-      - name: Simulating user to close window
-        run: xdotool search --name "Welcome to CSIT 314 Cinema Booking System" windowactivate --sync key --clearmodifiers alt+F4
+      - name: Test Java application
+        run: xvfb-run java Driver > output.txt
 
-
+      - name: Validate JFrame opened
+        run: |
+          if grep -q 'javax.swing.JFrame' output.txt; then
+            echo "JFrame opened successfully"
+          else
+            echo "JFrame not opened"
+            exit 1
+          fi
 
