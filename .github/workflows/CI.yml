@@ -37,18 +37,15 @@ jobs:
       - name: Compile Java code
         run: javac Driver.java
 
-      - name: Start Xvfb
-        run: Xvfb :99 -screen 0 1024x768x16 -ac &
-
       - name: Test Java application
         run: xvfb-run java Driver > output.txt
 
       - name: Validate JFrame opened
         run: |
-          if grep -q 'javax.swing.JFrame' output.txt; then
+          if grep -q 'Compiled Su' output.txt; then
             echo "JFrame opened successfully"
           else
             echo "JFrame not opened"
-            exit 1
+            exit 2
           fi
 

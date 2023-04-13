@@ -37,7 +37,7 @@ public class Init extends JFrame implements ActionListener {
         registerButton.addActionListener(this);
         loginButton.addActionListener(this);
 
-        System.out.println("Compiled Successfully in HEADLESS enviroment");
+        System.out.println("Compiled Successfully");
         
     }
 
