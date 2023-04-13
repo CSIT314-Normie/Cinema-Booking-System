@@ -44,7 +44,7 @@ jobs:
         run: export DISPLAY=:1
 
       - name: Launch Java application
-        run: xvfb-run java -jar myapp.jar > output.txt
+        run: xvfb-run  --auto-servernum --server-num=1 java -jar myapp.jar > output.txt
 
       - name: Validate JFrame opened
         run: |
