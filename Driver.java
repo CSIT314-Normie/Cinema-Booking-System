@@ -1,14 +1,12 @@
 import Main.Boundary.*;
-import java.awt.GraphicsEnvironment;
+import java.awt.HeadlessException;
 
 public class Driver {
 	public static void main(String[] args) {
-		System.setProperty("java.awt.headless", "false");
-		if (GraphicsEnvironment.isHeadless()) {
-			System.out.println("Headless mode detected!");
-			System.exit(1);
-		} else {
+		try {
 			new Init();
+		} catch (HeadlessException e) {
+			System.out.println("Compiled Successfully in HEADLESS enviroment");
 		}
 	}
 }
