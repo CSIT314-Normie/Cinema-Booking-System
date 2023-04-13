@@ -1,6 +1,9 @@
 name: Notify
 on:
   push:
+    branches:
+      - master
+      - Customer
   release:
     types: [published]
 
@@ -14,3 +17,10 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.telegram_token }}
           TELEGRAM_CHAT: ${{ secrets.telegram_chat }}
+      
+      - name: Send message to Telegram
+        uses: avkviring/telegram-github-action@v0.0.7
+        env:
+          telegram_to: ${{ secrets.telegram_chat }}  
+          telegram_token: ${{ secrets.telegram_token }}
+          event: ${{ toJson(github.event) }}
