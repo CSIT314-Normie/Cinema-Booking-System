@@ -114,6 +114,13 @@ public class DB {
         return true;
     }
 
+
+    /**
+     * This method is used to update a user from the database
+     * @param values is an Arraylist of Strings that contains the information of user
+     * @param role is the role of the user
+     * @return
+     */
     public boolean updateUser(ArrayList<String> values, String role) {
         PreparedStatement stmt;
 
@@ -126,6 +133,13 @@ public class DB {
         return true;
     }
 
+
+    /**
+     * This method is used to delete a user from the database
+     * @param values is an Arraylist of Strings that contains the information of user
+     * @param role is the role of the user
+     * @return
+     */
     public boolean deleteUser(ArrayList<String> values, String role) {
         PreparedStatement stmt;
 
