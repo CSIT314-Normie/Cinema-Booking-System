@@ -28,6 +28,9 @@ public class DB {
         try {
             conn = DriverManager.getConnection(url);
             System.out.println("Connected to the database!");
+
+            PreparedStatement ps = "CREATE TABLE IF NOT EXISTS users (fname VARCHAR(255), lname VARCHAR(255), email VARCHAR(255), dob VARCHAR(255), password VARCHAR(255), role VARCHAR(255))";
+            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -76,9 +79,11 @@ public class DB {
     // return true;
     // }
 
-    // public bool insertUser(String table, String[] values) {
-    // return true;
-    // }
+    public boolean insertUser(ArrayList<String> values, String role) {
+        PreparedStatement ps = "INSERT INTO defaultdb (fname, lname, email, dob, password, role) VALUES (?, ?, ?, ?, ?, ?)";
+
+        return true;
+    }
 
     // public bool updateUser(String table, String[] values) {
     // return true;
