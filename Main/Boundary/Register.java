@@ -98,15 +98,11 @@ public class Register extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == createButton) {
-            System.out.println("Create Account button is clicked, Call ENTITY to create account");
+            ArrayList<String> fieldValueList = new ArrayList<>();         
+            textfieldList.forEach(textField -> fieldValueList.add(textField.getText()));
             
-            RegisterController registerController = new RegisterController();
-
-            ArrayList<String> fieldValueList = new ArrayList<>();
+            RegisterController registerController = new RegisterController(fieldValueList, "Customer");
             
-            for (JTextField textField : textfieldList) {
-                fieldValueList.add(textField.getText());
-            }
             
             if (registerController.createUser(fieldValueList, "Customer")) {
                 System.out.println("Account created successfully");
