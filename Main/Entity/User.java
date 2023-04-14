@@ -83,4 +83,11 @@ public class User {
         return db.insertUser(information, role);
     }
 
+    public boolean updateUser(ArrayList<String> information, String role) {
+        return db.updateUser(information, role);
+    }
+
+    public boolean deleteUser(ArrayList<String> information, String role) {
+        return db.deleteUser(information, role);
+    }
 }
