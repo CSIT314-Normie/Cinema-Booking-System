@@ -2,10 +2,9 @@ package Main.Entity;
 
 import Database.DB;
 
-import java.util.*;
 
 public class User {
-    private static DB db = new DB();
+    private DB db = new DB();
     private String fname;
     private String lname;
     private String email;
@@ -79,15 +78,7 @@ public class User {
         this.role = role;
     }
    
-    public boolean createUser(ArrayList<String> information, String role) {
-        return db.insertUser(information, role);
-    }
-
-    public boolean updateUser(ArrayList<String> information, String role) {
-        return db.updateUser(information, role);
-    }
-
-    public boolean deleteUser(ArrayList<String> information, String role) {
-        return db.deleteUser(information, role);
+    public DB getDB() {
+        return db;
     }
 }
