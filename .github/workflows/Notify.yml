@@ -12,15 +12,8 @@ jobs:
     name: Notify via Telegram
     runs-on: ubuntu-latest
     steps:
-      - name: Send message to Telegram
+      - name: Send message to Telegram 
         uses: Lukasss93/telegram-action@v2
         env:
           TELEGRAM_TOKEN: ${{ secrets.telegram_token }}
           TELEGRAM_CHAT: ${{ secrets.telegram_chat }}
-      
-      - name: Send message to Telegram
-        uses: avkviring/telegram-github-action@v0.0.7
-        env:
-          telegram_to: ${{ secrets.telegram_chat }}  
-          telegram_token: ${{ secrets.telegram_token }}
-          event: ${{ toJson(github.event) }}
