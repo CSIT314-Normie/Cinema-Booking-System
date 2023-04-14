@@ -21,13 +21,26 @@ public class DB {
     
     /**
      * Default constructor
-     * This constructor is used to connect to the database
+     * This constructor is used to connect to the database, perform DDL statements
+     * and create tables if they do not exist.
      * 
      */
     public DB() {
         try {
             conn = DriverManager.getConnection(url);
-            System.out.println("Connected to the database!");
+
+            PreparedStatement stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
+            + "id INT AUTO_INCREMENT PRIMARY KEY,"
+            + "fname VARCHAR(255) NOT NULL,"
+            + "lname VARCHAR(255) NOT NULL,"
+            + "email VARCHAR(255) NOT NULL,"
+            + "dob VARCHAR(255) NOT NULL,"
+            + "password VARCHAR(255) NOT NULL,"
+            + "role VARCHAR(255) NOT NULL"
+            + ")");
+
+            stmt.executeUpdate();
+            System.out.println("Connected to the database!\nTable <users> created if it does not exist");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -76,17 +89,72 @@ public class DB {
     // return true;
     // }
 
-    // public bool insertUser(String table, String[] values) {
-    // return true;
-    // }
+    /**
+     * This method is used to insert a user into the database
+     * @param values is an ArrayList of Strings that contains the information of user to be inserted into the database
+     * @param role is the role of the user
+     * @return
+     */
+    public boolean insertUser(ArrayList<String> values, String role) {
+        PreparedStatement stmt;
+        
+        try {
+            stmt = conn.prepareStatement("INSERT INTO users (fname, lname, email, dob, password, role) VALUES (?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, values.get(0));
+            stmt.setString(2, values.get(1));
+            stmt.setString(3, values.get(2));
+            stmt.setString(4, values.get(3));
+            stmt.setString(5, values.get(4));
+            stmt.setString(6, role);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
 
-    // public bool updateUser(String table, String[] values) {
-    // return true;
-    // }
+        return true;
+    }
 
-    // public bool deleteUser(String table, String[] values) {
-    // return true;
-    // }
+
+    /**
+     * This method is used to update a user from the database
+     * @param values is an Arraylist of Strings that contains the information of user
+     * @param role is the role of the user
+     * @return
+     */
+    public boolean updateUser(ArrayList<String> values, String role) {
+        PreparedStatement stmt;
+
+        // try {
+
+        // } catch (SQLException e) {
+        //     System.err.println(e.getMessage());
+        // }
+
+        return true;
+    }
+
+
+    /**
+     * This method is used to delete a user from the database
+     * @param values is an Arraylist of Strings that contains the information of user
+     * @param role is the role of the user
+     * @return
+     */
+    public boolean deleteUser(ArrayList<String> values, String role) {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("DELETE FROM users WHERE fname = ? AND lname = ? AND email = ? AND password = ?");
+            stmt.setString(1, values.get(0));
+            stmt.setString(2, values.get(1));
+            stmt.setString(4, values.get(3));
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return true;
+    }
 
     // public bool insertTicket(String table, String[] values) {
     // return true;

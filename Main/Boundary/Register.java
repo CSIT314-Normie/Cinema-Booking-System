@@ -1,27 +1,27 @@
 package Main.Boundary;
 
-import javax.swing.*;
+import Main.Controller.RegisterController;
+
 import java.awt.*;
-import java.util.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
+import javax.swing.*;
+import java.util.*;
 
 
 public class Register extends JFrame implements ActionListener {
-    private final ArrayList<JLabel> labelsList = new ArrayList<>();
-    private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name", "Last Name", "Email", "Date of Birth", "Password"));
-    
+    private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
+    private final ArrayList<JTextField> textfieldList = new ArrayList<>();
+
     private final JLabel createAccount = new JLabel("Create Account");
-    private final JTextField fname = new JTextField();    
-    private final JTextField lname = new JTextField(); 
-    private final JTextField email = new JTextField();
-    private final JTextField dob = new JTextField();
-    private final JPasswordField passwordField = new JPasswordField();
     private final JButton createButton = new JButton();
+
+    // Frame's top, middle and bottom row
     private final JPanel topRow = new JPanel();
-    private final JPanel midRow = new JPanel();
     private final JPanel botRow = new JPanel();
+
+    // Frame overview
+    private final JPanel overviewList = new JPanel(new BorderLayout());
 
     public Register() {
         // Set up of the frame
@@ -31,54 +31,86 @@ public class Register extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(true);
-        setLocationRelativeTo(null); 
+        setLocationRelativeTo(null);
 
-        // put a text called "Create Account" at the top and  middle of the screen
-        createAccount.setBounds(500, 50, 300, 50);
+        // Add the text fields to the textfieldList
+        for (int i = 0; i < 5; i++) {
+            textfieldList.add(i != 4 ? new JTextField() : new JPasswordField());
+        }
+
+        // Put a JLabel called "Create Account" on the top row
         createAccount.setFont(new Font("Serif", Font.PLAIN, 40));
         topRow.add(createAccount);
-        
-        labelNameList.forEach(name -> {
-            labelsList.add(new JLabel(name));
-            JLabel label = labelsList.get(labelsList.size() - 1);
-            label.setFont(new Font("Serif", Font.PLAIN, 30));
-            midRow.add(label);
-        });
-        
-    
-        JPanel outer = new JPanel(new BorderLayout());
-        outer.add(topRow, BorderLayout.NORTH);
-        outer.add(midRow, BorderLayout.CENTER);
 
-        add(outer);
-        
-        // // set the position of the text field
-        // fname.setBounds(600, 150, 200, 50);
-        // lname.setBounds(600, 200, 200, 50);
-        // email.setBounds(600, 250, 200, 50);
-        // dob.setBounds(600, 300, 200, 50);
-        // passwordField.setBounds(600, 350, 200, 50);
-          
-        
-        // // set the position of the button
-        // createButton.setBounds(500, 400, 300, 50);
-        // createButton.setText("Create Account");
-        // createButton.addActionListener(this);
+        // Top row "Create Account"
+        overviewList.add(topRow, BorderLayout.NORTH);
 
-        
-        // // add(fname);
-        // // add(lname);
-        // // add(email);
-        // // add(dob);
-        // // add(passwordField);
-        // add(createButton);
+        // Middle row contains the labels and text fields
+        JPanel middleRow = new JPanel();
+        middleRow.setLayout(new BoxLayout(middleRow, BoxLayout.Y_AXIS));
+
+        for (int i = 0; i < 5; i++) {
+            // Create a label with the label name E.g "First Name", "Last Name", etc
+            JLabel label = new JLabel(labelNameList.get(i));
+            label.setFont(new Font("Serif", Font.PLAIN, 25));
+            label.setPreferredSize(new Dimension(200, 20));
+            label.setHorizontalAlignment(SwingConstants.RIGHT);
+            label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30)); // add 10 pixels of padding to the right of the label
+
+            // Create a text field next to the label in the panel
+            JTextField textField = textfieldList.get(i);
+            textField.setFont(new Font("Serif", Font.PLAIN, 25));
+            textField.setPreferredSize(new Dimension(40, 20));
+            textField.setColumns(10);
+
+            // Add the label and text field to the panel e.g First Name: [text field]
+            JPanel panel = new JPanel(new BorderLayout());
+            panel.add(label, BorderLayout.WEST);
+            panel.add(textField, BorderLayout.CENTER);
+            panel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0)); // add 10 pixels of padding to top and bottom of each panel
+
+            middleRow.add(panel);
+        }
+
+        // Middle row
+        overviewList.add(middleRow, BorderLayout.CENTER);
+
+        // Set the position of the button
+        createButton.setText("Create Account");
+        createButton.addActionListener(this);
+        botRow.add(createButton);
+
+        // Bottom row contains the button
+        overviewList.add(botRow, BorderLayout.SOUTH);
+
+        // Set the preferred size of the overviewList panel
+        overviewList.setPreferredSize(new Dimension(800, 500));
+
+        // Add the overviewList to the frame
+        add(overviewList);
     }
 
 
+    /**
+     * Action Listener for the Create Account button
+     * @param e ActionEvent
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == createButton) {
-            System.out.println("Create Account button is clicked");
+            ArrayList<String> fieldValueList = new ArrayList<>();         
+            textfieldList.forEach(textField -> fieldValueList.add(textField.getText()));
+            
+            RegisterController registerController = new RegisterController(fieldValueList, "Customer");
+            
+            
+            if (registerController.createUser(fieldValueList, "Customer")) {
+                System.out.println("Account created successfully");
+                dispose();
+                new Login();
+            } else {
+                System.out.println("Account creation failed");
+            }
         }
     }
 }
