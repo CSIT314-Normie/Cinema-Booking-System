@@ -11,5 +11,14 @@ public class RegisterController {
         return user.createUser(values, role);
     }
 
+    public boolean updateUser(ArrayList<String> values, String role) {
+        return user.updateUser(values, role);
+    }
+
+    public boolean deleteUser(ArrayList<String> values, String role) {
+        return user.deleteUser(values, role);
+    }
+
+    
     
 }
