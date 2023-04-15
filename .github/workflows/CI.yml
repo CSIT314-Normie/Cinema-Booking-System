@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ "main", "Customer" ]
+    branches: [ "Main", "Customer" ]
   pull_request:
-    branches: [ "main", "Customer" ]
+    branches: [ "Main", "Customer" ]
 
   workflow_dispatch:
 
@@ -36,7 +36,7 @@ jobs:
 
       - name: Compile Java code
         run: |
-         javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar" -d out Database/*.java main/*.java main/boundary/*.java main/controller/*.java main/entity/*.java
+         javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar" -d Out Database/*.java Main/*.java Main/Boundary/*.java Main/Controller/*.java Main/Entity/*.java
 
       - name: Start Xvfb
         run: Xvfb :99 -ac &
