@@ -16,8 +16,7 @@ public class DB {
     private static final String pw = new String(Base64.getDecoder().decode("akc5R2ZFNlhrTkY1QllLSkpmZTg="), StandardCharsets.UTF_8);
     private static final String url = "jdbc:mysql://booking:" + pw + "@csit314-project-do-user-13025854-0.b.db.ondigitalocean.com:25060/defaultdb?ssl-mode=REQUIRED";
     private static final String TestDB = "jdbc:mysql://booking:" + pw + "@csit314-project-do-user-13025854-0.b.db.ondigitalocean.com:25060/Test?ssl-mode=REQUIRED";
-    
-    private Connection conn = null;
+    private Connection conn;
     
     /**
      * Default constructor
@@ -29,18 +28,25 @@ public class DB {
         try {
             conn = DriverManager.getConnection(url);
 
-            PreparedStatement stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
-            + "id INT AUTO_INCREMENT PRIMARY KEY,"
-            + "fname VARCHAR(255) NOT NULL,"
-            + "lname VARCHAR(255) NOT NULL,"
-            + "email VARCHAR(255) NOT NULL,"
-            + "dob VARCHAR(255) NOT NULL,"
-            + "password VARCHAR(255) NOT NULL,"
-            + "role VARCHAR(255) NOT NULL"
-            + ")");
+            // Check if connection is successful
+            if (conn != null) {
+                System.out.println("Connected to the database!");
+                PreparedStatement stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
+                    + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                    + "fname VARCHAR(255) NOT NULL,"
+                    + "lname VARCHAR(255) NOT NULL,"
+                    + "email VARCHAR(255) NOT NULL,"
+                    + "dob VARCHAR(255) NOT NULL,"
+                    + "password VARCHAR(255) NOT NULL,"
+                    + "role VARCHAR(255) NOT NULL)"
+                );
+    
+                stmt.executeUpdate();
+                System.out.println("Table <users> created if it does not exist");
+            } else {
+                System.out.println("Failed to connect to the database!");
+            }
 
-            stmt.executeUpdate();
-            System.out.println("Connected to the database!\nTable <users> created if it does not exist");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -49,16 +55,17 @@ public class DB {
     /**
      * Constructor
      * This constructor is used to connect to the Test database
+     * The constructor is commented out because it is not used in the actual program
      * @param test is used to explicitly inform test users that they are using Tets database
      */
-    public DB(String test) {
-        try {
-            conn = DriverManager.getConnection(TestDB);
-            System.out.println("Connected to <" + test + "> database");
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
+    // public DB(String test) {
+    //     try {
+    //         conn = DriverManager.getConnection(TestDB);
+    //         System.out.println("Connected to <" + test + "> database");
+    //     } catch (SQLException ex) {
+    //         System.out.println(ex.getMessage());
+    //     }
+    // }
 
     /**
      * This method is used to get the connection to the database
@@ -97,7 +104,7 @@ public class DB {
      */
     public boolean insertUser(ArrayList<String> values, String role) {
         PreparedStatement stmt;
-        
+    
         try {
             stmt = conn.prepareStatement("INSERT INTO users (fname, lname, email, dob, password, role) VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, values.get(0));
