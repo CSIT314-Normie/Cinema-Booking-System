@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ "main", "Customer" ]
+    branches: [ "Main", "Customer" ]
   pull_request:
-    branches: [ "main", "Customer" ]
+    branches: [ "Main", "Customer" ]
 
   workflow_dispatch:
 
@@ -35,7 +35,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Compile Java code
-        run: javac Driver.java
+        run: |
+         javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar" -d Out Database/*.java Main/*.java Main/Boundary/*.java Main/Controller/*.java Main/Entity/*.java
 
       - name: Start Xvfb
         run: Xvfb :99 -ac &
@@ -44,7 +45,7 @@ jobs:
         run: export DISPLAY=:99
 
       - name: Launch Java application
-        run: xvfb-run  --auto-servernum --server-num=1 java Driver > output.txt &
+        run: xvfb-run  --auto-servernum --server-num=1 java -classpath "./Out:./lib/mysql-connector-j-8.0.32.jar" Main.Driver > output.txt &
 
       - name: Validate JFrame opened
         run: |
