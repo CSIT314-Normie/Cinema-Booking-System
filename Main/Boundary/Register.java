@@ -25,12 +25,12 @@ public class Register extends JFrame implements ActionListener {
 
     public Register() {
         // Set up of the frame
-        super("Welcome to CSIT 314 Cinema Booking System - REGISTRATION");
+        super("Welcome to CSIT 314 Cinema Booking System - Registration");
         setLayout(new FlowLayout());
         setSize(1035, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        setResizable(true);
+        setResizable(false);
         setLocationRelativeTo(null);
 
         // Add the text fields to the textfieldList
@@ -55,7 +55,7 @@ public class Register extends JFrame implements ActionListener {
             label.setFont(new Font("Serif", Font.PLAIN, 25));
             label.setPreferredSize(new Dimension(200, 20));
             label.setHorizontalAlignment(SwingConstants.RIGHT);
-            label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30)); // add 10 pixels of padding to the right of the label
+            label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30));
 
             // Create a text field next to the label in the panel
             JTextField textField = textfieldList.get(i);
@@ -67,7 +67,7 @@ public class Register extends JFrame implements ActionListener {
             JPanel panel = new JPanel(new BorderLayout());
             panel.add(label, BorderLayout.WEST);
             panel.add(textField, BorderLayout.CENTER);
-            panel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0)); // add 10 pixels of padding to top and bottom of each panel
+            panel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
 
             middleRow.add(panel);
         }
