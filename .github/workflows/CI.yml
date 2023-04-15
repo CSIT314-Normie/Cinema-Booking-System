@@ -38,9 +38,14 @@ jobs:
         run: |
          javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar" -d out Database/*.java main/*.java main/boundary/*.java main/controller/*.java main/entity/*.java
 
+      - name: Start Xvfb
+        run: Xvfb :99 -ac &
+
+      - name: Export DISPLAY
+        run: export DISPLAY=:99
+
       - name: Launch Java application
-        run: |
-        java -classpath "./Out;./lib/mysql-connector-j-8.0.32.jar" Main.Driver > output.txt &
+        run: xvfb-run  --auto-servernum --server-num=1 java -classpath "./Out:./lib/mysql-connector-j-8.0.32.jar" Main.Driver > output.txt &
 
       - name: Validate JFrame opened
         run: |
