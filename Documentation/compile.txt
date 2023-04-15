@@ -1,0 +1,6 @@
+Execute straight from Driver.java
+root dir:
+javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar" -d out Database/*.java Main/*.java Main/Boundary/*.java Main/Controller/*.java Main/Entity/*.java
+
+root dir:
+java -classpath "./Out;./lib/mysql-connector-j-8.0.32.jar" Main.Driver
