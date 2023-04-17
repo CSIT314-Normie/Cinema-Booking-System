@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ "Main", "Customer" ]
+    branches: [ "Main", "Customer", "Login" ]
   pull_request:
-    branches: [ "Main", "Customer" ]
+    branches: [ "Main", "Customer", "Login" ]
 
   workflow_dispatch:
 
@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os:  [ ubuntu-latest ]
-        java: [1.8, 8, 11, 17]
+        java: [1.8, 8, 11 ,17]
 
     steps:
       - uses: actions/checkout@v3
