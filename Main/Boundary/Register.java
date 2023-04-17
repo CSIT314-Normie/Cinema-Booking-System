@@ -104,11 +104,13 @@ public class Register extends JFrame implements ActionListener {
             RegisterController registerController = new RegisterController(fieldValueList, "Customer");
             
             if (registerController.createUser(fieldValueList, "Customer")) {
-                System.out.println("Account created successfully");
+                JOptionPane.showMessageDialog(null, "Account created successfully");
                 dispose();
                 new Login();
             } else {
-                System.out.println("Account creation failed");
+                JOptionPane.showMessageDialog(null, "Account failed to create!");
+                dispose();
+                new Init();
             }
         }
     }
