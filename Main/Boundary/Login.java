@@ -1,5 +1,7 @@
 package Main.Boundary;
 
+import Main.Controller.LoginContoller;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -82,17 +84,23 @@ public class Login extends JFrame implements ActionListener {
         add(overviewList);
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            System.out.println("Login button clicked");
+            LoginContoller loginContoller = new LoginContoller(textfieldList.get(0).getText(), textfieldList.get(1).getText());
+            ArrayList<String> loginResult = loginContoller.login();
 
-            // TODO: check if the email and password is correct
-            // if correct, dispose the current frame and open the main page
-            // if not, show error message
+            
+            if (loginResult.get(1).equals("T")) {
+                dispose();
+                new Home(loginResult.get(0));
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid email or password", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             
         } else if (e.getSource() == createButton) {
-            System.out.println("Create button clicked");
+            System.out.println("[*] Create button clicked from Login.java");
             dispose();
             new Register();
         }

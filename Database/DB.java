@@ -30,7 +30,7 @@ public class DB {
 
             // Check if connection is successful
             if (conn != null) {
-                System.out.println("Connected to the database!");
+                System.out.println("[+] Connected to the database on initialisation");
                 PreparedStatement stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
                     + "fname VARCHAR(255) NOT NULL,"
                     + "lname VARCHAR(255) NOT NULL,"
@@ -41,9 +41,8 @@ public class DB {
                 );
     
                 stmt.executeUpdate();
-                System.out.println("Table <users> created if it does not exist");
             } else {
-                System.out.println("Failed to connect to the database!");
+                System.out.println("[!] Failed to connect to the database!");
             }
 
         } catch (SQLException ex) {
@@ -88,18 +87,86 @@ public class DB {
     
     /**
      * Data Manipulation Language(DML) Statements
-     * TODO: Implement DML statements 
      * */ 
     
-    // public bool select(String table, String[] values) {
-    // return true;
-    // }
+     /**
+      * Select information from the database using the email of the user
+      * E.g. SELECT fname FROM users WHERE email = '';
+      * @param info is the information to be selected, e.g. fname, lname, dob, password, role or *
+      * @param email is the email of the user
+      * @return arraylist of strings containing the information, if the information is not in whitelisted
+                or not found, an empty arraylist is returned
+      */
+    public ArrayList<String> select(String info, String email) {
+        ArrayList<String> values = new ArrayList<>();
+        ArrayList<String> whitelist = new ArrayList<>(Arrays.asList("fname", "lname", "email", "dob", "password", "role", "*"));
+
+        if (!whitelist.contains(info)) {
+            return new ArrayList<>();
+        }
+
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("SELECT " + info + " FROM users WHERE email = ?");
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                values.add(rs.getString(info));
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return values;
+    }
+
+         /**
+      * Select information from the database using 2 columns of information from the user
+      * E.g. SELECT role FROM users WHERE email = '' AND password = '';
+      * @param info is the information to be selected, e.g. fname, lname, dob, password, role or *
+      * @param key1 is the first WHERE clause of the user
+      * @param value1 is the first value of the WHERE clause of the user
+      * @param key2 is the second WHERE clause of the user
+      * @param value2 is the second value of the WHERE clause of the user
+      * @return arraylist of strings containing the information, if the information is not in whitelisted
+                or not found, an empty arraylist is returned
+      */
+      public ArrayList<String> select(String info, String key1, String value1, String key2, String value2) {
+        ArrayList<String> values = new ArrayList<>();
+        ArrayList<String> whitelist = new ArrayList<>(Arrays.asList("fname", "lname", "email", "dob", "password", "role", "*"));
+
+        if (!whitelist.contains(info) || !whitelist.contains(key1) || !whitelist.contains(key2)) {
+            return new ArrayList<>();
+        }
+
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("SELECT " + info + " FROM users WHERE " + key1 + " = ? AND " + key2 + " = ?");
+            stmt.setString(1, value1);
+            stmt.setString(2, value2);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                values.add(rs.getString(info));
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return values;
+    }
+
 
     /**
      * This method is used to insert a user into the database
      * @param values is an ArrayList of Strings that contains the information of user to be inserted into the database
      * @param role is the role of the user
-     * @return
+     * @return true if the user is inserted into the database, false otherwise
      */
     public boolean insertUser(ArrayList<String> values, String role) {
         PreparedStatement stmt;
@@ -113,6 +180,8 @@ public class DB {
             stmt.setString(5, values.get(4));
             stmt.setString(6, role);
             stmt.executeUpdate();
+
+            System.out.println(values.get(3) + " has been inserted into the database");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -125,7 +194,7 @@ public class DB {
      * This method is used to update a user from the database
      * @param values is an Arraylist of Strings that contains the information of user
      * @param role is the role of the user
-     * @return
+     * @return true if the user is updated from the database, false otherwise
      */
     public boolean updateUser(ArrayList<String> values, String role) {
         PreparedStatement stmt;
@@ -141,19 +210,17 @@ public class DB {
 
 
     /**
-     * This method is used to delete a user from the database
+     * This method is used to delete(suspend) a user from the database
      * @param values is an Arraylist of Strings that contains the information of user
      * @param role is the role of the user
-     * @return
+     * @return true if the user is deleted from the database, false otherwise
      */
     public boolean deleteUser(ArrayList<String> values, String role) {
         PreparedStatement stmt;
 
         try {
-            stmt = conn.prepareStatement("DELETE FROM users WHERE fname = ? AND lname = ? AND email = ? AND password = ?");
-            stmt.setString(1, values.get(0));
-            stmt.setString(2, values.get(1));
-            stmt.setString(4, values.get(3));
+            stmt = conn.prepareStatement("DELETE FROM users WHERE email = ?");
+            stmt.setString(1, values.get(3));
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
