@@ -32,7 +32,6 @@ public class Home extends JFrame implements ActionListener {
 
         // add action listener to the buttons
         logoutButton.addActionListener(this);
-
     }
 
 
@@ -46,5 +45,4 @@ public class Home extends JFrame implements ActionListener {
                 break;
         }
     }   
-
 }
