@@ -32,10 +32,9 @@ public class DB {
             if (conn != null) {
                 System.out.println("Connected to the database!");
                 PreparedStatement stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
-                    + "id INT AUTO_INCREMENT PRIMARY KEY,"
                     + "fname VARCHAR(255) NOT NULL,"
                     + "lname VARCHAR(255) NOT NULL,"
-                    + "email VARCHAR(255) NOT NULL,"
+                    + "email VARCHAR(255) PRIMARY KEY,"
                     + "dob VARCHAR(255) NOT NULL,"
                     + "password VARCHAR(255) NOT NULL,"
                     + "role VARCHAR(255) NOT NULL)"
