@@ -30,7 +30,7 @@ public class DB {
 
             // Check if connection is successful
             if (conn != null) {
-                System.out.println("Connected to the database!");
+                System.out.println("[+] Connected to the database on initialisation");
                 PreparedStatement stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
                     + "fname VARCHAR(255) NOT NULL,"
                     + "lname VARCHAR(255) NOT NULL,"
@@ -41,9 +41,8 @@ public class DB {
                 );
     
                 stmt.executeUpdate();
-                System.out.println("Table <users> created if it does not exist");
             } else {
-                System.out.println("Failed to connect to the database!");
+                System.out.println("[!] Failed to connect to the database!");
             }
 
         } catch (SQLException ex) {
@@ -113,6 +112,8 @@ public class DB {
             stmt.setString(5, values.get(4));
             stmt.setString(6, role);
             stmt.executeUpdate();
+
+            System.out.println(values.get(3) + " has been inserted into the database");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -141,7 +142,7 @@ public class DB {
 
 
     /**
-     * This method is used to delete a user from the database
+     * This method is used to delete(suspend) a user from the database
      * @param values is an Arraylist of Strings that contains the information of user
      * @param role is the role of the user
      * @return
@@ -150,10 +151,8 @@ public class DB {
         PreparedStatement stmt;
 
         try {
-            stmt = conn.prepareStatement("DELETE FROM users WHERE fname = ? AND lname = ? AND email = ? AND password = ?");
-            stmt.setString(1, values.get(0));
-            stmt.setString(2, values.get(1));
-            stmt.setString(4, values.get(3));
+            stmt = conn.prepareStatement("DELETE FROM users WHERE email = ?");
+            stmt.setString(1, values.get(3));
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
