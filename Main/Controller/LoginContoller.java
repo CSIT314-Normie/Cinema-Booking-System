@@ -24,11 +24,7 @@ public class LoginContoller {
         ArrayList<String> role = this.user.getDB().select("role", "email", this.email, "password", this.password);
         String userRole = "";
         String canLogin = "F";
-        String userFname = "";
-        String userLname = "";
-        String userEmail ="";
-        String userDOB = "";
-        
+        String userEmail ="";       
 
         if (!role.isEmpty()) {
             switch (role.get(0)) {
@@ -50,12 +46,9 @@ public class LoginContoller {
             }
 
             canLogin = "T";
-            userFname =  this.user.getDB().select("fname", "email", this.email, "password", this.password).get(0);
-            userLname =  this.user.getDB().select("lname", "email", this.email, "password", this.password).get(0);
             userEmail =  this.user.getDB().select("email", "email", this.email, "password", this.password).get(0);
-            userDOB =  this.user.getDB().select("dob", "email", this.email, "password", this.password).get(0);
         }
-        return new ArrayList<>(Arrays.asList(userRole, canLogin, userFname, userLname, userEmail, userDOB));
+        return new ArrayList<>(Arrays.asList(userRole, canLogin, userEmail));
     }
 }
 

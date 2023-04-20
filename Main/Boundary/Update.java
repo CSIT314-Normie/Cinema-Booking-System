@@ -32,7 +32,7 @@ public class Update extends JFrame implements ActionListener {
     public Update(ArrayList<String> userInfo) {
         super("Welcome to CSIT 314 Cinema Booking System - Update Account");
         this.userInfo = userInfo;   
-        this.email = userInfo.get(4);
+        this.email = userInfo.get(2);
         setLayout(new FlowLayout());
         setSize(1035, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,14 +43,14 @@ public class Update extends JFrame implements ActionListener {
 
         // Add the text fields to the textfieldList
         for (int i = 0; i < 5; i++) {
-            textfieldList.add(i != 4 ? new JTextField(userInfo.get(i + 2)) : new JPasswordField());
+            textfieldList.add(i != 4 ? new JTextField() : new JPasswordField());
         }
 
-        // Put a JLabel called "Create Account" on the top row
+        // Put a JLabel called "Update Account" on the top row
         updateAccount.setFont(new Font("Serif", Font.PLAIN, 40));
         topRow.add(updateAccount);
 
-        // Top row "Create Account"
+        // Top row "Update Account"
         overviewList.add(topRow, BorderLayout.NORTH);
 
         // Middle row contains the labels and text fields
@@ -117,6 +117,8 @@ public class Update extends JFrame implements ActionListener {
 
                 if (updateController.updateAccount(updatedUserInfo, this.email)) {
                     JOptionPane.showMessageDialog(null, "Account updated successfully");
+                    // change the userInfo email to the updated email
+                    userInfo.set(2, updatedUserInfo.get(2));
                     dispose();
                     new Home(userInfo);
                 } else {

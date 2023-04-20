@@ -9,10 +9,11 @@ import java.util.*;
 
 
 public class Home extends JFrame implements ActionListener {
-    JLabel userRoleLable = new JLabel("User Role: ");
+    JLabel userRoleLabel = new JLabel("User Role: ");
 
     JButton logoutButton = new JButton("Logout");
     JButton updateButton = new JButton("Update");
+    JButton profileButton = new JButton("Profile");
 
     private ArrayList<String> userInfo;
 
@@ -27,8 +28,8 @@ public class Home extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
 
         // TODO: Modify homepage based on user role
-        userRoleLable.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
-
+        userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
+        userRoleLabel.setBounds(10, 10, 200, 50);
 
         // Logout button
         logoutButton.setBounds(500, 400, 100, 50);
@@ -37,10 +38,12 @@ public class Home extends JFrame implements ActionListener {
         // add buttons to the frame
         add(logoutButton);
         add(updateButton);
+        add(profileButton);
 
         // add action listener to the buttons
         logoutButton.addActionListener(this);
         updateButton.addActionListener(this);
+        profileButton.addActionListener(this);
     }
 
 
@@ -57,6 +60,12 @@ public class Home extends JFrame implements ActionListener {
                 System.out.println("[+] Move to Update page");
                 dispose();
                 new Update(userInfo);
+                break;
+            
+            case "Profile":
+                System.out.println("[+] Move to Profile page");
+                dispose();
+                new Profile(userInfo);
                 break;
         }
     }   

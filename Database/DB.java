@@ -107,22 +107,27 @@ public class DB {
         if (!whitelist.contains(info)) {
             return new ArrayList<>();
         }
-
+        
         PreparedStatement stmt;
-
+        
         try {
-            stmt = conn.prepareStatement("SELECT " + info + " FROM users WHERE email = ?");
+            if (info.equals("*")) {
+                stmt = conn.prepareStatement("SELECT fname, lname, email, dob FROM users WHERE email = ?");
+            } else {
+                stmt = conn.prepareStatement("SELECT " + info + " FROM users WHERE email = ?");
+            }
             stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-
+        
+                ResultSet rs = stmt.executeQuery();
+        
             while (rs.next()) {
                 values.add(rs.getString(info));
             }
-
+        
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-
+        
         return values;
     }
 
