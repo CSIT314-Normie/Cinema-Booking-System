@@ -14,7 +14,7 @@ public class Register extends JFrame implements ActionListener {
     private final ArrayList<JTextField> textfieldList = new ArrayList<>();
 
     private final JLabel createAccount = new JLabel("Create Account");
-    private final JButton createButton = new JButton();
+    private final JButton createButton = new JButton("Create Account");
 
     // Frame's top, middle and bottom row
     private final JPanel topRow = new JPanel();
@@ -75,8 +75,7 @@ public class Register extends JFrame implements ActionListener {
         // Middle row
         overviewList.add(middleRow, BorderLayout.CENTER);
 
-        // Set the position of the button
-        createButton.setText("Create Account");
+        // Add actionlistener to create button
         createButton.addActionListener(this);
         botRow.add(createButton);
 
@@ -100,6 +99,11 @@ public class Register extends JFrame implements ActionListener {
         if (e.getSource() == createButton) {
             ArrayList<String> fieldValueList = new ArrayList<>();         
             textfieldList.forEach(textField -> fieldValueList.add(textField.getText()));
+
+            if (fieldValueList.contains("")) {
+                JOptionPane.showMessageDialog(null, "Please fill in all the fields");
+                return;
+            }
             
             RegisterController registerController = new RegisterController(fieldValueList, "Customer");
             
