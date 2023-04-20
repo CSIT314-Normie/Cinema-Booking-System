@@ -23,31 +23,38 @@ public class LoginContoller {
         ArrayList<String> role = this.user.getDB().select("role", "email", this.email, "password", this.password);
         String userRole = "";
         String canLogin = "F";
+        String userFname = "";
+        String userLname = "";
+        String userEmail ="";
+        String userDOB = "";
+        
 
         if (!role.isEmpty()) {
             switch (role.get(0)) {
                 case "Customer":
                     userRole = "Customer";
-                    canLogin = "T";
                     break;
                 
                 case "Manager":
                     userRole = "Manager";
-                    canLogin = "T";
                     break;
                 
                 case "Owner":
                     userRole = "Owner";
-                    canLogin = "T";
                     break;
 
                 case "Admin":
                     userRole = "Admin";
-                    canLogin = "T";
                     break;
             }
+
+            canLogin = "T";
+            userFname =  this.user.getDB().select("fname", "email", this.email, "password", this.password).get(0);
+            userLname =  this.user.getDB().select("lname", "email", this.email, "password", this.password).get(0);
+            userEmail =  this.user.getDB().select("email", "email", this.email, "password", this.password).get(0);
+            userDOB =  this.user.getDB().select("dob", "email", this.email, "password", this.password).get(0);
         }
-        return new ArrayList<>(Arrays.asList(userRole, canLogin));
+        return new ArrayList<>(Arrays.asList(userRole, canLogin, userFname, userLname, userEmail, userDOB));
     }
 }
 

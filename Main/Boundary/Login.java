@@ -94,7 +94,7 @@ public class Login extends JFrame implements ActionListener {
             
             if (loginResult.get(1).equals("T")) {
                 dispose();
-                new Home(loginResult.get(0));
+                new Home(loginResult);
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid email or password", "Error", JOptionPane.ERROR_MESSAGE);
             }
