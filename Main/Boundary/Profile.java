@@ -15,7 +15,6 @@ public class Profile extends JFrame implements ActionListener {
     private ArrayList<String> userInfo;
     private ArrayList<String> DBUserInfo = new ArrayList<>();
 
-    private final ArrayList<JLabel> labelList = new ArrayList<>();
     private final JLabel myProfileLabel = new JLabel("My Profile");
 
     private final JButton updateButton = new JButton("Update");
@@ -43,9 +42,7 @@ public class Profile extends JFrame implements ActionListener {
         // Get the user info from the database
         DBUserInfo = profileController.getUserInfo(this.userInfo.get(2));
 
-        // Add the user info to the labelList
-        DBUserInfo.forEach(info -> labelList.add(new JLabel(info)));
-
+        
         // Put a JLabel called "My Profile" on the top row
         myProfileLabel.setFont(new Font("Serif", Font.PLAIN, 40));
         topRow.add(myProfileLabel);
@@ -98,7 +95,6 @@ public class Profile extends JFrame implements ActionListener {
         // Add the overviewList to the frame
         add(overviewList);
     }
-
     
 
     @Override
@@ -115,5 +111,4 @@ public class Profile extends JFrame implements ActionListener {
                 break;            
         }
     }
-    
 }
