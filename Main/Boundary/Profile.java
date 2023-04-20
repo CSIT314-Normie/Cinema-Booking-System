@@ -43,10 +43,8 @@ public class Profile extends JFrame implements ActionListener {
         // Get the user info from the database
         DBUserInfo = profileController.getUserInfo(this.userInfo.get(2));
 
-        // Add the text fields to the textfieldList
-        for (int i = 0; i < 5; i++) {
-            labelList.add(new JLabel(DBUserInfo.get(i)));
-        }
+        // Add the user info to the labelList
+        DBUserInfo.forEach(info -> labelList.add(new JLabel(info)));
 
         // Put a JLabel called "My Profile" on the top row
         myProfileLabel.setFont(new Font("Serif", Font.PLAIN, 40));
@@ -59,7 +57,7 @@ public class Profile extends JFrame implements ActionListener {
         JPanel middleRow = new JPanel();
         middleRow.setLayout(new BoxLayout(middleRow, BoxLayout.Y_AXIS));
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             // Create a label with the label name E.g "First Name", "Last Name", etc
             JLabel label = new JLabel(labelNameList.get(i));
             label.setFont(new Font("Serif", Font.PLAIN, 25));
@@ -105,8 +103,17 @@ public class Profile extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        switch (e.getActionCommand()) {
+            case "Update":
+                dispose();
+                new Update(userInfo);
+                break;
+
+            case "Home":
+                dispose();
+                new Home(userInfo);
+                break;            
+        }
     }
     
 }

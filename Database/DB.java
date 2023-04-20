@@ -121,7 +121,10 @@ public class DB {
                 ResultSet rs = stmt.executeQuery();
         
             while (rs.next()) {
-                values.add(rs.getString(info));
+                values.add(rs.getString("fname"));
+                values.add(rs.getString("lname"));
+                values.add(rs.getString("email"));
+                values.add(rs.getString("dob"));
             }
         
         } catch (SQLException e) {
