@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.util.*;
 
+
 public class Login extends JFrame implements ActionListener {
     private final JLabel welcomeLabel = new JLabel("Welcome to CSIT 314 Cinema Booking System");
     private final ArrayList<String> lableList = new ArrayList<>(Arrays.asList("Email:", "Password:"));

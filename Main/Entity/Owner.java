@@ -1,6 +1,8 @@
 package Main.Entity;
 
+
 import java.util.ArrayList;
+
 
 public class Owner extends User {
     

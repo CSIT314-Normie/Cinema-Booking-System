@@ -1,6 +1,5 @@
 package Main.Boundary;
 
-import Main.Controller.LogoutController;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
