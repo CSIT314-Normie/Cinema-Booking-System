@@ -2,43 +2,55 @@ package Main.Boundary;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionListener; 
 import java.awt.event.ActionEvent;
 
 
 public class Init extends JFrame implements ActionListener {
-    private final JFrame pageFrame = new JFrame();
-    private final JButton registerButton, loginButton;
-
+    private final JFrame pageFrame = new JFrame(); 
+    private final Image logo = new ImageIcon("Main/Boundary/assets/logo.png").getImage(); 
+    private final JLabel logoLabel;
+    private final JButton registerButton, loginButton; 
 
     public Init() {
         // Set up of the frame
         super("Welcome to CSIT 314 Cinema Booking System");
-        setLayout(new FlowLayout());
+        setLayout(new GridBagLayout());
         setSize(1035, 750);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+        getContentPane().setBackground(Color.WHITE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setResizable(false);
         setLocationRelativeTo(null);
 
+        // grid bag constraints
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.VERTICAL;
+
+        // Set up of the logo  
+        logoLabel = new JLabel(new ImageIcon(logo), JLabel.CENTER); 
+        logoLabel.setBounds(100, 50, 400, 400);
+        
         // Set up of the buttons
         registerButton = new JButton("Register");
         loginButton = new JButton("Login");
         
         // set button middle of the screen
-        registerButton.setBounds(500, 300, 100, 50);
-        loginButton.setBounds(500, 400, 100, 50);
+        registerButton.setBounds(500, 550, 100, 40);
+        loginButton.setBounds(500, 600, 100, 40);
 
-        // add buttons to the frame
-        add(registerButton);
-        add(loginButton);
-        
+        // add logo and buttons to the frame 
+        add(logoLabel, gbc);
+        add(registerButton, gbc);
+        add(loginButton, gbc);
+ 
         // add action listener to the buttons
         registerButton.addActionListener(this);
         loginButton.addActionListener(this);
+ 
+        setVisible(true); // Show the frame
 
         System.out.println("Compiled");
-        
     }
 
     // Action listener for the buttons
@@ -54,6 +66,7 @@ public class Init extends JFrame implements ActionListener {
                 break;
 
             case "Login":
+
                 // dispose the current frame and open the login page
                 dispose();
                 pageFrame.setVisible(false);
