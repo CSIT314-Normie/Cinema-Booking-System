@@ -12,10 +12,14 @@ import java.util.*;
  *            tables. It is not used in the actual program.
  */
 
+
 public class DB {
+    private static final ArrayList<String> whitelist = new ArrayList<>(Arrays.asList("fname", "lname", "email", "dob", "password", "role", "*"));
+
     private static final String pw = new String(Base64.getDecoder().decode("akc5R2ZFNlhrTkY1QllLSkpmZTg="), StandardCharsets.UTF_8);
     private static final String url = "jdbc:mysql://booking:" + pw + "@csit314-project-do-user-13025854-0.b.db.ondigitalocean.com:25060/defaultdb?ssl-mode=REQUIRED";
     private static final String TestDB = "jdbc:mysql://booking:" + pw + "@csit314-project-do-user-13025854-0.b.db.ondigitalocean.com:25060/Test?ssl-mode=REQUIRED";
+    
     private Connection conn;
     
     /**
@@ -99,8 +103,7 @@ public class DB {
       */
     public ArrayList<String> select(String info, String email) {
         ArrayList<String> values = new ArrayList<>();
-        ArrayList<String> whitelist = new ArrayList<>(Arrays.asList("fname", "lname", "email", "dob", "password", "role", "*"));
-
+        
         if (!whitelist.contains(info)) {
             return new ArrayList<>();
         }
@@ -123,20 +126,20 @@ public class DB {
         return values;
     }
 
-         /**
-      * Select information from the database using 2 columns of information from the user
-      * E.g. SELECT role FROM users WHERE email = '' AND password = '';
-      * @param info is the information to be selected, e.g. fname, lname, dob, password, role or *
-      * @param key1 is the first WHERE clause of the user
-      * @param value1 is the first value of the WHERE clause of the user
-      * @param key2 is the second WHERE clause of the user
-      * @param value2 is the second value of the WHERE clause of the user
-      * @return arraylist of strings containing the information, if the information is not in whitelisted
-                or not found, an empty arraylist is returned
-      */
-      public ArrayList<String> select(String info, String key1, String value1, String key2, String value2) {
+    /**
+    * Select information from the database using 2 columns of information from the user
+    * E.g. SELECT role FROM users WHERE email = '' AND password = '';
+    * @param info is the information to be selected, e.g. fname, lname, dob, password, role or *
+    * @param key1 is the first WHERE clause of the user
+    * @param value1 is the first value of the WHERE clause of the user
+    * @param key2 is the second WHERE clause of the user
+    * @param value2 is the second value of the WHERE clause of the user
+    * @return arraylist of strings containing the information, if the information is not in whitelisted
+            or not found, an empty arraylist is returned
+    */
+    public ArrayList<String> select(String info, String key1, String value1, String key2, String value2) {
         ArrayList<String> values = new ArrayList<>();
-        ArrayList<String> whitelist = new ArrayList<>(Arrays.asList("fname", "lname", "email", "dob", "password", "role", "*"));
+        
 
         if (!whitelist.contains(info) || !whitelist.contains(key1) || !whitelist.contains(key2)) {
             return new ArrayList<>();
@@ -191,23 +194,61 @@ public class DB {
 
 
     /**
-     * This method is used to update a user from the database
+     * This method is used to update a user from the database, the user is identified by the email
+     * and it changes fname, lname, email, dob and password only.
      * @param values is an Arraylist of Strings that contains the information of user
      * @param role is the role of the user
      * @return true if the user is updated from the database, false otherwise
      */
-    public boolean updateUser(ArrayList<String> values, String role) {
+    public boolean updateUser(ArrayList<String> values, String email) {
         PreparedStatement stmt;
 
-        // try {
+        try {
+            stmt = conn.prepareStatement("UPDATE users SET fname = ?, lname = ?, email = ?, dob = ?, password = ? WHERE email = ?");
+            stmt.setString(1, values.get(0));
+            stmt.setString(2, values.get(1));
+            stmt.setString(3, values.get(2));
+            stmt.setString(4, values.get(3));
+            stmt.setString(5, values.get(4));
+            stmt.setString(6, email);
+            stmt.executeUpdate();
 
-        // } catch (SQLException e) {
-        //     System.err.println(e.getMessage());
-        // }
+            System.out.println(values.get(2) + " has been updated in the database");
+            return true;
 
-        return true;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return false;
     }
 
+
+    /**
+     * This method is used to update a user ROLE from the database, the user is identified by the email
+     * and it changes role only
+     * @param values is an Arraylist of Strings that contains the information of user
+     * @param role is the role of the user
+     * @return true if the user is updated from the database, false otherwise
+     */
+    public boolean updateUser(String role, String email) {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("UPDATE users SET role = ? WHERE email = ?");
+            stmt.setString(1, role);
+            stmt.setString(2, email);
+            stmt.executeUpdate();
+
+            System.out.println(email + "'s role has been updated in the database");
+            return true;
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return false;
+    }
 
     /**
      * This method is used to delete(suspend) a user from the database
