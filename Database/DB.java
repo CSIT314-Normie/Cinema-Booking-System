@@ -31,24 +31,50 @@ public class DB {
     public DB() {
         try {
             conn = DriverManager.getConnection(url);
-
+            
             // Check if connection is successful
-            if (conn != null) {
-                System.out.println("[+] Connected to the database on initialisation");
-                PreparedStatement stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
-                    + "fname VARCHAR(255) NOT NULL,"
-                    + "lname VARCHAR(255) NOT NULL,"
-                    + "email VARCHAR(255) PRIMARY KEY,"
-                    + "dob VARCHAR(255) NOT NULL,"
-                    + "password VARCHAR(255) NOT NULL,"
-                    + "role VARCHAR(255) NOT NULL)"
-                );
-    
-                stmt.executeUpdate();
-            } else {
-                System.out.println("[!] Failed to connect to the database!");
-            }
+            System.out.println("[+] Connected to the database on initialisation");
+            
+            ArrayList<PreparedStatement> stmts = new ArrayList<>();
+            String[] tables = {"users", "movies", "user_movies"};
 
+            stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
+                + "fname VARCHAR(255) NOT NULL,"
+                + "lname VARCHAR(255) NOT NULL,"
+                + "email VARCHAR(255) PRIMARY KEY,"
+                + "dob VARCHAR(255) NOT NULL,"
+                + "password VARCHAR(255) NOT NULL,"
+                + "role VARCHAR(255) NOT NULL)"
+            ));
+            
+            stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS movies ("
+                + "name VARCHAR(255) PRIMARY KEY,"
+                + "image VARCHAR(255) NOT NULL,"
+                + "rate VARCHAR(255) NOT NULL,"
+                + "review VARCHAR(255) NOT NULL)"
+            ));
+
+            stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS user_movies ("
+                + "email VARCHAR(255) NOT NULL,"
+                + "movieName VARCHAR(255) NOT NULL,"
+                + "rate VARCHAR(255) NOT NULL,"
+                + "review VARCHAR(255) NOT NULL,"
+                + "PRIMARY KEY (email, movieName),"
+                + "FOREIGN KEY (email) REFERENCES users(email),"
+                + "FOREIGN KEY (movieName) REFERENCES movies(name))"
+            ));
+
+            
+            stmts.forEach(stmt -> {
+                try {
+                    stmt.execute();
+                    if (stmt.getUpdateCount() == 0) {
+                        System.out.println("[+] Table " + tables[stmts.indexOf(stmt)] + " create");
+                    }
+                } catch (SQLException e) {
+                    System.err.println(e.getMessage());
+                }
+            });
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }

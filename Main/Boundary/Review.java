@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.util.*;
 
 
-public class Profile extends JFrame implements ActionListener {
+public class Review extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
     private ArrayList<String> userInfo;
     private ArrayList<String> DBUserInfo = new ArrayList<>();
@@ -30,8 +30,8 @@ public class Profile extends JFrame implements ActionListener {
     // Frame overview
     private final JPanel overviewList = new JPanel(new BorderLayout());
 
-    public Profile(ArrayList<String> userInfo) {
-        super("Welcome to CSIT 314 Cinema Booking System - Profile");
+    public Review(ArrayList<String> userInfo) {
+        super("Welcome to CSIT 314 Cinema Booking System - Review");
         this.userInfo = userInfo;
         setLayout(new FlowLayout());
         setSize(1035, 750);

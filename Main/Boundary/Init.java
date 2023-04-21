@@ -1,5 +1,9 @@
 package Main.Boundary;
 
+
+import Main.Controller.InitController;
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener; 
@@ -50,7 +54,14 @@ public class Init extends JFrame implements ActionListener {
  
         setVisible(true); // Show the frame
 
-        System.out.println("Compiled");
+        InitController initController = new InitController();
+
+        // Check if the database is connected
+        if (initController.isInit()) {
+            System.out.println("Compiled");
+        } else {
+            JOptionPane.showMessageDialog(null, "Database is not connected\nRestart application", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     // Action listener for the buttons
