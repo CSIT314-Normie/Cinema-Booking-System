@@ -36,7 +36,7 @@ public class DB {
             System.out.println("[+] Connected to the database on initialisation");
             
             ArrayList<PreparedStatement> stmts = new ArrayList<>();
-            String[] tables = {"users", "movies", "user_movies"};
+            String[] tables = {"users", "movies", "user_movies", "add Admin"};
 
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
                 + "fname VARCHAR(255) NOT NULL,"
@@ -63,6 +63,8 @@ public class DB {
                 + "FOREIGN KEY (email) REFERENCES users(email),"
                 + "FOREIGN KEY (movieName) REFERENCES movies(name))"
             ));
+
+            stmts.add(conn.prepareStatement("INSERT INTO users (fname, lname, email, dob, password, role) SELECT 'user', 'admin', 'ua', 'ua', 'ua', 'Admin' FROM dual WHERE NOT EXISTS (SELECT * FROM users WHERE email = 'ua');"));
 
             
             stmts.forEach(stmt -> {
