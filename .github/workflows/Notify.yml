@@ -2,8 +2,13 @@ name: Notify
 on:
   push:
     branches:
-      - master
+      - main
       - Customer
+      - UIUX
+      - Login
+      - Mainpage
+      - RateReview
+      - AddMovie
   release:
     types: [published]
 

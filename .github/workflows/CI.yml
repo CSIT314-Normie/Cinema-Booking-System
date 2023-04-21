@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ "main", "Customer", "Login" ]
+    branches: [ "main", "Customer", "Login", "UIUX", "Mainpage", "RateReview", "AddMovie"]
   pull_request:
-    branches: [ "main", "Customer", "Login" ]
+    branches: [ "main", "Customer", "Login", "UIUX", "Mainpage", "RateReview", "AddMovie"]
 
   workflow_dispatch:
 
