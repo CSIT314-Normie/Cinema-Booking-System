@@ -162,6 +162,49 @@ public class DB {
         return values;
     }
 
+
+    /**
+    * Select ALL users from the database using 2 columns of information from the user
+    * E.g. SELECT role FROM users WHERE email = '' AND password = '';
+    * @param info is the information to be selected, e.g. fname, lname, dob, password, role or *
+    * @param key1 is the first WHERE clause of the user (e.g. email)
+    * @return arraylist of arrays containing the information, if the information is not in whitelisted
+            or not found, an empty arraylist is returned
+    */
+    public ArrayList<Object[]> selectAll(String info, String email) {
+        ArrayList<Object[]> values = new ArrayList<>();
+        
+        if (!whitelist.contains(info)) {
+            return new ArrayList<>();
+        }
+        
+        PreparedStatement stmt;
+        
+        try {
+            if (info.equals("*") && email.equals("*")) {
+                stmt = conn.prepareStatement("SELECT fname, lname, email, dob, role FROM users ");
+            } else {
+                stmt = conn.prepareStatement("SELECT " + info + " FROM users WHERE email = ?");
+                stmt.setString(1, email);
+            }
+                ResultSet rs = stmt.executeQuery();
+        
+            while (rs.next()) {
+                Object[] temp = new Object[5];
+                temp[0] = rs.getString("fname");
+                temp[1] = rs.getString("lname");
+                temp[2] = rs.getString("email");
+                temp[3] = rs.getString("dob");
+                temp[4] = rs.getString("role");
+                values.add(temp);
+            }   
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        
+        return values;
+    }
+
     /**
     * Select information from the database using 2 columns of information from the user
     * E.g. SELECT role FROM users WHERE email = '' AND password = '';
