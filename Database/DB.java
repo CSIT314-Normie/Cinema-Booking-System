@@ -306,6 +306,30 @@ public class DB {
         return true;
     }
 
+
+    public boolean selectRR(ArrayList<String> values, String email) {
+        return true;
+    }
+    
+    
+    public boolean insertRR(ArrayList<String> values, String email) {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("INSERT INTO user_movies (email, movieName, rate, review) VALUES (?, ?, ?, ?)");
+            stmt.setString(1, email);
+            stmt.setString(2, values.get(0));
+            stmt.setString(3, values.get(1));
+            stmt.setString(4, values.get(2));
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return true;
+    }
+
+
     // public bool insertTicket(String table, String[] values) {
     // return true;
     // }
@@ -322,13 +346,7 @@ public class DB {
     // return true;
     // }
 
-    // public bool selectRR(String table, String[] values) {
-    // return true;
-    // }
 
-    // public bool insertRR(String table, String[] values) {
-    // return true;
-    // }
 
     // public bool deleteRR(String table, String[] values) {
     // return true;
