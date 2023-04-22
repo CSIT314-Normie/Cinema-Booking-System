@@ -1,6 +1,5 @@
 package Main.Boundary;
 
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -10,7 +9,7 @@ import java.util.*;
 
 public class Home extends JFrame implements ActionListener {
     JLabel userRoleLabel = new JLabel("User Role: ");
-
+    JPanel panel = new JPanel();
     JButton logoutButton = new JButton("Logout");
     JButton updateButton = new JButton("Update");
     JButton profileButton = new JButton("Profile");
@@ -23,22 +22,34 @@ public class Home extends JFrame implements ActionListener {
         setLayout(new FlowLayout());
         setSize(1035, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
         setResizable(false);
         setLocationRelativeTo(null);
 
+        // set up panel 
+        panel.setLayout(new GridLayout(1, 4));
+        panel.setBackground(Color.WHITE);
+        panel.setPreferredSize(new Dimension(1035, 50));
+
         // TODO: Modify homepage based on user role
+        // For user admin: show all users
+        
+
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
-        userRoleLabel.setBounds(10, 10, 200, 50);
+        userRoleLabel.setBounds(10, 10, 100, 50);
 
         // Logout button
         logoutButton.setBounds(500, 400, 100, 50);
         updateButton.setBounds(500, 400, 100, 50);
 
-        // add buttons to the frame
-        add(logoutButton);
-        add(updateButton);
-        add(profileButton);
+        // add user role lable and buttons to the frame
+        panel.add(userRoleLabel);
+        panel.add(updateButton);
+        panel.add(profileButton);
+        panel.add(logoutButton);
+        
+        
+        add(panel);
+        setVisible(true); // Show the frame
 
         // add action listener to the buttons
         logoutButton.addActionListener(this);
