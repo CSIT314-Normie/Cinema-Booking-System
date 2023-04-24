@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
+
+import Main.Controller.LoginContoller;
+
 import java.util.*;
 
 
@@ -15,6 +18,7 @@ public class Home extends JFrame implements ActionListener {
     JButton profileButton = new JButton("Profile");
 
     private ArrayList<String> userInfo;
+    private transient LoginContoller loginController;
 
     public Home(ArrayList<String> userInfo) {
         super("Welcome to CSIT 314 Cinema Booking System - Home");
@@ -24,6 +28,9 @@ public class Home extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
+
+        // Login "SESSION" for user to allow user to logout, can be further implemented to other pages
+        loginController = new LoginContoller(userInfo.get(0), userInfo.get(1), userInfo.get(2));
 
         // set up panel 
         panel.setLayout(new GridLayout(1, 4));
@@ -62,6 +69,7 @@ public class Home extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Logout":
+                loginController.logout(userInfo.get(0));
                 dispose();
                 new Login();
                 System.out.println("[+] Successfully logged out");

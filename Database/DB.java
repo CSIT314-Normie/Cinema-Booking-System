@@ -124,7 +124,7 @@ public class DB {
      /**
       * Select information from the database using the email of the user
       * E.g. SELECT fname FROM users WHERE email = '';
-      * @param info is the information to be selected, e.g. fname, lname, dob, password, role or *
+      * @param info is the information to be selected, e.g. fname, lname, dob, password, role or asterisk(*) for all
       * @param email is the email of the user
       * @return arraylist of strings containing the information, if the information is not in whitelisted
                 or not found, an empty arraylist is returned
@@ -140,21 +140,29 @@ public class DB {
         
         try {
             if (info.equals("*")) {
-                stmt = conn.prepareStatement("SELECT fname, lname, email, dob FROM users WHERE email = ?");
+                stmt = conn.prepareStatement("SELECT fname, lname, email, dob, password, role FROM users WHERE email = ?");
             } else {
                 stmt = conn.prepareStatement("SELECT " + info + " FROM users WHERE email = ?");
             }
             stmt.setString(1, email);
         
-                ResultSet rs = stmt.executeQuery();
-        
-            while (rs.next()) {
-                values.add(rs.getString("fname"));
-                values.add(rs.getString("lname"));
-                values.add(rs.getString("email"));
-                values.add(rs.getString("dob"));
+            ResultSet rs = stmt.executeQuery();
+            
+            if (info.equals("*")) {
+                while (rs.next()) {
+                    values.add(rs.getString("fname"));
+                    values.add(rs.getString("lname"));
+                    values.add(rs.getString("email"));
+                    values.add(rs.getString("dob"));
+                    values.add(rs.getString("password"));
+                    values.add(rs.getString("role"));
+                }
+            } else {
+                while (rs.next()) {
+                    values.add(rs.getString(info));
+                }
             }
-        
+
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
