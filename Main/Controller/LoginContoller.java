@@ -50,5 +50,12 @@ public class LoginContoller {
         }
         return new ArrayList<>(Arrays.asList(userRole, canLogin, userEmail));
     }
+
+    
+    public boolean logout() {
+        this.email = "";
+        this.user = null;
+        return true;
+    }
 }
 
