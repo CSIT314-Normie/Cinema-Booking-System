@@ -23,8 +23,7 @@ public class Movie {
     }
 
 
-    public Movie() {
-    }
+    public Movie() {}
 
 
     public DB getDB() {
@@ -53,5 +52,24 @@ public class Movie {
         }
 
         return movies;
+    }
+
+
+    public boolean updateMovie(String email, String movieName, String rate, String review) {
+        Connection conn = this.db.getConnection();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("UPDATE user_movies set rate = ?, review = ? where email = ? and movieName = ?");
+            stmt.setString(1, rate);
+            stmt.setString(2, review);
+            stmt.setString(3, email);
+            stmt.setString(4, movieName);
+            stmt.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
