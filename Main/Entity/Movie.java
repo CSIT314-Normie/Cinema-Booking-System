@@ -37,13 +37,15 @@ public class Movie {
         
         try {
             Connection conn = db.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("SELECT movieName FROM user_movies where email = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT movieName, rate, review FROM user_movies where email = ?");
             
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 movies.add(rs.getString("movieName"));
+                movies.add(rs.getString("rate"));
+                movies.add(rs.getString("review"));
             }
 
         } catch (SQLException e) {
