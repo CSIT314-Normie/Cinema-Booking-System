@@ -54,6 +54,8 @@ public class LoginContoller {
     
     public boolean logout() {
         this.email = "";
+        
+        // Destroy user object
         this.user = null;
         return true;
     }
