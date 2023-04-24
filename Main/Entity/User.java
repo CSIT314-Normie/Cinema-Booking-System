@@ -82,4 +82,15 @@ public class User {
     public DB getDB() {
         return db;
     }
+
+    public boolean logout() {
+        this.email = "";
+        this.fname = "";
+        this.lname = "";
+        this.dob = "";
+        this.password = "";
+        this.role = "";
+        
+        return true;
+    }
 }
