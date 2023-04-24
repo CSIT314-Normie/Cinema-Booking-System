@@ -103,7 +103,7 @@ public class Profile extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "Update":
+            case "Edit Profile":
                 dispose();
                 new Update(userInfo);
                 break;
