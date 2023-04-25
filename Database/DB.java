@@ -391,6 +391,30 @@ public class DB {
         return true;
     }
 
+    public ArrayList<String[]> selectAllTicketingHistory(String key) {
+        PreparedStatement stmt;
+
+        ArrayList<String[]> values = new ArrayList<>();
+
+        try {
+            stmt = conn.prepareStatement("SELECT * FROM user_movies WHERE email = ?");
+            stmt.setString(1, key);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String[] temp = new String[4]; 
+                temp[0] = rs.getString("movieName");  
+                temp[1] = rs.getString("rate");
+                temp[2] = rs.getString("review");
+
+                values.add(temp);
+            } 
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return values;
+    }
+
 
     // public bool insertTicket(String table, String[] values) {
     // return true;
