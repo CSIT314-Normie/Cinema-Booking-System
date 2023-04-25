@@ -19,7 +19,7 @@ public class Home extends JFrame implements ActionListener {
     private ArrayList<String> userInfo;
     private transient LoginContoller loginController;
     private transient MovieController movieController = new MovieController();
-    
+
     // Get movies from database
     private final ArrayList<String> movieList = movieController.getMovies();
 
@@ -43,26 +43,42 @@ public class Home extends JFrame implements ActionListener {
         panel.add(profileButton);
         panel.add(logoutButton);
 
-        // set up panel for content to be displayed
+        // Set up panel for content to be displayed
         JPanel contentPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // height 700 is the height of the content panel 
+        // Height 700 is the height of the content panel
         contentPanel.setPreferredSize(new Dimension(1035, 700));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
 
+        // Add movie list to the content panel
+        JPanel movieListPanel = new JPanel(new GridLayout(1, 0)); // Change layout manager to have 1 row and multiple columns
 
-        // add movie list to the content panel
-        JPanel movieListPanel = new JPanel(new GridLayout(0, 1));
-        movieList.forEach(movie -> {
-            JLabel movieLabel = new JLabel(movie);
-            movieListPanel.add(movieLabel);
-        });
+        for (int i = 0; i < movieList.size(); i+= 4) {
+            JPanel moviePanel = new JPanel(new GridLayout(0, 1));
+            
+            JLabel movieTitle = new JLabel(movieList.get(i));
+            JLabel movieImage = new JLabel("path\\to\\image" + movieList.get(i + 1));
+            JLabel movieRate = new JLabel("Stars: " + movieList.get(i + 2));
+            JLabel movieReivew = new JLabel("# Review: " + movieList.get(i + 3)); 
+            
+            moviePanel.add(movieTitle);
+            moviePanel.add(movieImage);
+            moviePanel.add(movieRate);
+            moviePanel.add(movieReivew);
+
+            movieListPanel.add(moviePanel);
+        }
+
+        // Calculate preferred width for movieListPanel
+        int preferredWidth = movieList.size() * 100; // Assume each movie label takes 100 pixels in width
+        movieListPanel.setPreferredSize(new Dimension(preferredWidth, 50));
 
         JScrollPane scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(1000, 100));
+        scrollPane.setPreferredSize(new Dimension(250 * 4, 100)); // Set the preferred width to be 1/4 of the movieListPanel width
+
 
         // add panels to the frame
         add(panel, BorderLayout.NORTH);
