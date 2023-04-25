@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.util.*;
 
 import Main.Controller.LoginContoller;
@@ -54,9 +56,25 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         if (this.userInfo.get(0).equals("Admin")) {
             // Get all accounts from database
             this.allAccounts = loginController.getAllUserAccounts();
+            JLabel allAccountsLabel = new JLabel("All User Accounts");
 
-            System.out.println("All accounts: ");
-            allAccounts.forEach(System.out::println);
+            // Add all accounts to the content panel
+            String columns[] = {"First Name", "Last Name", "Email", "Date of Birth", "Role"};
+            
+            DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+            
+            for (String[] row : allAccounts) {
+                tableModel.addRow(row);
+            }
+
+            JTable allUserTable = new JTable(tableModel);
+
+            // Add the JTable to a JScrollPane
+            JScrollPane scrollPane = new JScrollPane(allUserTable);
+
+            // add label & scrollpane to the frame
+            add(allAccountsLabel, BorderLayout.NORTH);
+            add(scrollPane, BorderLayout.CENTER);
 
         } else if (this.userInfo.get(0).equals("Customer")) { 
              // Add movie list to the content panel
