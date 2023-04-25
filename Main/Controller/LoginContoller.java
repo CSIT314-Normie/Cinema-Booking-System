@@ -10,15 +10,12 @@ import java.util.*;
 public class LoginContoller {
     private User user;
     private String email;
-    private String password;
-    private ArrayList<String> allUsers; // ONLY FOR USER ADMIN
-
+    private String password; 
 
     public LoginContoller(String email, String password) {
         this.user = new User();
         this.email = email;
         this.password = password;
-
     }
 
 
@@ -98,6 +95,12 @@ public class LoginContoller {
         return false;
     }
 
-    
+    public ArrayList<String[]> getAllUserAccounts() {
+        if (this.user instanceof UserAdmin) {
+            UserAdmin userAdmin = (UserAdmin) this.user;
+            return userAdmin.getAllUserAccounts();
+        }
+        return null;
+    }
 }
 

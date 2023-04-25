@@ -23,7 +23,6 @@ public class Home extends JFrame implements ActionListener {
     // Get movies from database
     private final ArrayList<String> movieList = movieController.getMovies();
 
-
     // Get all accounts from database (USER ADMIN ONLY)
     private ArrayList<String[]> allAccounts;
      
@@ -42,6 +41,15 @@ public class Home extends JFrame implements ActionListener {
         loginController = new LoginContoller(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
 
+        if(this.userInfo.get(0).equals("Admin")){
+            this.allAccounts = loginController.getAllUserAccounts();
+            
+            System.out.println("All accounts: ");
+
+            for (String[] account : allAccounts) {
+                System.out.println(Arrays.toString(account));
+            } 
+        }
         // add user role lable and buttons to the frame
         panel.add(userRoleLabel);
         panel.add(updateButton);
