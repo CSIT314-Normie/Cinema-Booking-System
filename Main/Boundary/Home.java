@@ -25,8 +25,8 @@ public class Home extends JFrame implements ActionListener {
 
 
     // Get all accounts from database (USER ADMIN ONLY)
-    private final ArrayList<String[]> allAccounts;
-
+    private ArrayList<String[]> allAccounts;
+     
 
     public Home(ArrayList<String> userInfo) {
         super("Welcome to CSIT 314 Cinema Booking System - Home");
@@ -41,7 +41,6 @@ public class Home extends JFrame implements ActionListener {
         // Login "SESSION" for user to allow user to logout, can be further implemented
         loginController = new LoginContoller(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
-
 
         // add user role lable and buttons to the frame
         panel.add(userRoleLabel);
