@@ -50,8 +50,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         panel.add(profileButton);
         panel.add(logoutButton);
 
-        // add panel to the frame
-        add(panel, BorderLayout.NORTH);
+        
 
         if (this.userInfo.get(0).equals("Admin")) {
             // Get all accounts from database
@@ -77,6 +76,12 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             add(scrollPane, BorderLayout.CENTER);
 
         } else if (this.userInfo.get(0).equals("Customer")) { 
+            // view ticket history
+            JButton viewTicketHistoryButton = new JButton("Ticketing History");
+            panel.add(viewTicketHistoryButton);
+
+            viewTicketHistoryButton.addActionListener(this);
+
              // Add movie list to the content panel
             JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); 
                     
@@ -129,6 +134,9 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
         }       
         
+        // add panel to the frame
+        add(panel, BorderLayout.NORTH);
+        
         // add action listener to the buttons
         logoutButton.addActionListener(this);
         updateButton.addActionListener(this);
@@ -156,6 +164,12 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 System.out.println("[+] Move to Profile page");
                 dispose();
                 new Profile(userInfo);
+                break;
+            
+            case "Ticketing History":
+                System.out.println("[+] Customer - Move to Ticketing History page");
+                dispose();
+                new TicketingHistory(userInfo);
                 break;
         }
     }
