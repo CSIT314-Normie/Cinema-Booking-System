@@ -17,13 +17,19 @@ public class MovieController {
         this.email = email;
     }
 
+    public ArrayList<String> getMovies() {
+        return movie.getMovies();
+    }
+
     // set email
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public ArrayList<String> getMovies() {
-        return movie.getMovies(this.email);
+    
+
+    public ArrayList<String> getUserWatchedMovies() {
+        return movie.getUserWatchedMovies(this.email);
     }
 
     public boolean updateMovie(String movieName, String rating, String review) {
