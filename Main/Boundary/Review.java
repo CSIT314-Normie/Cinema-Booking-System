@@ -17,7 +17,7 @@ public class Review extends JFrame implements ActionListener {
     private final JButton homeButton = new JButton("Home");
 
     // Create a panel to hold the movie details
-    private final JPanel moviePanel = new JPanel(new GridLayout(0, 4));
+    private final JPanel moviePanel = new JPanel(new GridLayout(0, 5));
 
     // Create moviecontroller
     private transient MovieController movieController;
@@ -53,6 +53,7 @@ public class Review extends JFrame implements ActionListener {
         moviePanel.add(ratingHeader);
         moviePanel.add(reviewHeader);
         moviePanel.add(updateHeader);
+        moviePanel.add(homeButton);
         
         // Iterate through the list of movies
         for (int i = 0; i < movieController.getUserWatchedMovies().size(); i += 3) {
@@ -91,9 +92,7 @@ public class Review extends JFrame implements ActionListener {
 
         // Add the panel to the frame
         add(moviePanel);
-        // add the home button to the frame at the bottom
-        add(homeButton, BorderLayout.SOUTH);
-
+    
 
         // Add action listeners to the update buttons
         updateButtons.forEach(button -> button.addActionListener(this));
