@@ -42,66 +42,75 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         loginController = new LoginContoller(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
 
-        if (this.userInfo.get(0).equals("Admin")) {
-            this.allAccounts = loginController.getAllUserAccounts();
-
-            System.out.println("All accounts: ");
-            allAccounts.forEach(System.out::println);
-        }
-
-        // add user role lable and buttons to the frame
+        // add user role lable and buttons to the panel
         panel.add(userRoleLabel);
         panel.add(updateButton);
         panel.add(profileButton);
         panel.add(logoutButton);
 
-        // Add movie list to the content panel
-        JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); 
-                
-        for (int i = 0; i < movieList.size(); i += 4) {
-            JPanel moviePanel = new JPanel();
-            moviePanel.setLayout(new BoxLayout(moviePanel, BoxLayout.Y_AXIS));
-            moviePanel.setPreferredSize(new Dimension(200, 600));
-
-            JLabel movieTitle = new JLabel(movieList.get(i));
-            
-            ImageIcon image = new ImageIcon(getClass().getResource("../Boundary/assets/" + movieList.get(i + 1)));
-            Image scaledImage = image.getImage().getScaledInstance(100,200, Image.SCALE_SMOOTH);
-            image = new ImageIcon(scaledImage);
-
-            JLabel movieImage = new JLabel(image);
-            
-            JLabel movieRate = new JLabel("Stars: " + movieList.get(i + 2));
-            JLabel movieReview = new JLabel("# Review: " + movieList.get(i + 3));
-            
-            movieTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-            movieImage.setAlignmentX(Component.CENTER_ALIGNMENT);
-            movieRate.setAlignmentX(Component.CENTER_ALIGNMENT);
-            movieReview.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            // set font size for each Jlabel to be 13
-            movieTitle.setFont(new Font("Arial", Font.BOLD, 30));
-            movieRate.setFont(new Font("Arial", Font.BOLD, 20));
-            movieReview.setFont(new Font("Arial", Font.BOLD, 20));
-
-
-            moviePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-            moviePanel.add(movieTitle);
-            moviePanel.add(movieImage);
-            moviePanel.add(movieRate);
-            moviePanel.add(movieReview);
-            moviePanel.addMouseListener(this);
-            movieListPanel.add(moviePanel);
-        }
-
-        JScrollPane scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(500, 400));
-
-        // add panels to the frame
+        // add panel to the frame
         add(panel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
 
+        if (this.userInfo.get(0).equals("Admin")) {
+            // Get all accounts from database
+            this.allAccounts = loginController.getAllUserAccounts();
+
+            System.out.println("All accounts: ");
+            allAccounts.forEach(System.out::println);
+
+        } else if (this.userInfo.get(0).equals("Customer")) { 
+             // Add movie list to the content panel
+            JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); 
+                    
+            for (int i = 0; i < movieList.size(); i += 4) {
+                JPanel moviePanel = new JPanel();
+                moviePanel.setLayout(new BoxLayout(moviePanel, BoxLayout.Y_AXIS));
+                moviePanel.setPreferredSize(new Dimension(200, 600));
+
+                JLabel movieTitle = new JLabel(movieList.get(i));
+                
+                ImageIcon image = new ImageIcon(getClass().getResource("../Boundary/assets/" + movieList.get(i + 1)));
+                Image scaledImage = image.getImage().getScaledInstance(100,200, Image.SCALE_SMOOTH);
+                image = new ImageIcon(scaledImage);
+
+                JLabel movieImage = new JLabel(image);
+                
+                JLabel movieRate = new JLabel("Stars: " + movieList.get(i + 2));
+                JLabel movieReview = new JLabel("# Review: " + movieList.get(i + 3));
+                
+                movieTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+                movieImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+                movieRate.setAlignmentX(Component.CENTER_ALIGNMENT);
+                movieReview.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                // set font size for each Jlabel to be 13
+                movieTitle.setFont(new Font("Arial", Font.BOLD, 30));
+                movieRate.setFont(new Font("Arial", Font.BOLD, 20));
+                movieReview.setFont(new Font("Arial", Font.BOLD, 20));
+
+
+                moviePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+                moviePanel.add(movieTitle);
+                moviePanel.add(movieImage);
+                moviePanel.add(movieRate);
+                moviePanel.add(movieReview);
+                moviePanel.addMouseListener(this);
+                movieListPanel.add(moviePanel);
+            }
+
+            JScrollPane scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            scrollPane.setPreferredSize(new Dimension(500, 400));
+
+            // add scrollpane to the frame
+            add(scrollPane, BorderLayout.CENTER);
+
+        } else if (this.userInfo.get(0).equals("Manager")) { 
+
+        } else if (this.userInfo.get(0).equals("Owner")) { 
+
+        }       
+        
         // add action listener to the buttons
         logoutButton.addActionListener(this);
         updateButton.addActionListener(this);
