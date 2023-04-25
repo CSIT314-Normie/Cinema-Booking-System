@@ -66,7 +66,18 @@ public class DB {
 
             stmts.add(conn.prepareStatement("INSERT INTO users (fname, lname, email, dob, password, role) SELECT 'user', 'admin', 'ua', 'ua', 'ua', 'Admin' FROM dual WHERE NOT EXISTS (SELECT * FROM users WHERE email = 'ua');"));
 
-            
+            stmts.add(conn.prepareStatement(
+                "CREATE TRIGGER update_movies_rate_review " +
+                "AFTER UPDATE ON user_movies " +
+                "FOR EACH ROW " +
+                "BEGIN " +
+                "    UPDATE movies SET " +
+                "        rate = (SELECT AVG(rate) FROM user_movies WHERE movieName = NEW.movieName), " +
+                "        review = (SELECT COUNT(*) FROM user_movies WHERE movieName = NEW.movieName) " +
+                "    WHERE name = NEW.movieName; " +
+                "END"
+            ));
+
             stmts.forEach(stmt -> {
                 try {
                     stmt.execute();

@@ -7,6 +7,7 @@ import Database.DB;
 public class InitController {
     private DB db = new DB();
 
+    
     public boolean isInit() {
         try {
             this.db.getConnection();

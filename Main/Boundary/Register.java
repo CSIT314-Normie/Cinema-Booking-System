@@ -8,13 +8,13 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.util.*;
 
-
 public class Register extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
     private final ArrayList<JTextField> textfieldList = new ArrayList<>();
 
     private final JLabel createAccount = new JLabel("Create Account");
     private final JButton createButton = new JButton("Create Account");
+    private final JButton backButton = new JButton("Back");
 
     // Frame's top, middle and bottom row
     private final JPanel topRow = new JPanel();
@@ -76,7 +76,10 @@ public class Register extends JFrame implements ActionListener {
         overviewList.add(middleRow, BorderLayout.CENTER);
 
         // Add actionlistener to create button
+        backButton.addActionListener(this);
         createButton.addActionListener(this);
+
+        botRow.add(backButton);
         botRow.add(createButton);
 
         // Bottom row contains the button
@@ -89,33 +92,44 @@ public class Register extends JFrame implements ActionListener {
         add(overviewList);
     }
 
-
     /**
      * Action Listener for the Create Account button
+     * 
      * @param e ActionEvent
      */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == createButton) {
-            ArrayList<String> fieldValueList = new ArrayList<>();         
-            textfieldList.forEach(textField -> fieldValueList.add(textField.getText()));
 
-            if (fieldValueList.contains("")) {
-                JOptionPane.showMessageDialog(null, "Please fill in all the fields");
-                return;
-            }
-            
-            RegisterController registerController = new RegisterController(fieldValueList, "Customer");
-            
-            if (registerController.createUser(fieldValueList, "Customer")) {
-                JOptionPane.showMessageDialog(null, "Account created successfully");
-                dispose();
-                new Login();
-            } else {
-                JOptionPane.showMessageDialog(null, "Account failed to create!");
+        }
+
+        switch (e.getActionCommand()) {
+            case "Back":
                 dispose();
                 new Init();
-            }
+                break;
+
+            case "Create Account":
+                ArrayList<String> fieldValueList = new ArrayList<>();
+                textfieldList.forEach(textField -> fieldValueList.add(textField.getText()));
+
+                if (fieldValueList.contains("")) {
+                    JOptionPane.showMessageDialog(null, "Please fill in all the fields");
+                    return;
+                }
+
+                RegisterController registerController = new RegisterController(fieldValueList, "Customer");
+
+                if (registerController.createUser(fieldValueList, "Customer")) {
+                    JOptionPane.showMessageDialog(null, "Account created successfully");
+                    dispose();
+                    new Login();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Account failed to create!");
+                    dispose();
+                    new Init();
+                }
+                break;
         }
     }
 }
