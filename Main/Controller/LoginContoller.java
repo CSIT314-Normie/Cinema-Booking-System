@@ -11,12 +11,14 @@ public class LoginContoller {
     private User user;
     private String email;
     private String password;
+    private ArrayList<String> allUsers; // ONLY FOR USER ADMIN
 
 
     public LoginContoller(String email, String password) {
         this.user = new User();
         this.email = email;
         this.password = password;
+
     }
 
 
@@ -95,5 +97,7 @@ public class LoginContoller {
 
         return false;
     }
+
+    
 }
 

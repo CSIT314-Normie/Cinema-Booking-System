@@ -190,8 +190,8 @@ public class DB {
     * @return arraylist of arrays containing the information, if the information is not in whitelisted
             or not found, an empty arraylist is returned
     */
-    public ArrayList<Object[]> selectAll(String info, String email) {
-        ArrayList<Object[]> values = new ArrayList<>();
+    public ArrayList<String[]> selectAll(String info, String email) {
+        ArrayList<String[]> values = new ArrayList<>();
         
         if (!whitelist.contains(info)) {
             return new ArrayList<>();
@@ -209,7 +209,7 @@ public class DB {
                 ResultSet rs = stmt.executeQuery();
         
             while (rs.next()) {
-                Object[] temp = new Object[5];
+                String[] temp = new String[5];
                 temp[0] = rs.getString("fname");
                 temp[1] = rs.getString("lname");
                 temp[2] = rs.getString("email");
