@@ -25,4 +25,9 @@ public class UserAdmin extends User {
     public boolean deleteUser(ArrayList<String> information, String role) {
         return super.getDB().deleteUser(information, role);
     }
+
+    public ArrayList<String[]> getAllAccounts() {
+        return super.getDB().selectAll("*", "*");
+    }
+
 }

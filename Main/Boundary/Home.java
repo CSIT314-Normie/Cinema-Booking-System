@@ -23,6 +23,11 @@ public class Home extends JFrame implements ActionListener {
     // Get movies from database
     private final ArrayList<String> movieList = movieController.getMovies();
 
+
+    // Get all accounts from database (USER ADMIN ONLY)
+    private ArrayList<String[]> allAccounts;
+     
+
     public Home(ArrayList<String> userInfo) {
         super("Welcome to CSIT 314 Cinema Booking System - Home");
         this.userInfo = userInfo;
