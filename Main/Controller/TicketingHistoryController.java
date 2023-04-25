@@ -5,12 +5,17 @@ import Main.Entity.*;
 import java.util.*;
 
 public class TicketingHistoryController {
-    User user = new User();
+    private Customer customer = new Customer();
+    private String email;
 
-    // TODO - get ticketing history from database
+    public TicketingHistoryController() {}
+
+    public TicketingHistoryController(String email) {
+        this.email = email;
+    }
     
-    // public ArrayList<String> getTicketingHistory(String email) {
-    //     return user.getDB().selectAllTicketingHistory("*", email);
-    // }
+    public ArrayList<String[]> getTicketingHistory(String email) { 
+        return this.customer.getTicketingHistory(email); 
+    }
     
 }

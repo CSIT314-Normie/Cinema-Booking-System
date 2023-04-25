@@ -50,8 +50,6 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         panel.add(profileButton);
         panel.add(logoutButton);
 
-        
-
         if (this.userInfo.get(0).equals("Admin")) {
             // Get all accounts from database
             this.allAccounts = loginController.getAllUserAccounts();

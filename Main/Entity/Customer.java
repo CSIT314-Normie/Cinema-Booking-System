@@ -20,4 +20,8 @@ public class Customer extends User {
     public boolean updateUser(ArrayList<String> information, String role) {
         return super.getDB().updateUser(information, role);
     }
+
+    public ArrayList<String[]> getTicketingHistory(String email) {
+        return super.getDB().selectAllTicketingHistory(email);
+    }
 }
