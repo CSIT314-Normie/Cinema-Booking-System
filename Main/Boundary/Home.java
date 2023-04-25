@@ -2,6 +2,8 @@ package Main.Boundary;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.util.*;
@@ -9,7 +11,7 @@ import java.util.*;
 import Main.Controller.LoginContoller;
 import Main.Controller.MovieController;
 
-public class Home extends JFrame implements ActionListener {
+public class Home extends JFrame implements ActionListener, MouseListener {
     private final JLabel userRoleLabel = new JLabel();
     private final JPanel panel = new JPanel(new FlowLayout());
     private final JButton logoutButton = new JButton("Logout");
@@ -25,7 +27,6 @@ public class Home extends JFrame implements ActionListener {
 
     // Get all accounts from database (USER ADMIN ONLY)
     private ArrayList<String[]> allAccounts;
-     
 
     public Home(ArrayList<String> userInfo) {
         super("Welcome to CSIT 314 Cinema Booking System - Home");
@@ -41,57 +42,61 @@ public class Home extends JFrame implements ActionListener {
         loginController = new LoginContoller(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
 
-        if(this.userInfo.get(0).equals("Admin")){
+        if (this.userInfo.get(0).equals("Admin")) {
             this.allAccounts = loginController.getAllUserAccounts();
-            
-            System.out.println("All accounts: ");
 
-            for (String[] account : allAccounts) {
-                System.out.println(Arrays.toString(account));
-            } 
+            System.out.println("All accounts: ");
+            allAccounts.forEach(System.out::println);
         }
+
         // add user role lable and buttons to the frame
         panel.add(userRoleLabel);
         panel.add(updateButton);
         panel.add(profileButton);
         panel.add(logoutButton);
 
-        // Set up panel for content to be displayed
-        JPanel contentPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        // Height 700 is the height of the content panel
-        contentPanel.setPreferredSize(new Dimension(1035, 700));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.CENTER;
-
         // Add movie list to the content panel
-        JPanel movieListPanel = new JPanel(new GridLayout(1, 0)); // Change layout manager to have 1 row and multiple columns
+        JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); 
+                
+        for (int i = 0; i < movieList.size(); i += 4) {
+            JPanel moviePanel = new JPanel();
+            moviePanel.setLayout(new BoxLayout(moviePanel, BoxLayout.Y_AXIS));
+            moviePanel.setPreferredSize(new Dimension(200, 600));
 
-        for (int i = 0; i < movieList.size(); i+= 4) {
-            JPanel moviePanel = new JPanel(new GridLayout(0, 1));
-            
             JLabel movieTitle = new JLabel(movieList.get(i));
-            JLabel movieImage = new JLabel("path\\to\\image" + movieList.get(i + 1));
-            JLabel movieRate = new JLabel("Stars: " + movieList.get(i + 2));
-            JLabel movieReivew = new JLabel("# Review: " + movieList.get(i + 3)); 
             
+            ImageIcon image = new ImageIcon(getClass().getResource("../Boundary/assets/" + movieList.get(i + 1)));
+            Image scaledImage = image.getImage().getScaledInstance(100,200, Image.SCALE_SMOOTH);
+            image = new ImageIcon(scaledImage);
+
+            JLabel movieImage = new JLabel(image);
+            
+            JLabel movieRate = new JLabel("Stars: " + movieList.get(i + 2));
+            JLabel movieReview = new JLabel("# Review: " + movieList.get(i + 3));
+            
+            movieTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+            movieImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+            movieRate.setAlignmentX(Component.CENTER_ALIGNMENT);
+            movieReview.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            // set font size for each Jlabel to be 13
+            movieTitle.setFont(new Font("Arial", Font.BOLD, 30));
+            movieRate.setFont(new Font("Arial", Font.BOLD, 20));
+            movieReview.setFont(new Font("Arial", Font.BOLD, 20));
+
+
+            moviePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
             moviePanel.add(movieTitle);
             moviePanel.add(movieImage);
             moviePanel.add(movieRate);
-            moviePanel.add(movieReivew);
-
+            moviePanel.add(movieReview);
+            moviePanel.addMouseListener(this);
             movieListPanel.add(moviePanel);
         }
 
-        // Calculate preferred width for movieListPanel
-        int preferredWidth = movieList.size() * 100; // Assume each movie label takes 100 pixels in width
-        movieListPanel.setPreferredSize(new Dimension(preferredWidth, 50));
-
         JScrollPane scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(250 * 4, 100)); // Set the preferred width to be 1/4 of the movieListPanel width
-
+        scrollPane.setPreferredSize(new Dimension(500, 400));
 
         // add panels to the frame
         add(panel, BorderLayout.NORTH);
@@ -102,6 +107,7 @@ public class Home extends JFrame implements ActionListener {
         updateButton.addActionListener(this);
         profileButton.addActionListener(this);
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -126,4 +132,31 @@ public class Home extends JFrame implements ActionListener {
                 break;
         }
     }
+
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // get the clicked movie panel
+        JPanel clickedMoviePanel = (JPanel) e.getSource();
+        JLabel movieTitle = (JLabel) clickedMoviePanel.getComponent(0);
+        System.out.println("Movie panel clicked: " + movieTitle.getText());
+        
+        // open Book.java with the movie title
+        dispose();
+        new Book(userInfo, movieTitle.getText());
+        
+    }
+
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }
