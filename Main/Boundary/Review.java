@@ -14,9 +14,10 @@ public class Review extends JFrame implements ActionListener {
     private final JLabel ratingHeader = new JLabel("Rating");
     private final JLabel reviewHeader = new JLabel("Review");
     private final JLabel updateHeader = new JLabel("Update");
+    private final JButton homeButton = new JButton("Home");
 
     // Create a panel to hold the movie details
-    private final JPanel moviePanel = new JPanel(new GridLayout(0, 4));
+    private final JPanel moviePanel = new JPanel(new GridLayout(0, 5));
 
     // Create moviecontroller
     private transient MovieController movieController;
@@ -52,6 +53,7 @@ public class Review extends JFrame implements ActionListener {
         moviePanel.add(ratingHeader);
         moviePanel.add(reviewHeader);
         moviePanel.add(updateHeader);
+        moviePanel.add(homeButton);
         
         // Iterate through the list of movies
         for (int i = 0; i < movieController.getUserWatchedMovies().size(); i += 3) {
@@ -90,33 +92,41 @@ public class Review extends JFrame implements ActionListener {
 
         // Add the panel to the frame
         add(moviePanel);
+    
 
         // Add action listeners to the update buttons
         updateButtons.forEach(button -> button.addActionListener(this));
+        homeButton.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int index = updateButtons.indexOf(e.getSource());
-        String movieName = movieNameLabels.get(index).getText();
-        String rating = rateFields.get(index).getText();
-        String review = reviewFields.get(index).getText();
-
-        if (rating.isEmpty() || review.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please fill in all fields");
+        if (e.getSource() == homeButton) {
+            new Home(userInfo);
+            dispose();
             return;
-        }
-
-        if (Integer.parseInt(rating) < 1 || Integer.parseInt(rating) > 5) {
-            JOptionPane.showMessageDialog(null, "Rating must be between 1 and 5");
-            return;
-        }
-
-        
-        if (movieController.updateMovie(movieName, rating, review)) {
-            JOptionPane.showMessageDialog(null, "Movie details updated successfully");
         } else {
-            JOptionPane.showMessageDialog(null, "Movie details update failed");
+            int index = updateButtons.indexOf(e.getSource());
+            String movieName = movieNameLabels.get(index).getText();
+            String rating = rateFields.get(index).getText();
+            String review = reviewFields.get(index).getText();
+    
+            if (rating.isEmpty() || review.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please fill in all fields");
+                return;
+            }
+    
+            if (Integer.parseInt(rating) < 1 || Integer.parseInt(rating) > 5) {
+                JOptionPane.showMessageDialog(null, "Rating must be between 1 and 5");
+                return;
+            }
+    
+            
+            if (movieController.updateMovie(movieName, rating, review)) {
+                JOptionPane.showMessageDialog(null, "Movie details updated successfully");
+            } else {
+                JOptionPane.showMessageDialog(null, "Movie details update failed");
+            }
         }
     }
 }
