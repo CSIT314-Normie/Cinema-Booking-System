@@ -1,17 +1,17 @@
 package Main.Boundary;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-
-import java.awt.*; 
-import javax.swing.*;
-import java.util.*;
-
-import javax.swing.JFrame;
-import javax.swing.border.Border;
 
 import Main.Controller.TicketingHistoryController;
+
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.*; 
+import javax.swing.*;
+import javax.swing.JFrame;
+import java.util.*;
+
+
 
 public class TicketingHistory extends JFrame implements ActionListener{
     private ArrayList<String> userInfo;
