@@ -99,10 +99,6 @@ public class Register extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == createButton) {
-
-        }
-
         switch (e.getActionCommand()) {
             case "Back":
                 dispose();
