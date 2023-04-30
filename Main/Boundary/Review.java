@@ -102,9 +102,8 @@ public class Review extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == homeButton) {
-            new Home(userInfo);
             dispose();
-            return;
+            new Home(userInfo);
         } else {
             int index = updateButtons.indexOf(e.getSource());
             String movieName = movieNameLabels.get(index).getText();

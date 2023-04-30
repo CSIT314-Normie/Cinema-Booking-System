@@ -263,92 +263,7 @@ public class DB {
     }
 
 
-    /**
-     * This method is used to insert a user into the database
-     * @param values is an ArrayList of Strings that contains the information of user to be inserted into the database
-     * @param role is the role of the user
-     * @return true if the user is inserted into the database, false otherwise
-     */
-    public boolean insertUser(ArrayList<String> values, String role) {
-        PreparedStatement stmt;
-    
-        try {
-            stmt = conn.prepareStatement("INSERT INTO users (fname, lname, email, dob, password, role) VALUES (?, ?, ?, ?, ?, ?)");
-            stmt.setString(1, values.get(0));
-            stmt.setString(2, values.get(1));
-            stmt.setString(3, values.get(2));
-            stmt.setString(4, values.get(3));
-            stmt.setString(5, values.get(4));
-            stmt.setString(6, role);
-            stmt.executeUpdate();
-
-            System.out.println(values.get(3) + " has been inserted into the database");
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return true;
-    }
-
-
-    /**
-     * This method is used to update a user from the database, the user is identified by the email
-     * and it changes fname, lname, email, dob and password only.
-     * @param values is an Arraylist of Strings that contains the information of user
-     * @param role is the role of the user
-     * @return true if the user is updated from the database, false otherwise
-     */
-    public boolean updateUser(ArrayList<String> values, String email) {
-        PreparedStatement stmt;
-
-        try {
-            stmt = conn.prepareStatement("UPDATE users SET fname = ?, lname = ?, email = ?, dob = ?, password = ? WHERE email = ?");
-            stmt.setString(1, values.get(0));
-            stmt.setString(2, values.get(1));
-            stmt.setString(3, values.get(2));
-            stmt.setString(4, values.get(3));
-            stmt.setString(5, values.get(4));
-            stmt.setString(6, email);
-            stmt.executeUpdate();
-
-            System.out.println(values.get(2) + " has been updated in the database");
-            return true;
-
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return false;
-    }
-
-
-    /**
-     * This method is used to update a user ROLE from the database, the user is identified by the email
-     * and it changes role only
-     * @param values is an Arraylist of Strings that contains the information of user
-     * @param role is the role of the user
-     * @return true if the user is updated from the database, false otherwise
-     */
-    public boolean updateUser(String role, String email) {
-        PreparedStatement stmt;
-
-        try {
-            stmt = conn.prepareStatement("UPDATE users SET role = ? WHERE email = ?");
-            stmt.setString(1, role);
-            stmt.setString(2, email);
-            stmt.executeUpdate();
-
-            System.out.println(email + "'s role has been updated in the database");
-            return true;
-
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return false;
-    }
-
-    /**
+     /**
      * This method is used to delete(suspend) a user from the database
      * @param values is an Arraylist of Strings that contains the information of user
      * @param role is the role of the user
@@ -373,23 +288,6 @@ public class DB {
         return true;
     }
     
-    
-    public boolean insertRR(ArrayList<String> values, String email) {
-        PreparedStatement stmt;
-
-        try {
-            stmt = conn.prepareStatement("INSERT INTO user_movies (email, movieName, rate, review) VALUES (?, ?, ?, ?)");
-            stmt.setString(1, email);
-            stmt.setString(2, values.get(0));
-            stmt.setString(3, values.get(1));
-            stmt.setString(4, values.get(2));
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return true;
-    }
 
     public ArrayList<String[]> selectAllTicketingHistory(String key) {
         PreparedStatement stmt;

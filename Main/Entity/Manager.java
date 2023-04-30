@@ -14,10 +14,10 @@ public class Manager extends User {
     }
 
     public boolean createUser(ArrayList<String> information, String role) {
-        return super.getDB().insertUser(information, role);
+        return super.insertUser(information, role);
     }
 
     public boolean updateUser(ArrayList<String> information, String role) {
-        return super.getDB().updateUser(information, role);
+        return super.updateAcc(information, role);
     }
 }
