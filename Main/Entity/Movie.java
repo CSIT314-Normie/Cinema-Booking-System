@@ -94,7 +94,7 @@ public class Movie {
     }
 
 
-    public boolean insertUser(ArrayList<String> values) {
+    public boolean insertMovie(ArrayList<String> values) {
         PreparedStatement stmt;
     
         try {
