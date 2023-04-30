@@ -37,12 +37,13 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         setSize(1035, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); 
         setVisible(true); // Show the frame
 
         // Login "SESSION" for user to allow user to logout, can be further implemented
         loginController = new LoginContoller(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
+        panel.setPreferredSize(new Dimension(1035, 50));
 
         // add user role lable and buttons to the panel
         panel.add(userRoleLabel);
@@ -50,7 +51,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         panel.add(profileButton);
         panel.add(logoutButton);
 
-        if (this.userInfo.get(0).equals("Admin")) {
+        if (this.userInfo.get(0).equals("Admin")) { 
             // Get all accounts from database
             this.allAccounts = loginController.getAllUserAccounts();
             JLabel allAccountsLabel = new JLabel("All User Accounts");
@@ -80,13 +81,25 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
             viewTicketHistoryButton.addActionListener(this);
 
+            // Search panel for customer to search for movies
+            JPanel searchPanel = new JPanel();
+            searchPanel.setPreferredSize(new Dimension(1035, 50));
+
+            JTextField searchField = new JTextField(40);
+            searchField.setToolTipText("Search for movies");
+            JButton searchButton = new JButton("Search");
+
+            searchPanel.add(searchField, BorderLayout.WEST);
+            searchPanel.add(searchButton, BorderLayout.EAST);
+
              // Add movie list to the content panel
             JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); 
                     
+            // Add movies to the content panel, and display
             for (int i = 0; i < movieList.size(); i += 4) {
                 JPanel moviePanel = new JPanel();
                 moviePanel.setLayout(new BoxLayout(moviePanel, BoxLayout.Y_AXIS));
-                moviePanel.setPreferredSize(new Dimension(200, 600));
+                moviePanel.setPreferredSize(new Dimension(200, 700));
 
                 JLabel movieTitle = new JLabel(movieList.get(i));
                 
@@ -121,10 +134,13 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             }
 
             JScrollPane scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-            scrollPane.setPreferredSize(new Dimension(500, 400));
+            scrollPane.setPreferredSize(new Dimension(650, 650));
+
+            // add search panel to the frame
+            add(searchPanel, BorderLayout.CENTER);
 
             // add scrollpane to the frame
-            add(scrollPane, BorderLayout.CENTER);
+            add(scrollPane, BorderLayout.SOUTH);
 
         } else if (this.userInfo.get(0).equals("Manager")) { 
 
@@ -132,8 +148,11 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
         }       
         
+        
         // add panel to the frame
         add(panel, BorderLayout.NORTH);
+
+        pack();
         
         // add action listener to the buttons
         logoutButton.addActionListener(this);
