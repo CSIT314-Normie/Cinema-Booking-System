@@ -104,6 +104,7 @@ public class Update extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {          
             case "Update":
+                UpdateController updateController = new UpdateController();
                 ArrayList<String> updatedUserInfo = new ArrayList<>();
                 textfieldList.forEach(textField -> updatedUserInfo.add(textField.getText()));
 
@@ -112,8 +113,6 @@ public class Update extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Please fill in all the fields");
                     break;
                 }
-
-                UpdateController updateController = new UpdateController();
 
                 if (updateController.updateAccount(updatedUserInfo, this.email)) {
                     JOptionPane.showMessageDialog(null, "Account updated successfully");
