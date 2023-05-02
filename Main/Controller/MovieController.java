@@ -32,8 +32,8 @@ public class MovieController {
         return movie.getUserWatchedMovies(this.email);
     }
 
-    public boolean updateMovie(String movieName, String rating, String review) {
-        return movie.updateMovie(this.email, movieName, rating, review);
+    public boolean updateMovieRateReview(String movieName, String rating, String review) {
+        return movie.updateMovieRR(this.email, movieName, rating, review);
     }
 
 }

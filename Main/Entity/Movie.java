@@ -77,7 +77,7 @@ public class Movie {
     }
 
 
-    public boolean updateMovie(String email, String movieName, String rate, String review) {
+    public boolean updateMovieRR(String email, String movieName, String rate, String review) {
         try {
             PreparedStatement stmt = conn.prepareStatement("UPDATE user_movies set rate = ?, review = ? where email = ? and movieName = ?");
             stmt.setString(1, rate);

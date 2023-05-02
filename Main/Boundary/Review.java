@@ -121,7 +121,7 @@ public class Review extends JFrame implements ActionListener {
             }
     
             
-            if (movieController.updateMovie(movieName, rating, review)) {
+            if (movieController.updateMovieRateReview(movieName, rating, review)) {
                 JOptionPane.showMessageDialog(null, "Movie details updated successfully");
             } else {
                 JOptionPane.showMessageDialog(null, "Movie details update failed");
