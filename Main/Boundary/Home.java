@@ -25,12 +25,10 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     private transient MovieController movieController = new MovieController();
 
     // Get movies from database
-    private  JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); 
-    private final ArrayList<String> movieList = movieController.getMovies();
-    private ArrayList<String> searchedMovieList = movieController.getMovies(); // default to all movies  
-    // private JLabel searchResultLabel;
+    private  JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));  
+    private ArrayList<String> searchedMovieList = movieController.getMovies(); // default to all movies   
 
-    // search movies 
+    // search movies text field (CUSTOMER ONLY)
     private JTextField searchField = new JTextField(40);
 
     // Get all accounts from database (USER ADMIN ONLY)
@@ -97,8 +95,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             searchPanel.add(searchField, BorderLayout.WEST);
             searchPanel.add(searchButton, BorderLayout.EAST);
 
-             // Add movie list to the content panel
-            // JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); 
+             // Add movie list to the content panel 
             displaySearchedMovies();
 
             searchButton.addActionListener( e -> {
@@ -106,7 +103,6 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 searchedMovies(searchField.getText().trim()); 
                 displaySearchedMovies();
             });
-        
 
             JScrollPane scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             scrollPane.setPreferredSize(new Dimension(650, 650));
@@ -124,8 +120,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         }       
         
         // add panel to the frame
-        add(panel, BorderLayout.NORTH);
-
+        add(panel, BorderLayout.NORTH); 
         pack();
         
         // add action listener to the buttons
@@ -182,12 +177,11 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     public void searchedMovies(String searchQuery) {
 
         System.out.println("[+] Searching for movies: " + searchQuery);
+        searchedMovieList = movieController.getMovies();
 
         if (searchQuery.equals("") || searchQuery.equals("Search for movies") || searchQuery.equals(" ")) {
             System.out.println("[+] Search query is empty");
-            searchedMovieList = movieController.getMovies();
-             
-        } else {
+        } else { 
             if (searchedMovieList.contains(searchQuery)) {
                 System.out.println("[+] Movie found"); 
 
