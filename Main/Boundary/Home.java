@@ -1,4 +1,3 @@
-//SW testing
 package Main.Boundary;
 
 import java.awt.*;
