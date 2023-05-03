@@ -25,7 +25,13 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     private transient MovieController movieController = new MovieController();
 
     // Get movies from database
+    private  JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); 
     private final ArrayList<String> movieList = movieController.getMovies();
+    private ArrayList<String> searchedMovieList = movieController.getMovies(); // default to all movies  
+    // private JLabel searchResultLabel;
+
+    // search movies 
+    private JTextField searchField = new JTextField(40);
 
     // Get all accounts from database (USER ADMIN ONLY)
     private ArrayList<String[]> allAccounts;
@@ -84,8 +90,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             // Search panel for customer to search for movies
             JPanel searchPanel = new JPanel();
             searchPanel.setPreferredSize(new Dimension(1035, 50));
-
-            JTextField searchField = new JTextField(40);
+ 
             searchField.setToolTipText("Search for movies");
             JButton searchButton = new JButton("Search");
 
@@ -93,45 +98,15 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             searchPanel.add(searchButton, BorderLayout.EAST);
 
              // Add movie list to the content panel
-            JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); 
-                    
-            // Add movies to the content panel, and display
-            for (int i = 0; i < movieList.size(); i += 4) {
-                JPanel moviePanel = new JPanel();
-                moviePanel.setLayout(new BoxLayout(moviePanel, BoxLayout.Y_AXIS));
-                moviePanel.setPreferredSize(new Dimension(200, 700));
+            // JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); 
+            displaySearchedMovies();
 
-                JLabel movieTitle = new JLabel(movieList.get(i));
-                
-                ImageIcon image = new ImageIcon(getClass().getResource("../Boundary/assets/" + movieList.get(i + 1)));
-                Image scaledImage = image.getImage().getScaledInstance(100,200, Image.SCALE_SMOOTH);
-                image = new ImageIcon(scaledImage);
-
-                JLabel movieImage = new JLabel(image);
-                
-                JLabel movieRate = new JLabel("Stars: " + movieList.get(i + 2));
-                JLabel movieReview = new JLabel("# Review: " + movieList.get(i + 3));
-                
-                movieTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-                movieImage.setAlignmentX(Component.CENTER_ALIGNMENT);
-                movieRate.setAlignmentX(Component.CENTER_ALIGNMENT);
-                movieReview.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-                // set font size for each Jlabel to be 13
-                movieTitle.setFont(new Font("Arial", Font.BOLD, 30));
-                movieRate.setFont(new Font("Arial", Font.BOLD, 20));
-                movieReview.setFont(new Font("Arial", Font.BOLD, 20));
-
-
-                moviePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-                moviePanel.add(movieTitle);
-                moviePanel.add(movieImage);
-                moviePanel.add(movieRate);
-                moviePanel.add(movieReview);
-                moviePanel.addMouseListener(this);
-                movieListPanel.add(moviePanel);
-            }
+            searchButton.addActionListener( e -> {
+                System.out.println("[+] Customer - Search for movies"); 
+                searchedMovies(searchField.getText().trim()); 
+                displaySearchedMovies();
+            });
+        
 
             JScrollPane scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             scrollPane.setPreferredSize(new Dimension(650, 650));
@@ -147,7 +122,6 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         } else if (this.userInfo.get(0).equals("Owner")) { 
 
         }       
-        
         
         // add panel to the frame
         add(panel, BorderLayout.NORTH);
@@ -205,6 +179,78 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         
     }
 
+    public void searchedMovies(String searchQuery) {
+
+        System.out.println("[+] Searching for movies: " + searchQuery);
+
+        if (searchQuery.equals("") || searchQuery.equals("Search for movies") || searchQuery.equals(" ")) {
+            System.out.println("[+] Search query is empty");
+            searchedMovieList = movieController.getMovies();
+             
+        } else {
+            if (searchedMovieList.contains(searchQuery)) {
+                System.out.println("[+] Movie found"); 
+
+                // replace movies in searchMovieList with searched movies results
+                for (int i = 0; i < searchedMovieList.size(); i += 4) {
+                    if (!searchedMovieList.get(i).equals(searchQuery)) {
+                        searchedMovieList.remove(i);
+                        searchedMovieList.remove(i);
+                        searchedMovieList.remove(i);
+                        searchedMovieList.remove(i);
+                    }
+                }
+
+            } else {
+                System.out.println("[+] Movie not found"); 
+            }
+        }
+    }
+
+    public void displaySearchedMovies() { 
+        movieListPanel.removeAll(); 
+
+         // Add movies to the content panel, and display
+        for (int i = 0; i < searchedMovieList.size(); i += 4) {
+            JPanel moviePanel = new JPanel();
+            moviePanel.setLayout(new BoxLayout(moviePanel, BoxLayout.Y_AXIS));
+            moviePanel.setPreferredSize(new Dimension(200, 700));
+
+            JLabel movieTitle = new JLabel(searchedMovieList.get(i));
+            
+            ImageIcon image = new ImageIcon(getClass().getResource("../Boundary/assets/" + searchedMovieList.get(i + 1)));
+            Image scaledImage = image.getImage().getScaledInstance(100,200, Image.SCALE_SMOOTH);
+            image = new ImageIcon(scaledImage);
+
+            JLabel movieImage = new JLabel(image);
+            
+            JLabel movieRate = new JLabel("Stars: " + searchedMovieList.get(i + 2));
+            JLabel movieReview = new JLabel("# Review: " + searchedMovieList.get(i + 3));
+            
+            movieTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+            movieImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+            movieRate.setAlignmentX(Component.CENTER_ALIGNMENT);
+            movieReview.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            // set font size for each Jlabel to be 13
+            movieTitle.setFont(new Font("Arial", Font.BOLD, 30));
+            movieRate.setFont(new Font("Arial", Font.BOLD, 20));
+            movieReview.setFont(new Font("Arial", Font.BOLD, 20));
+
+            moviePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+            moviePanel.add(movieTitle);
+            moviePanel.add(movieImage);
+            moviePanel.add(movieRate);
+            moviePanel.add(movieReview);
+            moviePanel.addMouseListener(this);
+            
+            movieListPanel.add(moviePanel);
+        }
+
+        movieListPanel.repaint();
+        movieListPanel.revalidate(); 
+    }
 
     @Override
     public void mousePressed(MouseEvent e) {}
