@@ -90,6 +90,8 @@ public class DB {
             });
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("[-] Connection to the database failed");
         }
     }
 
@@ -257,6 +259,8 @@ public class DB {
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        } catch (NullPointerException e) {
+            System.err.println("[-] Database connection issue");
         }
 
         return values;
