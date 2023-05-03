@@ -98,6 +98,7 @@ public class Movie {
         PreparedStatement stmt;
     
         try {
+            // Comments on this function are in the same function in User.java
             stmt = conn.prepareStatement("INSERT INTO movies (name, image, rate, review) VALUES (?, ?, ?, ?)");
             stmt.setString(1, values.get(0));
             stmt.setString(2, values.get(1));
