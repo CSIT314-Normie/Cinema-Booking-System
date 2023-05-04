@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,6 +20,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     private final JButton logoutButton = new JButton("Logout");
     private final JButton updateButton = new JButton("Update");
     private final JButton profileButton = new JButton("Profile");
+    private JScrollPane scrollPane;
 
     private ArrayList<String> userInfo;
     private transient LoginContoller loginController;
@@ -72,11 +74,11 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             JTable allUserTable = new JTable(tableModel);
 
             // Add the JTable to a JScrollPane
-            JScrollPane scrollPane = new JScrollPane(allUserTable);
+            scrollPane = new JScrollPane(allUserTable);
 
             // add label & scrollpane to the frame
-            add(allAccountsLabel, BorderLayout.NORTH);
-            add(scrollPane, BorderLayout.CENTER);
+            add(allAccountsLabel, BorderLayout.CENTER);
+            add(scrollPane, BorderLayout.SOUTH);
 
         } else if (this.userInfo.get(0).equals("Customer")) { 
             // view ticket history
@@ -104,7 +106,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 displaySearchedMovies();
             });
 
-            JScrollPane scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             scrollPane.setPreferredSize(new Dimension(650, 650));
 
             // add search panel to the frame
@@ -160,7 +162,6 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         }
     }
 
-
     @Override
     public void mouseClicked(MouseEvent e) {
         // get the clicked movie panel
@@ -174,9 +175,12 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         
     }
 
-    public void searchedMovies(String searchQuery) {
+    /*
+     * Search for movies - CUSTOMER ONLY
+     * @param searchQuery
+     */
 
-        System.out.println("[+] Searching for movies: " + searchQuery);
+    public void searchedMovies(String searchQuery) {
         searchedMovieList = movieController.getMovies();
 
         if (searchQuery.equals("") || searchQuery.equals("Search for movies") || searchQuery.equals(" ")) {
@@ -187,11 +191,8 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
                 // replace movies in searchMovieList with searched movies results
                 for (int i = 0; i < searchedMovieList.size(); i += 4) {
-                    if (!searchedMovieList.get(i).equals(searchQuery)) {
-                        searchedMovieList.remove(i);
-                        searchedMovieList.remove(i);
-                        searchedMovieList.remove(i);
-                        searchedMovieList.remove(i);
+                    if (!(searchedMovieList.get(i).toLowerCase().contains(searchQuery.toLowerCase()))) {
+                        searchedMovieList.subList(i, i + 4).clear(); 
                     }
                 }
 
@@ -200,6 +201,10 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             }
         }
     }
+
+    /*
+     * Display searched movies - CUSTOMER ONLY
+     */
 
     public void displaySearchedMovies() { 
         movieListPanel.removeAll(); 
@@ -210,9 +215,9 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             moviePanel.setLayout(new BoxLayout(moviePanel, BoxLayout.Y_AXIS));
             moviePanel.setPreferredSize(new Dimension(200, 700));
 
-            JLabel movieTitle = new JLabel(searchedMovieList.get(i));
-            
-            ImageIcon image = new ImageIcon(getClass().getResource("../Boundary/assets/" + searchedMovieList.get(i + 1)));
+            JLabel movieTitle = new JLabel(searchedMovieList.get(i)); 
+
+            ImageIcon image = new ImageIcon((new File("./Main/Boundary/assets/" + searchedMovieList.get(i + 1))).getAbsolutePath());
             Image scaledImage = image.getImage().getScaledInstance(100,200, Image.SCALE_SMOOTH);
             image = new ImageIcon(scaledImage);
 
