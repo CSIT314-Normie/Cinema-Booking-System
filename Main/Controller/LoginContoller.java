@@ -29,15 +29,15 @@ public class LoginContoller {
                     this.user = new Customer(userInfo.get(0), userInfo.get(1), email, userInfo.get(3), userInfo.get(4), userRole);
                     break;
                 
-                case "Manager":
+                case "Cinema Manager":
                     this.user = new Manager(userInfo.get(0), userInfo.get(1), email, userInfo.get(3), userInfo.get(4), userRole);
                     break;
                 
-                case "Owner":
+                case "Cinema Owner":
                     this.user = new Owner(userInfo.get(0), userInfo.get(1), email, userInfo.get(3), userInfo.get(4), userRole);
                     break;
 
-                case "Admin":
+                case "User Admin":
                     this.user = new UserAdmin(userInfo.get(0), userInfo.get(1), email, userInfo.get(3), userInfo.get(4), userRole);
                     break;
             }
@@ -81,13 +81,13 @@ public class LoginContoller {
         if (userRole.equals("Customer")) {
             Customer customer = (Customer) this.user;
             customer.logout();
-        } else if (userRole.equals("Manager")) {
+        } else if (userRole.equals("Cinema Manager")) {
             Manager manager = (Manager) this.user;
             manager.logout();
-        } else if (userRole.equals("Owner")) {
+        } else if (userRole.equals("Cinema Owner")) {
             Owner owner = (Owner) this.user;
             owner.logout();
-        } else if (userRole.equals("Admin")) {
+        } else if (userRole.equals("User Admin")) {
             UserAdmin userAdmin = (UserAdmin) this.user;
             userAdmin.logout();
         }
