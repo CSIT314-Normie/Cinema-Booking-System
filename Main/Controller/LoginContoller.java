@@ -65,8 +65,8 @@ public class LoginContoller {
                     userRole = "Cinema Owner";
                     break;
 
-                case "User Admin":
-                    userRole = "User Admin";
+                case "Admin":
+                    userRole = "Admin";
                     break;
             }
 
