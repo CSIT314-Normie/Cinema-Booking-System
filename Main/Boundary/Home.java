@@ -113,9 +113,9 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             // add scrollpane to the frame
             add(scrollPane, BorderLayout.SOUTH);
 
-        } else if (this.userInfo.get(0).equals("Manager")) { 
+        } else if (this.userInfo.get(0).equals("Cinema Manager")) { 
 
-        } else if (this.userInfo.get(0).equals("Owner")) { 
+        } else if (this.userInfo.get(0).equals("Cinema Owner")) { 
 
         }       
         
