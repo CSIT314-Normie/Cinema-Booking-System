@@ -65,7 +65,7 @@ public class DB {
                     + "FOREIGN KEY (movieName) REFERENCES movies(name))"));
 
             stmts.add(conn.prepareStatement(
-                    "INSERT INTO users (fname, lname, email, dob, password, role) SELECT 'user', 'admin', 'ua', 'ua', 'ua', 'Admin' FROM dual WHERE NOT EXISTS (SELECT * FROM users WHERE email = 'ua');"));
+                    "INSERT INTO users (fname, lname, email, dob, password, role) SELECT 'user', 'admin', 'ua', 'ua', 'ua', 'User Admin' FROM dual WHERE NOT EXISTS (SELECT * FROM users WHERE email = 'ua');"));
 
             stmts.add(conn.prepareStatement(
                     "CREATE TRIGGER update_movies_rate_review " +
