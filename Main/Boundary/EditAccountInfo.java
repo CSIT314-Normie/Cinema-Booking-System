@@ -25,7 +25,7 @@ public class EditAccountInfo extends JFrame implements ActionListener, MouseList
     private String[] labelList = {"First Name: ", "Last Name: ", "Email: ", "Password: ", "User Role: "};
     private ArrayList<JTextField> fieldList = new ArrayList<JTextField>(5);
 
-    public EditAccountInfo(ArrayList<String> userInfo, ArrayList<String> accountInfo){
+    public EditAccountInfo(ArrayList<String> userInfo, String[] accountInfo){
         super("Admin - Edit User Account Info");
         this.userInfo = userInfo;
         setLayout(new BorderLayout());
@@ -43,13 +43,13 @@ public class EditAccountInfo extends JFrame implements ActionListener, MouseList
         panel.add(homeButton);
         panel.add(logoutButton); 
 
-        System.out.println("[+] Edit Account Info - " + userInfo.get(0) + " | " + userInfo.get(1) + " | " + userInfo.get(2));
+        System.out.println("[+] Edit Account Info - " + accountInfo[0] + " | " + accountInfo[1] + " | " + accountInfo[2]);
 
         for(int i = 0; i < labelList.length; i++){
             JLabel label = new JLabel(labelList[i]);
-            JTextField field = new JTextField(accountInfo.get(i), 20);
+            JTextField field = new JTextField(accountInfo[i], 20);
             fieldList.add(field);
-            field.setText(accountInfo.get(i));
+            field.setText(accountInfo[i]);
 
             // add label and field to the form panel
             formPanel.add(label);

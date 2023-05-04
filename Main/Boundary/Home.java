@@ -7,6 +7,8 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.*;
@@ -24,10 +26,10 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
     private ArrayList<String> userInfo;
     private transient LoginContoller loginController;
-    private transient MovieController movieController = new MovieController();
+    private transient MovieController movieController = new MovieController(); 
 
     // Get movies from database
-    private  JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));  
+    private JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));  
     private ArrayList<String> searchedMovieList;  
 
     // search movies text field (CUSTOMER ONLY)
@@ -35,6 +37,9 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
     // Get all accounts from database (USER ADMIN ONLY)
     private ArrayList<String[]> allAccounts;
+    private String[] selectedAccount;
+    private JButton editAccountButton = new JButton("Edit Account");
+    
 
     public Home(ArrayList<String> userInfo) {
         super("CSIT 314 Cinema Booking System - Home");
@@ -57,12 +62,17 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         panel.add(profileButton);
         panel.add(logoutButton);
 
+        // To display different home page for different user role
         switch (userInfo.get(0)) {
-            case "Admin":
+            case "User Admin":
                 // Admin Home pagec
                 // Get all accounts from database
                 this.allAccounts = loginController.getAllUserAccounts();
                 JLabel allAccountsLabel = new JLabel("All User Accounts");
+
+                JPanel accountsPanel = new JPanel(new BorderLayout());
+                JPanel buttonPane = new JPanel();
+                accountsPanel.setPreferredSize(new Dimension(750, 600));
 
                 // Add all accounts to the content panel
                 String columns[] = {"First Name", "Last Name", "Email", "Date of Birth", "Role"};
@@ -71,17 +81,43 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 
                 for (String[] row : allAccounts) {
                     tableModel.addRow(row);
-                }
-
-                JTable allUserTable = new JTable(tableModel);
+                } 
+                 
+                JTable allUserTable = new JTable(tableModel);    
+                buttonPane.add(editAccountButton); 
 
                 // Add the JTable to a JScrollPane
-                scrollPane = new JScrollPane(allUserTable);
-                scrollPane.setPreferredSize(new Dimension(650, 650));
+                scrollPane = new JScrollPane(allUserTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                scrollPane.setPreferredSize(new Dimension(750, 400));
+                editAccountButton.setSize(50, 30);
+                
+                // accountsPanel.add(allAccountsLabel, BorderLayout.NORTH); 
+                accountsPanel.add(scrollPane, BorderLayout.NORTH);
+                accountsPanel.add(buttonPane, BorderLayout.CENTER); 
 
-                // add label & scrollpane to the frame
-                add(allAccountsLabel, BorderLayout.CENTER);
-                add(scrollPane, BorderLayout.SOUTH);
+                // add listener for each row in the table
+                ListSelectionModel selectionModel = allUserTable.getSelectionModel();
+                selectionModel.addListSelectionListener(new ListSelectionListener() {
+                    public void valueChanged(ListSelectionEvent e) {
+                        if (!e.getValueIsAdjusting()) {
+                            int selectedRow = allUserTable.getSelectedRow();
+                            // Perform action on the selected row (account) here
+                            // add account data to selectedAccount array
+                            selectedAccount = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),
+                                                            tableModel.getValueAt(selectedRow, 1).toString(),
+                                                            tableModel.getValueAt(selectedRow, 2).toString(),
+                                                            tableModel.getValueAt(selectedRow, 3).toString(),
+                                                            tableModel.getValueAt(selectedRow, 4).toString()}; 
+
+                            System.out.println("[+] Admin - Selected account: " + Arrays.toString(selectedAccount));
+                        }
+                    }
+                });   
+ 
+                // addscrollpane to the frame  
+                add(accountsPanel, BorderLayout.CENTER);
+
+                editAccountButton.addActionListener(this);
                 break;
             case "Customer":
                 // Customer Home page
@@ -161,6 +197,16 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 dispose();
                 new Profile(userInfo);
                 break;
+
+            case "Edit Account":
+                if (selectedAccount == null) {
+                    JOptionPane.showMessageDialog(null, "Please select an account to edit", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    System.out.println("[+] Admin - Move to Edit Account page");
+                    dispose();
+                    new EditAccountInfo(userInfo, selectedAccount);
+                } 
+                break;
             
             case "Ticketing History":
                 System.out.println("[+] Customer - Move to Ticketing History page");
@@ -212,6 +258,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
     /*
      * Display searched movies - CUSTOMER ONLY
+     * All movies are displayed by default. Panel is cleared before displaying searched movies
      */
 
     public void displaySearchedMovies() { 
@@ -230,7 +277,6 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             image = new ImageIcon(scaledImage);
 
             JLabel movieImage = new JLabel(image);
-            
             JLabel movieRate = new JLabel("Stars: " + searchedMovieList.get(i + 2));
             JLabel movieReview = new JLabel("# Review: " + searchedMovieList.get(i + 3));
             
