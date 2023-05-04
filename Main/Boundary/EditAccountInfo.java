@@ -11,14 +11,19 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel; 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField; 
 
 public class EditAccountInfo extends JFrame implements ActionListener, MouseListener {
     private ArrayList<String> userInfo;
 
     private JPanel panel;
+    private JPanel formPanel = new JPanel(new FlowLayout());
     private final JButton logoutButton = new JButton("Logout"); 
     private final JButton homeButton = new JButton("Admin Home");
+    private String[] labelList = {"First Name: ", "Last Name: ", "Email: ", "Password: ", "User Role: "};
+    private ArrayList<JTextField> fieldList = new ArrayList<JTextField>(5);
 
     public EditAccountInfo(ArrayList<String> userInfo, ArrayList<String> accountInfo){
         super("Admin - Edit User Account Info");
@@ -40,10 +45,19 @@ public class EditAccountInfo extends JFrame implements ActionListener, MouseList
 
         System.out.println("[+] Edit Account Info - " + userInfo.get(0) + " | " + userInfo.get(1) + " | " + userInfo.get(2));
 
-        // Fields to edit - first name, last name, email, password, user role
+        for(int i = 0; i < labelList.length; i++){
+            JLabel label = new JLabel(labelList[i]);
+            JTextField field = new JTextField(accountInfo.get(i), 20);
+            fieldList.add(field);
+            field.setText(accountInfo.get(i));
 
+            // add label and field to the form panel
+            formPanel.add(label);
+            formPanel.add(field);
+        }
 
         add(panel, BorderLayout.NORTH);
+        add(formPanel, BorderLayout.CENTER);
 
         homeButton.addActionListener(this);
         logoutButton.addActionListener(this);
@@ -79,6 +93,5 @@ public class EditAccountInfo extends JFrame implements ActionListener, MouseList
     @Override
     public void mouseExited(MouseEvent e) { 
     }
- 
 }
 

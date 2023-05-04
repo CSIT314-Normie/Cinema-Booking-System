@@ -28,7 +28,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
     // Get movies from database
     private  JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));  
-    private ArrayList<String> searchedMovieList = movieController.getMovies(); // default to all movies   
+    private ArrayList<String> searchedMovieList;  
 
     // search movies text field (CUSTOMER ONLY)
     private JTextField searchField = new JTextField(40);
@@ -37,7 +37,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     private ArrayList<String[]> allAccounts;
 
     public Home(ArrayList<String> userInfo) {
-        super("Welcome to CSIT 314 Cinema Booking System - Home");
+        super("CSIT 314 Cinema Booking System - Home");
         this.userInfo = userInfo;
         setLayout(new BorderLayout());
         setSize(1035, 750);
@@ -57,69 +57,77 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         panel.add(profileButton);
         panel.add(logoutButton);
 
-        if (this.userInfo.get(0).equals("Admin")) { 
-            // Get all accounts from database
-            this.allAccounts = loginController.getAllUserAccounts();
-            JLabel allAccountsLabel = new JLabel("All User Accounts");
+        switch (userInfo.get(0)) {
+            case "Admin":
+                // Admin Home pagec
+                // Get all accounts from database
+                this.allAccounts = loginController.getAllUserAccounts();
+                JLabel allAccountsLabel = new JLabel("All User Accounts");
 
-            // Add all accounts to the content panel
-            String columns[] = {"First Name", "Last Name", "Email", "Date of Birth", "Role"};
-            
-            DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-            
-            for (String[] row : allAccounts) {
-                tableModel.addRow(row);
-            }
+                // Add all accounts to the content panel
+                String columns[] = {"First Name", "Last Name", "Email", "Date of Birth", "Role"};
+                
+                DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+                
+                for (String[] row : allAccounts) {
+                    tableModel.addRow(row);
+                }
 
-            JTable allUserTable = new JTable(tableModel);
+                JTable allUserTable = new JTable(tableModel);
 
-            // Add the JTable to a JScrollPane
-            scrollPane = new JScrollPane(allUserTable);
+                // Add the JTable to a JScrollPane
+                scrollPane = new JScrollPane(allUserTable);
+                scrollPane.setPreferredSize(new Dimension(650, 650));
 
-            // add label & scrollpane to the frame
-            add(allAccountsLabel, BorderLayout.CENTER);
-            add(scrollPane, BorderLayout.SOUTH);
-
-        } else if (this.userInfo.get(0).equals("Customer")) { 
-            // view ticket history
-            JButton viewTicketHistoryButton = new JButton("Ticketing History");
-            panel.add(viewTicketHistoryButton);
-
-            viewTicketHistoryButton.addActionListener(this);
-
-            // Search panel for customer to search for movies
-            JPanel searchPanel = new JPanel();
-            searchPanel.setPreferredSize(new Dimension(1035, 50));
- 
-            searchField.setToolTipText("Search for movies");
-            JButton searchButton = new JButton("Search");
-
-            searchPanel.add(searchField, BorderLayout.WEST);
-            searchPanel.add(searchButton, BorderLayout.EAST);
-
-             // Add movie list to the content panel 
-            displaySearchedMovies();
-
-            searchButton.addActionListener( e -> {
-                System.out.println("[+] Customer - Search for movies"); 
-                searchedMovies(searchField.getText().trim()); 
+                // add label & scrollpane to the frame
+                add(allAccountsLabel, BorderLayout.CENTER);
+                add(scrollPane, BorderLayout.SOUTH);
+                break;
+            case "Customer":
+                // Customer Home page
+                searchedMovieList = movieController.getMovies();
+                
+                JButton viewTicketHistoryButton = new JButton("Ticketing History");
+                panel.add(viewTicketHistoryButton);
+    
+                viewTicketHistoryButton.addActionListener(this);
+    
+                // Search panel for customer to search for movies
+                JPanel searchPanel = new JPanel();
+                searchPanel.setPreferredSize(new Dimension(1035, 50));
+     
+                searchField.setToolTipText("Search for movies");
+                JButton searchButton = new JButton("Search");
+    
+                searchPanel.add(searchField, BorderLayout.WEST);
+                searchPanel.add(searchButton, BorderLayout.EAST);
+    
+                 // Add movie list to the content panel 
                 displaySearchedMovies();
-            });
-
-            scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-            scrollPane.setPreferredSize(new Dimension(650, 650));
-
-            // add search panel to the frame
-            add(searchPanel, BorderLayout.CENTER);
-
-            // add scrollpane to the frame
-            add(scrollPane, BorderLayout.SOUTH);
-
-        } else if (this.userInfo.get(0).equals("Manager")) { 
-
-        } else if (this.userInfo.get(0).equals("Owner")) { 
-
-        }       
+    
+                searchButton.addActionListener( e -> {
+                    System.out.println("[+] Customer - Search for movies"); 
+                    searchedMovies(searchField.getText().trim()); 
+                    displaySearchedMovies();
+                });
+    
+                scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+                scrollPane.setPreferredSize(new Dimension(650, 650));
+    
+                // add search panel to the frame
+                add(searchPanel, BorderLayout.CENTER);
+    
+                // add scrollpane to the frame
+                add(scrollPane, BorderLayout.SOUTH);
+                break;
+            case "Cinema Manager":
+                // Default Home 
+                break;
+            
+            case "Cinema Owner":
+                // Default Home  
+                break;
+        }
         
         // add panel to the frame
         add(panel, BorderLayout.NORTH); 

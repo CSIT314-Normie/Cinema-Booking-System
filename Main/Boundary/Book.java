@@ -44,7 +44,9 @@ public class Book extends JFrame implements ActionListener {
         panel.add(logoutButton);
         panel.add(homeButton);
 
-        movieNameLabel = new JLabel("Movie Name: ");
+        movieNameLabel = new JLabel("Movie Name: " + movieName);
+
+        
 
         add(panel, BorderLayout.NORTH);
         add(movieNameLabel, BorderLayout.CENTER); 
