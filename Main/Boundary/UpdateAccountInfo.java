@@ -58,6 +58,7 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
 
         System.out.println("[+] Edit Account Info - " + accountInfo[0] + " | " + accountInfo[1] + " | " + accountInfo[2]);
         this.userEmail = accountInfo[2];
+        selectedRole = accountInfo[4];
 
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
