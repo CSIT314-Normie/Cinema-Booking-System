@@ -19,5 +19,4 @@ public class UpdateAccountInfoController {
     public boolean updateAccountInfo(ArrayList<String> modifiedAcc, String userEmail) {
         return this.userAdmin.updateUserAccInfo(modifiedAcc, userEmail); 
     }
-    
 }

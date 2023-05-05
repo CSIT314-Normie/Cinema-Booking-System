@@ -20,11 +20,7 @@ public class UserAdmin extends User {
 
     public boolean updateUser(ArrayList<String> information, String role) {
         return super.updateAcc(information, role);
-    }
-
-    public boolean deleteUser(ArrayList<String> information, String role) {
-        return super.getDB().deleteUser(information, role);
-    }
+    } 
 
     public ArrayList<String[]> getAllUserAccounts() {
         return super.getDB().selectAll("*", "*");
@@ -32,6 +28,20 @@ public class UserAdmin extends User {
 
     public boolean updateUserAccInfo(ArrayList<String> modifiedAcc, String userEmail) {
         return super.getDB().updateUserAcc(modifiedAcc, userEmail);
+    }
+    
+    public boolean suspendAccount(String userEmail) {
+        return super.getDB().suspendUser(userEmail);
+    }
+
+    public boolean validateEmail(String email) {
+        ArrayList<String> result = super.getDB().select("*", email);
+
+        if (result.size() == 0) {
+            return true; // Email is not in the database
+        } else {
+            return false; // Email is in the database
+        }
     }
 
 }

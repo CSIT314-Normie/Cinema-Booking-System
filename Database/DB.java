@@ -47,7 +47,8 @@ public class DB {
                     + "email VARCHAR(255) PRIMARY KEY,"
                     + "dob VARCHAR(255) NOT NULL,"
                     + "password VARCHAR(255) NOT NULL,"
-                    + "role VARCHAR(255) NOT NULL)"));
+                    + "role VARCHAR(255) NOT NULL, " 
+                    + "activeStatus VARCHAR(15) NOT NULL)"));
 
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS movies ("
                     + "name VARCHAR(255) PRIMARY KEY,"
@@ -159,7 +160,7 @@ public class DB {
         try {
             if (info.equals("*")) {
                 stmt = conn
-                        .prepareStatement("SELECT fname, lname, email, dob, password, role FROM users WHERE email = ?");
+                        .prepareStatement("SELECT fname, lname, email, dob, password, role, activeStatus FROM users WHERE email = ?");
             } else {
                 stmt = conn.prepareStatement("SELECT " + info + " FROM users WHERE email = ?");
             }
@@ -175,6 +176,7 @@ public class DB {
                     values.add(rs.getString("dob"));
                     values.add(rs.getString("password"));
                     values.add(rs.getString("role"));
+                    values.add(rs.getString("activeStatus"));
                 }
             } else {
                 while (rs.next()) {
@@ -212,7 +214,7 @@ public class DB {
 
         try {
             if (info.equals("*") && email.equals("*")) {
-                stmt = conn.prepareStatement("SELECT fname, lname, email, dob, role FROM users ");
+                stmt = conn.prepareStatement("SELECT fname, lname, email, dob, role, activeStatus FROM users");
             } else {
                 stmt = conn.prepareStatement("SELECT " + info + " FROM users WHERE email = ?");
                 stmt.setString(1, email);
@@ -220,12 +222,13 @@ public class DB {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String[] temp = new String[5];
+                String[] temp = new String[6];
                 temp[0] = rs.getString("fname");
                 temp[1] = rs.getString("lname");
                 temp[2] = rs.getString("email");
                 temp[3] = rs.getString("dob");
                 temp[4] = rs.getString("role");
+                temp[5] = rs.getString("activeStatus");
                 values.add(temp);
             }
         } catch (SQLException e) {
@@ -302,29 +305,8 @@ public class DB {
         }
 
         return true;
-    }
-
-    /**
-     * This method is used to DELETE a user from the database
-     * 
-     * @param userEmail is the email of the user 
-     * @return true if the user password is updated, false otherwise
-     */
-
-    public boolean deleteUser(String userEmail) {
-        PreparedStatement stmt;
-
-        try {
-            stmt = conn.prepareStatement("DELETE FROM users WHERE email = ?");
-            stmt.setString(1, userEmail);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return true;
-    }
-
+    } 
+    
     /**
      * This method is used to delete(suspend) a user from the database
      * 
@@ -333,19 +315,20 @@ public class DB {
      * @param role   is the role of the user
      * @return true if the user is deleted from the database, false otherwise
      */
-    public boolean deleteUser(ArrayList<String> values, String role) {
+    public boolean suspendUser(String userEmail) {
         PreparedStatement stmt;
 
         try {
-            stmt = conn.prepareStatement("DELETE FROM users WHERE email = ?");
-            stmt.setString(1, values.get(3));
+            stmt = conn.prepareStatement("UPDATE users SET activeStatus = ? WHERE email = ?");
+            stmt.setString(1, "Inactive");
+            stmt.setString(2, userEmail);
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
 
         return true;
-    }
+    } 
 
     public boolean selectRR(ArrayList<String> values, String email) {
         return true;
