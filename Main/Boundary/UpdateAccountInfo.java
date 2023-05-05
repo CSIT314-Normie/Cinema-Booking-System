@@ -3,7 +3,7 @@ package Main.Boundary;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.Font; 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -18,8 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.text.html.StyleSheet.BoxPainter;
+import javax.swing.JTextField; 
 
 import Main.Controller.UpdateAccountInfoController;
 
@@ -49,12 +48,13 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
         setLocationRelativeTo(null); 
         setVisible(true); // Show the frame
 
-        // add user role lable and buttons to the panel
+        // add a top panel to contain the home and logout buttons
         topPanel = new JPanel(new FlowLayout()); 
+        topPanel.setPreferredSize(new Dimension(1035, 50));
 
         // add user role lable and buttons to the panel 
         topPanel.add(homeButton);
-        topPanel.add(logoutButton); 
+        topPanel.add(logoutButton);
 
         System.out.println("[+] Edit Account Info - " + accountInfo[0] + " | " + accountInfo[1] + " | " + accountInfo[2]);
         this.userEmail = accountInfo[2];
@@ -62,14 +62,23 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
 
-        roleList.setPreferredSize(new Dimension(100, 30));
+        JLabel title = new JLabel("Editing user "+ accountInfo[0] + " " + accountInfo[1] +"'s Account Info");
+        title.setFont(new Font("Serif", Font.PLAIN, 25));
+
+        formPanel.add(title);
+        
+        roleList.setPreferredSize(new Dimension(200, 30));
 
         for(int i = 0; i < labelList.length; i++){
             JPanel panel = new JPanel(new BorderLayout());
             JLabel label = new JLabel(labelList[i]);
             JTextField field = new JTextField(accountInfo[i], 20);
-            fieldList.add(field);
+
+            label.setFont(new Font("Serif", Font.PLAIN, 18));
+            field.setPreferredSize(new Dimension(200, 30));
             field.setText(accountInfo[i]);
+
+            fieldList.add(field);
 
             if (i == 4) { // drop down menu for role
                 roleList.setSelectedIndex(accountInfo[i].equals("User Admin") ? 0 : 1);
@@ -98,8 +107,8 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
         JButton updateButton = new JButton("Update");
         formPanel.add(updateButton);
 
-        add(topPanel, BorderLayout.NORTH);
-        add(formPanel, BorderLayout.SOUTH);
+        add(topPanel);
+        add(formPanel);
 
         homeButton.addActionListener(this);
         logoutButton.addActionListener(this);
@@ -135,6 +144,10 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
             case "Admin Home":
                 dispose();
                 new Home(userInfo);
+                break;
+            case "Logout":
+                dispose();
+                new Login();
                 break;
         } 
     }

@@ -47,7 +47,7 @@ public class Update extends JFrame implements ActionListener {
         }
 
         // Put a JLabel called "Update Account" on the top row
-        updateAccount.setFont(new Font("Serif", Font.PLAIN, 40));
+        updateAccount.setFont(new Font("Serif", Font.BOLD, 30));
         topRow.add(updateAccount);
 
         // Top row "Update Account"
