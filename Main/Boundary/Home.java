@@ -15,16 +15,18 @@ import java.util.*;
 
 import Main.Controller.LoginContoller;
 import Main.Controller.MovieController;
+import Main.Controller.SuspendAccountController;
 
 public class Home extends JFrame implements ActionListener, MouseListener {
+    private ArrayList<String> userInfo;
+
     private final JLabel userRoleLabel = new JLabel();
     private final JPanel panel = new JPanel(new FlowLayout());
     private final JButton logoutButton = new JButton("Logout");
     private final JButton updateButton = new JButton("Update");
     private final JButton profileButton = new JButton("Profile");
     private JScrollPane scrollPane;
-
-    private ArrayList<String> userInfo;
+ 
     private transient LoginContoller loginController;
     private transient MovieController movieController = new MovieController(); 
 
@@ -35,11 +37,18 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     // search movies text field (CUSTOMER ONLY)
     private JTextField searchField = new JTextField(40);
 
-    // Get all accounts from database (USER ADMIN ONLY)
+    // manage user accounts (USER ADMIN ONLY)
+    private JPanel accountsPanel = new JPanel(new BorderLayout());
+    private DefaultTableModel tableModel;
     private ArrayList<String[]> allAccounts;
     private String[] selectedAccount;
+
     private JButton editAccountButton = new JButton("Edit Account");
+    private JButton suspendAccountButton = new JButton("Suspend Account");
+    private JButton addAccountButton = new JButton("Create Account");
     
+    // suspend acc controller
+    private SuspendAccountController suspendAccountController = new SuspendAccountController();
 
     public Home(ArrayList<String> userInfo) {
         super("CSIT 314 Cinema Booking System - Home");
@@ -65,59 +74,23 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         // To display different home page for different user role
         switch (userInfo.get(0)) {
             case "User Admin":
-                // Admin Home pagec
+                // Admin Home page
                 // Get all accounts from database
-                this.allAccounts = loginController.getAllUserAccounts();
-                JLabel allAccountsLabel = new JLabel("All User Accounts");
+                this.allAccounts = loginController.getAllUserAccounts(); 
 
-                JPanel accountsPanel = new JPanel(new BorderLayout());
-                JPanel buttonPane = new JPanel();
                 accountsPanel.setPreferredSize(new Dimension(750, 600));
-
-                // Add all accounts to the content panel
-                String columns[] = {"First Name", "Last Name", "Email", "Date of Birth", "Role"};
-                
-                DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-                
-                for (String[] row : allAccounts) {
-                    tableModel.addRow(row);
-                } 
-                 
-                JTable allUserTable = new JTable(tableModel);    
-                buttonPane.add(editAccountButton); 
-
-                // Add the JTable to a JScrollPane
-                scrollPane = new JScrollPane(allUserTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                scrollPane.setPreferredSize(new Dimension(750, 400));
                 editAccountButton.setSize(50, 30);
+
+                // Add all accounts to the content panel 
+                displayAllAccounts();
                 
-                // accountsPanel.add(allAccountsLabel, BorderLayout.NORTH); 
-                accountsPanel.add(scrollPane, BorderLayout.NORTH);
-                accountsPanel.add(buttonPane, BorderLayout.CENTER); 
-
-                // add listener for each row in the table
-                ListSelectionModel selectionModel = allUserTable.getSelectionModel();
-                selectionModel.addListSelectionListener(new ListSelectionListener() {
-                    public void valueChanged(ListSelectionEvent e) {
-                        if (!e.getValueIsAdjusting()) {
-                            int selectedRow = allUserTable.getSelectedRow();
-                            // Perform action on the selected row (account) here
-                            // add account data to selectedAccount array
-                            selectedAccount = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),
-                                                            tableModel.getValueAt(selectedRow, 1).toString(),
-                                                            tableModel.getValueAt(selectedRow, 2).toString(),
-                                                            tableModel.getValueAt(selectedRow, 3).toString(),
-                                                            tableModel.getValueAt(selectedRow, 4).toString()}; 
-
-                            System.out.println("[+] Admin - Selected account: " + Arrays.toString(selectedAccount));
-                        }
-                    }
-                });   
- 
                 // addscrollpane to the frame  
                 add(accountsPanel, BorderLayout.CENTER);
 
                 editAccountButton.addActionListener(this);
+                suspendAccountButton.addActionListener(this);
+                addAccountButton.addActionListener(this);
+
                 break;
             case "Customer":
                 // Customer Home page
@@ -155,9 +128,11 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     
                 // add scrollpane to the frame
                 add(scrollPane, BorderLayout.SOUTH);
-                break;
+
+                break; 
             case "Cinema Manager":
                 // Default Home 
+                
                 break;
             
             case "Cinema Owner":
@@ -208,6 +183,27 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 } 
                 break;
             
+            case "Suspend Account":
+                if (selectedAccount == null) {
+                    JOptionPane.showMessageDialog(null, "Please select an account to delete", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    System.out.println("[+] Admin - Suspend account");
+                    if (suspendAccountController.suspendAccount(selectedAccount[2])) {
+                        JOptionPane.showMessageDialog(null, "Account suspended successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error suspending account", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    allAccounts = loginController.getAllUserAccounts();
+                    displayAllAccounts();
+                } 
+                break;
+            
+            case "Create Account":
+                System.out.println("[+] Admin - Move to Add Account page");
+                dispose();
+                new CreateAccount(userInfo);
+                break;
+            
             case "Ticketing History":
                 System.out.println("[+] Customer - Move to Ticketing History page");
                 dispose();
@@ -230,8 +226,65 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     }
 
     /*
+     * Display all user accounts in a table, and allow user admins to "EDIT", "DELETE" and "SUSPEND" accounts - USER ADMIN ONLY
+     * 
+     */
+    public void displayAllAccounts() {
+        allAccounts.clear();
+        allAccounts = loginController.getAllUserAccounts(); 
+
+        // Remove all components from the panel
+        accountsPanel.removeAll();
+
+        JPanel buttonPane = new JPanel();
+        buttonPane.add(editAccountButton); 
+        buttonPane.add(suspendAccountButton);
+        buttonPane.add(addAccountButton);
+
+        accountsPanel.add(buttonPane, BorderLayout.CENTER); 
+
+        String columns[] = {"First Name", "Last Name", "Email", "Date of Birth", "Role", "activeStatus"};
+        tableModel = new DefaultTableModel(columns, 0);
+
+        for (String[] row : allAccounts) {
+            tableModel.addRow(row);
+        } 
+         
+        JTable allUserTable = new JTable(tableModel);    
+        
+        // Add the JTable to a JScrollPane
+        scrollPane = new JScrollPane(allUserTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(750, 400));
+         
+        accountsPanel.add(scrollPane, BorderLayout.NORTH);
+
+        // add listener for each row in the table
+        ListSelectionModel selectionModel = allUserTable.getSelectionModel();
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = allUserTable.getSelectedRow();
+                    // Perform action on the selected row (account) here
+                    // add account data to selectedAccount array
+                    selectedAccount = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),
+                                                    tableModel.getValueAt(selectedRow, 1).toString(),
+                                                    tableModel.getValueAt(selectedRow, 2).toString(),
+                                                    tableModel.getValueAt(selectedRow, 3).toString(),
+                                                    tableModel.getValueAt(selectedRow, 4).toString()}; 
+
+                    System.out.println("[+] Admin - Selected account: " + Arrays.toString(selectedAccount));
+                }
+            }
+        });   
+
+        // refresh the panel
+        accountsPanel.revalidate();
+        accountsPanel.repaint();
+    }
+
+    /*
      * Search for movies - CUSTOMER ONLY
-     * @param searchQuery
+     * @param searchQuery 
      */
 
     public void searchedMovies(String searchQuery) {

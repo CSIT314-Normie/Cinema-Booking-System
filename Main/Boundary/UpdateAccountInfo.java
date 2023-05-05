@@ -86,7 +86,7 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
                 panel.add(roleList, BorderLayout.EAST);
                 panel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
             } else {
-                 // add label and field to the form panel
+                // add label and field to the form panel
                 panel.add(label, BorderLayout.WEST);
                 panel.add(field, BorderLayout.EAST);
                 panel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
@@ -132,12 +132,12 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
                 System.out.println("[+] Modified Account Info: " + modifiedAcc);
                 if(updateAccountInfoController.updateAccountInfo(modifiedAcc, userEmail)){
                     System.out.println("[+] Account Info Updated Successfully!");
-                    JOptionPane.showMessageDialog(null, "User account information successfully updated!", "Update Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "User account information successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // dispose();
                     // new Home(userInfo);
                 } else {
                     System.out.println("[-] Account Info Update Failed!");
-                    JOptionPane.showMessageDialog(null, "User account information Update unsuccessful", "Update Failed", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "User account information Update unsuccessful", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 modifiedAcc.clear();
                 break;
