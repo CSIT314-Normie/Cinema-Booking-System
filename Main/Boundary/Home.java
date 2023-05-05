@@ -204,7 +204,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 } else {
                     System.out.println("[+] Admin - Move to Edit Account page");
                     dispose();
-                    new EditAccountInfo(userInfo, selectedAccount);
+                    new UpdateAccountInfo(userInfo, selectedAccount);
                 } 
                 break;
             
