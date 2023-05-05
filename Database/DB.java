@@ -279,6 +279,32 @@ public class DB {
     }
 
     /**
+     * This method is used to update a user's information in the database 
+     * @param modifiedAcc an Arraylist of Strings that contains the modified information of user
+     * @param email is the email of the user to be updated
+     * @return true if the user info is updated, false otherwise
+     */
+
+    public boolean updateUserAcc(ArrayList<String> modifiedAcc, String email) {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("UPDATE users SET fname = ?, lname = ?, email= ?, dob = ?, role = ? WHERE email = ?");
+            stmt.setString(1, modifiedAcc.get(0));
+            stmt.setString(2, modifiedAcc.get(1));
+            stmt.setString(3, modifiedAcc.get(2));
+            stmt.setString(4, modifiedAcc.get(3));
+            stmt.setString(5, modifiedAcc.get(4));
+            stmt.setString(6, email);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return true;
+    }
+
+    /**
      * This method is used to delete(suspend) a user from the database
      * 
      * @param values is an Arraylist of Strings that contains the information of

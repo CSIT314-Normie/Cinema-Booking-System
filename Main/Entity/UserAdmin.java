@@ -30,4 +30,8 @@ public class UserAdmin extends User {
         return super.getDB().selectAll("*", "*");
     }
 
+    public boolean updateUserAccInfo(ArrayList<String> modifiedAcc, String userEmail) {
+        return super.getDB().updateUserAcc(modifiedAcc, userEmail);
+    }
+
 }
