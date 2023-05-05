@@ -305,6 +305,27 @@ public class DB {
     }
 
     /**
+     * This method is used to DELETE a user from the database
+     * 
+     * @param userEmail is the email of the user 
+     * @return true if the user password is updated, false otherwise
+     */
+
+    public boolean deleteUser(String userEmail) {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("DELETE FROM users WHERE email = ?");
+            stmt.setString(1, userEmail);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return true;
+    }
+
+    /**
      * This method is used to delete(suspend) a user from the database
      * 
      * @param values is an Arraylist of Strings that contains the information of
