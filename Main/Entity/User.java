@@ -61,13 +61,14 @@ public class User {
      */
     public boolean insertUser(ArrayList<String> values, String role) {   
         try {
-            stmt = conn.prepareStatement("INSERT INTO users (fname, lname, email, dob, password, role) VALUES (?, ?, ?, ?, ?, ?)");
+            stmt = conn.prepareStatement("INSERT INTO users (fname, lname, email, dob, password, role, activeStatus) VALUES (?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, values.get(0));
             stmt.setString(2, values.get(1));
             stmt.setString(3, values.get(2));
             stmt.setString(4, values.get(3));
             stmt.setString(5, values.get(4));
             stmt.setString(6, role);
+            stmt.setString(7, "Active");
             stmt.executeUpdate();
 
             System.out.println(values.get(3) + " has been inserted into the database");

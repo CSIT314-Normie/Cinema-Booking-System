@@ -26,8 +26,6 @@ public class MovieController {
         this.email = email;
     }
 
-    
-
     public ArrayList<String> getUserWatchedMovies() {
         return movie.getUserWatchedMovies(this.email);
     }
@@ -35,5 +33,4 @@ public class MovieController {
     public boolean updateMovieRateReview(String movieName, String rating, String review) {
         return movie.updateMovieRR(this.email, movieName, rating, review);
     }
-
 }
