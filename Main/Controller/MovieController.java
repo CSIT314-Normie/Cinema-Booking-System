@@ -33,4 +33,8 @@ public class MovieController {
     public boolean updateMovieRateReview(String movieName, String rating, String review) {
         return movie.updateMovieRR(this.email, movieName, rating, review);
     }
+
+    public boolean insertMovie(ArrayList<String> movieInfo) {
+        return movie.insertMovie(movieInfo);
+    }
 }

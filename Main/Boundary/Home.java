@@ -132,11 +132,24 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 break; 
             case "Cinema Manager":
                 // Default Home 
+                // TODO: Cinema Manager Home page
+                // 1. Display all movies and show times
+                // 2. Display all bookings
+                // 3. Display all cinemas
+
+                JPanel cinemaManagerPanel = new JPanel(new FlowLayout());
+                cinemaManagerPanel.setPreferredSize(new Dimension(1035, 200));
+                JButton addMovieButton = new JButton("Add Movie");
                 
+                cinemaManagerPanel.add(addMovieButton);
+                add(cinemaManagerPanel, BorderLayout.CENTER);
+                
+                addMovieButton.addActionListener(this);
                 break;
             
             case "Cinema Owner":
                 // Default Home  
+                // TODO: Cinema Owner Home page
                 break;
         }
         
@@ -208,6 +221,12 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 System.out.println("[+] Customer - Move to Ticketing History page");
                 dispose();
                 new TicketingHistory(userInfo);
+                break;
+            
+            case "Add Movie":
+                System.out.println("[+] Cinema Manager - Move to Add Movie page");
+                dispose();
+                new AddMovie(userInfo);
                 break;
         }
     }
@@ -357,6 +376,15 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         movieListPanel.repaint();
         movieListPanel.revalidate(); 
     }
+
+
+    /*
+     * Display movies in the system and their information - CINEMA MANAGER ONLY
+     */
+    public void displayMovies() {
+
+    }
+
 
     @Override
     public void mousePressed(MouseEvent e) {}

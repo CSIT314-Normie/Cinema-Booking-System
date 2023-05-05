@@ -19,5 +19,5 @@ public class Manager extends User {
 
     public boolean updateUser(ArrayList<String> information, String role) {
         return super.updateAcc(information, role);
-    }
+    } 
 }
