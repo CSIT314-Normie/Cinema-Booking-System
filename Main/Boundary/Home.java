@@ -94,7 +94,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 break;
             case "Customer":
                 // Customer Home page
-                searchedMovieList = movieController.getMovies();
+                searchedMovieList = movieController.getAvailableMovies();
                 
                 JButton viewTicketHistoryButton = new JButton("Ticketing History");
                 panel.add(viewTicketHistoryButton);
@@ -132,11 +132,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 break; 
             case "Cinema Manager":
                 //Ticket Arrangement options for price of tickets
-                JButton viewTicketArrangementButton = new JButton("Ticket Arrangement");
-                panel.add(viewTicketArrangementButton);
-
-                viewTicketArrangementButton.addActionListener(this);
-                // Default Home 
+                JButton viewTicketArrangementButton = new JButton("Ticket Arrangement"); 
                 // TODO: Cinema Manager Home page
                 // 1. Display all movies and show times
                 // 2. Display all bookings
@@ -146,10 +142,12 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 cinemaManagerPanel.setPreferredSize(new Dimension(1035, 200));
                 JButton addMovieButton = new JButton("Add Movie");
                 
+                cinemaManagerPanel.add(viewTicketArrangementButton);
                 cinemaManagerPanel.add(addMovieButton);
                 add(cinemaManagerPanel, BorderLayout.CENTER);
                 
                 addMovieButton.addActionListener(this);
+                viewTicketArrangementButton.addActionListener(this);
                 break;
             
             case "Cinema Owner":
@@ -317,7 +315,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
      */
 
     public void searchedMovies(String searchQuery) {
-        searchedMovieList = movieController.getMovies();
+        searchedMovieList = movieController.getAvailableMovies();
 
         if (searchQuery.equals("") || searchQuery.equals("Search for movies") || searchQuery.equals(" ")) {
             System.out.println("[+] Search query is empty");
@@ -326,9 +324,9 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 System.out.println("[+] Movie found"); 
 
                 // replace movies in searchMovieList with searched movies results
-                for (int i = 0; i < searchedMovieList.size(); i += 4) {
+                for (int i = 0; i < searchedMovieList.size(); i += 6) {
                     if (!(searchedMovieList.get(i).toLowerCase().contains(searchQuery.toLowerCase()))) {
-                        searchedMovieList.subList(i, i + 4).clear(); 
+                        searchedMovieList.subList(i, i + 6).clear(); 
                     }
                 }
 
@@ -347,7 +345,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         movieListPanel.removeAll(); 
 
          // Add movies to the content panel, and display
-        for (int i = 0; i < searchedMovieList.size(); i += 4) {
+        for (int i = 0; i < searchedMovieList.size(); i += 6) {
             JPanel moviePanel = new JPanel();
             moviePanel.setLayout(new BoxLayout(moviePanel, BoxLayout.Y_AXIS));
             moviePanel.setPreferredSize(new Dimension(200, 700));
