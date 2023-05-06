@@ -51,6 +51,9 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     // View ALL movies (CINEMA MANAGER ONLY)
     private JPanel allMoviesPanel = new JPanel(new FlowLayout());
     private ArrayList<String> allMoviesList;
+    private String[] selectedMovie;
+
+    private JButton editMovieButton = new JButton("Edit Movie Info");
     
     // suspend acc controller
     private SuspendAccountController suspendAccountController = new SuspendAccountController();
@@ -149,6 +152,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 
                 cinemaManagerPanel.add(viewTicketArrangementButton);
                 cinemaManagerPanel.add(addMovieButton);
+                cinemaManagerPanel.add(editMovieButton);
                 
                 displayMovies();
 
@@ -159,6 +163,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 
                 addMovieButton.addActionListener(this);
                 viewTicketArrangementButton.addActionListener(this);
+                editMovieButton.addActionListener(this);
                 break;
             
             case "Cinema Owner":
@@ -248,6 +253,17 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 dispose();
                 new AddMovie(userInfo);
                 break;
+            
+            case "Edit Movie Info":
+                // check if a movie is selected
+                if (selectedMovie == null) {
+                    JOptionPane.showMessageDialog(null, "Please select a movie to edit", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    System.out.println("[+] Cinema Manager - Move to Edit Movie Info page");
+                    dispose();
+                    new UpdateMovieInfo(userInfo, selectedMovie);
+                }
+                break;
         }
     }
 
@@ -261,7 +277,6 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         // open Book.java with the movie title
         dispose();
         new Book(userInfo, movieTitle.getText());
-        
     }
 
     /*
@@ -402,7 +417,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
      * Display movies in the system and their information - CINEMA MANAGER ONLY
      */
     public void displayMovies() {
-        allMoviesPanel.removeAll(); 
+        allMoviesPanel.removeAll();  
 
         String[] columns = {"Movie Name", "Image", "Rating", "Review", "Description", "Status"};
         tableModel = new DefaultTableModel(columns, 0);
@@ -424,7 +439,25 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         // render image in the table
         allMoviesTable.getColumnModel().getColumn(1).setCellRenderer(new ImageRenderer());
 
-        
+        // add listener for each row in the table
+        ListSelectionModel selectionModel = allMoviesTable.getSelectionModel();
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = allMoviesTable.getSelectedRow();
+                    // Perform action on the selected row (movie) here
+                    // add movie data to selectedMovie array (do not add the image)
+                    selectedMovie = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),  
+                                                    tableModel.getValueAt(selectedRow, 2).toString(),
+                                                    tableModel.getValueAt(selectedRow, 3).toString(),
+                                                    tableModel.getValueAt(selectedRow, 4).toString(),
+                                                    tableModel.getValueAt(selectedRow, 5).toString()}; 
+
+                    System.out.println("[+] Manager - Selected Movie: " + Arrays.toString(selectedMovie));
+                }
+            }
+        });   
+
         // Add the JTable to a JScrollPane
         scrollPane = new JScrollPane(allMoviesTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(750, 400));
