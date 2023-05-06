@@ -137,11 +137,24 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
                 viewTicketArrangementButton.addActionListener(this);
                 // Default Home 
+                // TODO: Cinema Manager Home page
+                // 1. Display all movies and show times
+                // 2. Display all bookings
+                // 3. Display all cinemas
+
+                JPanel cinemaManagerPanel = new JPanel(new FlowLayout());
+                cinemaManagerPanel.setPreferredSize(new Dimension(1035, 200));
+                JButton addMovieButton = new JButton("Add Movie");
                 
+                cinemaManagerPanel.add(addMovieButton);
+                add(cinemaManagerPanel, BorderLayout.CENTER);
+                
+                addMovieButton.addActionListener(this);
                 break;
             
             case "Cinema Owner":
                 // Default Home  
+                // TODO: Cinema Owner Home page
                 break;
         }
         
@@ -219,6 +232,11 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 System.out.println("[+] Cinema Manager - Move to Ticketing Arrangement page");
                 dispose();
                 new TicketingArrangement(userInfo);
+            
+            case "Add Movie":
+                System.out.println("[+] Cinema Manager - Move to Add Movie page");
+                dispose();
+                new AddMovie(userInfo);
                 break;
         }
     }
@@ -337,7 +355,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             JLabel movieTitle = new JLabel(searchedMovieList.get(i)); 
 
             ImageIcon image = new ImageIcon((new File("./Main/Boundary/assets/" + searchedMovieList.get(i + 1))).getAbsolutePath());
-            Image scaledImage = image.getImage().getScaledInstance(100,200, Image.SCALE_SMOOTH);
+            Image scaledImage = image.getImage().getScaledInstance(150,200, Image.SCALE_SMOOTH);
             image = new ImageIcon(scaledImage);
 
             JLabel movieImage = new JLabel(image);
@@ -368,6 +386,15 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         movieListPanel.repaint();
         movieListPanel.revalidate(); 
     }
+
+
+    /*
+     * Display movies in the system and their information - CINEMA MANAGER ONLY
+     */
+    public void displayMovies() {
+
+    }
+
 
     @Override
     public void mousePressed(MouseEvent e) {}
