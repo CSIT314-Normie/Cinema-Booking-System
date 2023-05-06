@@ -121,7 +121,11 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 add(scrollPane, BorderLayout.SOUTH);
                 break;
             case "Cinema Manager":
-                // Default Home 
+                //Ticket Arrangement options for price of tickets
+                JButton viewTicketArrangementButton = new JButton("Ticket Arrangement");
+                panel.add(viewTicketArrangementButton);
+
+                viewTicketArrangementButton.addActionListener(this);
                 break;
             
             case "Cinema Owner":
@@ -166,6 +170,12 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 System.out.println("[+] Customer - Move to Ticketing History page");
                 dispose();
                 new TicketingHistory(userInfo);
+                break;
+
+            case "Ticket Arrangement":
+                System.out.println("[+] Cinema Manager - Move to Ticketing Arrangement page");
+                dispose();
+                new TicketingArrangement(userInfo);
                 break;
         }
     }
