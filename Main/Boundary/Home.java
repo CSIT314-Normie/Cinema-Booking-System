@@ -132,11 +132,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 break; 
             case "Cinema Manager":
                 //Ticket Arrangement options for price of tickets
-                JButton viewTicketArrangementButton = new JButton("Ticket Arrangement");
-                panel.add(viewTicketArrangementButton);
-
-                viewTicketArrangementButton.addActionListener(this);
-                // Default Home 
+                JButton viewTicketArrangementButton = new JButton("Ticket Arrangement"); 
                 // TODO: Cinema Manager Home page
                 // 1. Display all movies and show times
                 // 2. Display all bookings
@@ -146,10 +142,12 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 cinemaManagerPanel.setPreferredSize(new Dimension(1035, 200));
                 JButton addMovieButton = new JButton("Add Movie");
                 
+                cinemaManagerPanel.add(viewTicketArrangementButton);
                 cinemaManagerPanel.add(addMovieButton);
                 add(cinemaManagerPanel, BorderLayout.CENTER);
                 
                 addMovieButton.addActionListener(this);
+                viewTicketArrangementButton.addActionListener(this);
                 break;
             
             case "Cinema Owner":
