@@ -345,7 +345,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             JLabel movieTitle = new JLabel(searchedMovieList.get(i)); 
 
             ImageIcon image = new ImageIcon((new File("./Main/Boundary/assets/" + searchedMovieList.get(i + 1))).getAbsolutePath());
-            Image scaledImage = image.getImage().getScaledInstance(100,200, Image.SCALE_SMOOTH);
+            Image scaledImage = image.getImage().getScaledInstance(150,200, Image.SCALE_SMOOTH);
             image = new ImageIcon(scaledImage);
 
             JLabel movieImage = new JLabel(image);
