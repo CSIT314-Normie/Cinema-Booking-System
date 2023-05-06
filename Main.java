@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -16,6 +18,15 @@ public class Main {
         ProcessBuilder runBuilder = new ProcessBuilder("java", "-classpath", "./Out;./lib/mysql-connector-j-8.0.32.jar", "Main.Driver");
         runBuilder.redirectErrorStream(true);
         Process runProcess = runBuilder.start();
+
+        // FOR DEBUGGING PURPOSE: captures the output from the program
+        // try (BufferedReader outputReader = new BufferedReader(new InputStreamReader(runProcess.getInputStream()))) {
+        //     String outputLine;
+        //     while ((outputLine = outputReader.readLine()) != null) {
+        //         System.out.println(outputLine);
+        //     }
+        // }
+
         runProcess.waitFor();
         if (runProcess.exitValue() != 0) {
             System.err.println("Program exited with non-zero exit code " + runProcess.exitValue());

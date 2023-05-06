@@ -47,7 +47,8 @@ public class DB {
                     + "email VARCHAR(255) PRIMARY KEY,"
                     + "dob VARCHAR(255) NOT NULL,"
                     + "password VARCHAR(255) NOT NULL,"
-                    + "role VARCHAR(255) NOT NULL)"));
+                    + "role VARCHAR(255) NOT NULL, " 
+                    + "activeStatus VARCHAR(15) NOT NULL)"));
 
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS movies ("
                     + "name VARCHAR(255) PRIMARY KEY,"
@@ -69,7 +70,7 @@ public class DB {
                     + "price VARCHAR(255) NOT NULL)"));
     
             stmts.add(conn.prepareStatement(
-                    "INSERT INTO users (fname, lname, email, dob, password, role) SELECT 'user', 'admin', 'ua', 'ua', 'ua', 'Admin' FROM dual WHERE NOT EXISTS (SELECT * FROM users WHERE email = 'ua');"));
+                    "INSERT INTO users (fname, lname, email, dob, password, role) SELECT 'user', 'admin', 'ua', 'ua', 'ua', 'User Admin' FROM dual WHERE NOT EXISTS (SELECT * FROM users WHERE email = 'ua');"));
 
             stmts.add(conn.prepareStatement(
                     "CREATE TRIGGER update_movies_rate_review " +
@@ -163,7 +164,7 @@ public class DB {
         try {
             if (info.equals("*")) {
                 stmt = conn
-                        .prepareStatement("SELECT fname, lname, email, dob, password, role FROM users WHERE email = ?");
+                        .prepareStatement("SELECT fname, lname, email, dob, password, role, activeStatus FROM users WHERE email = ?");
             } else {
                 stmt = conn.prepareStatement("SELECT " + info + " FROM users WHERE email = ?");
             }
@@ -179,6 +180,7 @@ public class DB {
                     values.add(rs.getString("dob"));
                     values.add(rs.getString("password"));
                     values.add(rs.getString("role"));
+                    values.add(rs.getString("activeStatus"));
                 }
             } else {
                 while (rs.next()) {
@@ -216,7 +218,7 @@ public class DB {
 
         try {
             if (info.equals("*") && email.equals("*")) {
-                stmt = conn.prepareStatement("SELECT fname, lname, email, dob, role FROM users ");
+                stmt = conn.prepareStatement("SELECT fname, lname, email, dob, role, activeStatus FROM users");
             } else {
                 stmt = conn.prepareStatement("SELECT " + info + " FROM users WHERE email = ?");
                 stmt.setString(1, email);
@@ -224,12 +226,13 @@ public class DB {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String[] temp = new String[5];
+                String[] temp = new String[6];
                 temp[0] = rs.getString("fname");
                 temp[1] = rs.getString("lname");
                 temp[2] = rs.getString("email");
                 temp[3] = rs.getString("dob");
                 temp[4] = rs.getString("role");
+                temp[5] = rs.getString("activeStatus");
                 values.add(temp);
             }
         } catch (SQLException e) {
@@ -283,6 +286,32 @@ public class DB {
     }
 
     /**
+     * This method is used to update a user's information in the database 
+     * @param modifiedAcc an Arraylist of Strings that contains the modified information of user
+     * @param email is the email of the user to be updated
+     * @return true if the user info is updated, false otherwise
+     */
+
+    public boolean updateUserAcc(ArrayList<String> modifiedAcc, String email) {
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("UPDATE users SET fname = ?, lname = ?, email= ?, dob = ?, role = ? WHERE email = ?");
+            stmt.setString(1, modifiedAcc.get(0));
+            stmt.setString(2, modifiedAcc.get(1));
+            stmt.setString(3, modifiedAcc.get(2));
+            stmt.setString(4, modifiedAcc.get(3));
+            stmt.setString(5, modifiedAcc.get(4));
+            stmt.setString(6, email);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return true;
+    } 
+    
+    /**
      * This method is used to delete(suspend) a user from the database
      * 
      * @param values is an Arraylist of Strings that contains the information of
@@ -290,19 +319,20 @@ public class DB {
      * @param role   is the role of the user
      * @return true if the user is deleted from the database, false otherwise
      */
-    public boolean deleteUser(ArrayList<String> values, String role) {
+    public boolean suspendUser(String userEmail) {
         PreparedStatement stmt;
 
         try {
-            stmt = conn.prepareStatement("DELETE FROM users WHERE email = ?");
-            stmt.setString(1, values.get(3));
+            stmt = conn.prepareStatement("UPDATE users SET activeStatus = ? WHERE email = ?");
+            stmt.setString(1, "Inactive");
+            stmt.setString(2, userEmail);
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
 
         return true;
-    }
+    } 
 
     public boolean selectRR(ArrayList<String> values, String email) {
         return true;
