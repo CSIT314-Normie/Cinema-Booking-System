@@ -39,8 +39,9 @@ public class DB {
             System.out.println("[+] Connected to the database on initialisation");
 
             ArrayList<PreparedStatement> stmts = new ArrayList<>();
-            String[] tables = { "users", "movies", "user_movies", "ticket_arrangement" ,"add Admin" };
+            String[] tables = { "users", "movies", "user_movies", "ticket_arrangement" , "cinema_halls", "seats", "movie_screening", "seat_reserved", "add Cinema Hall A", "add Cinema Hall B", "add Cinema Hall C", "add Cinema Hall D", "add Admin" };
 
+            // Create users table
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
                     + "fname VARCHAR(255) NOT NULL,"
                     + "lname VARCHAR(255) NOT NULL,"
@@ -50,6 +51,7 @@ public class DB {
                     + "role VARCHAR(255) NOT NULL, " 
                     + "activeStatus VARCHAR(15) NOT NULL)"));
 
+            // create movies table
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS movies ("
                     + "name VARCHAR(255) PRIMARY KEY,"
                     + "image VARCHAR(255) NOT NULL,"
@@ -58,6 +60,8 @@ public class DB {
                     + "description VARCHAR(500) NOT NULL,"
                     + "status VARCHAR(15) NOT NULL)"));
 
+
+            // create user_movies table (movies that users have watched)
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS user_movies ("
                     + "email VARCHAR(255) NOT NULL,"
                     + "movieName VARCHAR(255) NOT NULL,"
@@ -67,12 +71,58 @@ public class DB {
                     + "FOREIGN KEY (email) REFERENCES users(email),"
                     + "FOREIGN KEY (movieName) REFERENCES movies(name))"));
 
+            // create ticket_arrangement table (types of tickets and their prices)
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS ticket_arrangement ("
                     + "ticketType VARCHAR(255) PRIMARY KEY,"
                     + "price VARCHAR(255) NOT NULL)"));
+
+            // create cinema table (cinema name and location)
+            // each hall has 12 seats
+            stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS cinema_halls ("
+                    + "Hall VARCHAR(10) PRIMARY KEY,"
+                    + "cinemaName VARCHAR(255) NOT NULL," 
+                    + "noOfSeats int)"));
+
+            // create seats table (seats in the cinema hall)
+            stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS seats ("
+                    + "seatID VARCHAR(10) PRIMARY KEY,"
+                    + "Hall VARCHAR(10) NOT NULL,"
+                    + "seatRow VARCHAR(10) NOT NULL,"
+                    + "seatNumber VARCHAR(10) NOT NULL,"
+                    + "FOREIGN KEY (Hall) REFERENCES cinema_halls(Hall))"));
+
+            // ceate movie screening table (movie name, screening ID, Hall ID)
+            stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS movie_screening ("
+                    + "screeningID VARCHAR(10) PRIMARY KEY,"
+                    + "movieName VARCHAR(255) NOT NULL,"
+                    + "Hall VARCHAR(10) NOT NULL,"
+                    + "FOREIGN KEY (movieName) REFERENCES movies(name),"
+                    + "FOREIGN KEY (Hall) REFERENCES cinema_halls(Hall))"));
+
+            // create seat_reserved table (reserved seats, which movie, which hall, which screening session)
+            stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS seat_reserved ("
+                    + "ReservationID VARCHAR(10) PRIMARY KEY,"
+                    + "seatID VARCHAR(10) NOT NULL,"
+                    + "userEmail VARCHAR(255) NOT NULL,"
+                    + "movieName VARCHAR(255) NOT NULL,"
+                    + "screeningID VARCHAR(10) NOT NULL,"
+                    + "FOREIGN KEY (userEmail) REFERENCES users(email),"
+                    + "FOREIGN KEY (movieName) REFERENCES movies(name),"
+                    + "FOREIGN KEY (screeningID) REFERENCES movie_screening(screeningID),"
+                    + "FOREIGN KEY (seatID) REFERENCES seats(seatID))"));
     
             stmts.add(conn.prepareStatement(
                     "INSERT INTO users (fname, lname, email, dob, password, role) SELECT 'user', 'admin', 'ua', 'ua', 'ua', 'User Admin' FROM dual WHERE NOT EXISTS (SELECT * FROM users WHERE email = 'ua');"));
+
+
+            // 2 cinemas, 2 halls in each cinema, 12 seats in each hall
+            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'A', 'Cinema 1', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'A');"));
+
+            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'B', 'Cinema 1', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'B');"));
+
+            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'C', 'Cinema 2', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'C');"));
+
+            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'D', 'Cinema 2', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'D');"));
 
             stmts.add(conn.prepareStatement(
                     "CREATE TRIGGER update_movies_rate_review " +
@@ -84,6 +134,8 @@ public class DB {
                             "        review = (SELECT COUNT(*) FROM user_movies WHERE movieName = NEW.movieName) " +
                             "    WHERE name = NEW.movieName; " +
                             "END"));
+
+            
 
             stmts.forEach(stmt -> {
                 try {
