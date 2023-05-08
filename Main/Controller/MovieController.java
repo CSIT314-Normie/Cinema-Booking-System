@@ -45,6 +45,10 @@ public class MovieController {
         return availableMovies;
     }
 
+    public boolean updateMovieInfo(ArrayList<String> movieInfo, String movieName) {
+        return movie.updateMovieInfo(movieInfo, movieName);
+    }
+
     // set email
     public void setEmail(String email) {
         this.email = email;
