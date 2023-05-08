@@ -266,6 +266,9 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                     new UpdateMovieInfo(userInfo, selectedMovie);
                 }
                 break;
+            
+            case "View Screening Sessions":
+                break; 
         }
     }
 
