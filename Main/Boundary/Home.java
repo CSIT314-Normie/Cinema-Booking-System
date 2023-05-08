@@ -105,7 +105,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 // Customer Home page
                 searchedMovieList = movieController.getAvailableMovies();
 
-                System.out.println("[+] Customer - available movies: " + searchedMovieList);
+                System.out.println("[+] Customer - Home Page");
                 
                 JButton viewTicketHistoryButton = new JButton("Ticketing History");
                 panel.add(viewTicketHistoryButton);
@@ -326,9 +326,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                                                     tableModel.getValueAt(selectedRow, 1).toString(),
                                                     tableModel.getValueAt(selectedRow, 2).toString(),
                                                     tableModel.getValueAt(selectedRow, 3).toString(),
-                                                    tableModel.getValueAt(selectedRow, 4).toString()}; 
-
-                    System.out.println("[+] Admin - Selected account: " + Arrays.toString(selectedAccount));
+                                                    tableModel.getValueAt(selectedRow, 4).toString()};  
                 }
             }
         });   
@@ -373,9 +371,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     public void displaySearchedMovies() { 
         movieListPanel.removeAll(); 
 
-         // Add movies to the content panel, and display
-
-        System.out.println("movies: " + searchedMovieList);
+         // Add movies to the content panel, and display 
         for (int i = 0; i < searchedMovieList.size(); i += 7) {
             JPanel moviePanel = new JPanel();
             moviePanel.setLayout(new BoxLayout(moviePanel, BoxLayout.Y_AXIS));
@@ -424,9 +420,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         allMoviesPanel.removeAll();  
 
         String[] columns = {"Movie Name", "Image", "Rating", "Review", "Description", "Status" , "Duration"};
-        tableModel = new DefaultTableModel(columns, 0);
-
-        System.out.println("allMoviesList: " + allMoviesList);
+        tableModel = new DefaultTableModel(columns, 0); 
 
         // Add movies to the content panel, and display
         for (int i = 0; i < allMoviesList.size(); i += 7) {
@@ -454,14 +448,10 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                     int selectedRow = allMoviesTable.getSelectedRow();
                     // Perform action on the selected row (movie) here
                     // add movie data to selectedMovie array (do not add the image)
-                    selectedMovie = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),  
-                                                    tableModel.getValueAt(selectedRow, 2).toString(),
-                                                    tableModel.getValueAt(selectedRow, 3).toString(),
+                    selectedMovie = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),   
                                                     tableModel.getValueAt(selectedRow, 4).toString(),
                                                     tableModel.getValueAt(selectedRow, 5).toString(),
-                                                    tableModel.getValueAt(selectedRow, 6).toString()}; 
-
-                    System.out.println("[+] Manager - Selected Movie: " + Arrays.toString(selectedMovie));
+                                                    tableModel.getValueAt(selectedRow, 6).toString()};  
                 }
             }
         });   

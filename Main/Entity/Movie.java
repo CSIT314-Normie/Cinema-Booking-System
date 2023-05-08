@@ -44,6 +44,9 @@ public class Movie {
                 movies.add(rs.getString("image"));
                 movies.add(rs.getString("rate"));
                 movies.add(rs.getString("review"));
+                movies.add(rs.getString("description"));
+                movies.add(rs.getString("status"));
+                movies.add(rs.getString("duration"));
             }
 
         } catch (SQLException e) {
@@ -123,13 +126,14 @@ public class Movie {
     
         try {
             // Comments on this function are in the same function in User.java
-            stmt = conn.prepareStatement("INSERT INTO movies (name, image, rate, review, description, status) VALUES (?, ?, ?, ?, ?, ?)");
+            stmt = conn.prepareStatement("INSERT INTO movies (name, image, rate, review, description, status, duration) VALUES (?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, values.get(0));
             stmt.setString(2, values.get(1));
             stmt.setString(3, "0");
             stmt.setString(4, "0");
             stmt.setString(5, values.get(2));
             stmt.setString(6, values.get(3));
+            stmt.setString(7, values.get(4));
             stmt.executeUpdate();
 
             System.out.println(values.get(0) + " has been inserted into the database");
@@ -139,4 +143,27 @@ public class Movie {
 
         return true;
     }
+
+    public boolean updateMovieInfo(ArrayList<String> values, String movieName) {
+        PreparedStatement stmt;
+    
+        try {
+            // Comments on this function are in the same function in User.java
+            stmt = conn.prepareStatement("UPDATE movies set name = ?, description = ?, status = ?, duration = ? where name = ?");
+            stmt.setString(1, values.get(0));
+            stmt.setString(2, values.get(1));
+            stmt.setString(3, values.get(2));
+            stmt.setString(4, values.get(3));
+            stmt.setString(5, movieName); 
+            stmt.executeUpdate();
+
+            System.out.println(movieName + " has been updated in the database");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return true;
+    }
+
+
 }

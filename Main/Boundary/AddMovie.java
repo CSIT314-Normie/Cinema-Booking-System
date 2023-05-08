@@ -27,7 +27,7 @@ public class AddMovie extends JFrame implements ActionListener {
     // As of now, there will be 4 fields (Movie Name, movie image, movie description, movie status (Fully Booked or Available (Default))
     private String[] labelList = {"Movie Name: ", "Movie Image: ", "Movie Description: ", "Movie Status: "};
     private ArrayList<JTextField> fieldList = new ArrayList<JTextField>(2); // 2 text fields: movie name and movie description
-    private JComboBox statusList = new JComboBox(new String[]{"Available", "Fully Booked"});
+    private JComboBox statusList = new JComboBox(new String[]{"Available", "Unavailable"});
     private String movieStatus = "Available"; // default status
     private String movieImgFileName; 
 
