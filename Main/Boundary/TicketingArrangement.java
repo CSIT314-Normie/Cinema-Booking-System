@@ -1,6 +1,8 @@
 package Main.Boundary;
 
 import Main.Controller.ProfileController;
+import Main.Controller.TicketingArrangementController;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -10,16 +12,17 @@ import java.awt.*;
 public class TicketingArrangement extends JFrame implements ActionListener{
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("Ticket Type:", "Price:"));
     private ArrayList<String> userInfo;
-    private ArrayList<String> DBUserInfo = new ArrayList<>();
+    //private ArrayList<String> DBUserInfo = new ArrayList<>();
+    private transient TicketingArrangementController ticketingArrangementController = new TicketingArrangementController();
+    private ArrayList<String[]> ticketingArrangement;
 
     private final JLabel myTicketArrangementLabel = new JLabel("Ticket Information");
 
-    private final JButton updateStudentButton = new JButton("Update Ticket Price for Student");
+    private final JButton updateButton = new JButton("Update Ticket Price");
+    /*private final JButton updateStudentButton = new JButton("Update Ticket Price for Student");
     private final JButton updateAdultButton = new JButton("Update Ticket Price for Adult");
-    private final JButton updateSeniorButton = new JButton("Update Ticket Price for Senior");
+    private final JButton updateSeniorButton = new JButton("Update Ticket Price for Senior");*/
     private final JButton homeButton = new JButton("Home");
-
-    private static final ProfileController profileController = new ProfileController();
 
     // Frame's top, middle and bottom row
     private final JPanel topRow = new JPanel();
@@ -39,7 +42,9 @@ public class TicketingArrangement extends JFrame implements ActionListener{
         setLocationRelativeTo(null);
 
         // Get the user info from the database
-        DBUserInfo = profileController.getUserInfo(this.userInfo.get(2));
+        //DBUserInfo = profileController.getUserInfo(this.userInfo.get(2));
+        this.ticketingArrangement = ticketingArrangementController.getTicketingArrangement();
+    
 
         // Put a JLabel called "Ticket Information" on the top row
         myTicketArrangementLabel.setFont(new Font("Serif", Font.PLAIN, 40));
@@ -52,7 +57,7 @@ public class TicketingArrangement extends JFrame implements ActionListener{
         JPanel middleRow = new JPanel();
         middleRow.setLayout(new BoxLayout(middleRow, BoxLayout.Y_AXIS));
 
-        for(int j = 0; j<3; j++){
+        for(int j = 0; j < 3; j++){
             for (int i = 0; i < 2; i++) {
                 // Create a label with the label name E.g "First Name", "Last Name", etc
                 JLabel label = new JLabel(labelNameList.get(i));
@@ -61,16 +66,25 @@ public class TicketingArrangement extends JFrame implements ActionListener{
                 label.setHorizontalAlignment(SwingConstants.RIGHT);
                 label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30));
     
-                /*// Create a label with the user info from the database E.g. "First Name: John"
-                JLabel userInfoLabel = new JLabel(DBUserInfo.get(i));
-                userInfoLabel.setFont(new Font("Serif", Font.PLAIN, 25));
-                userInfoLabel.setPreferredSize(new Dimension(40, 20));
-                userInfoLabel.setHorizontalAlignment(SwingConstants.LEFT);*/
+                // Create a label with the user info from the database E.g. "First Name: John"
+                JLabel ticketLabel = new JLabel();
+                if(i == 1){
+                    ticketLabel = new JLabel("$"+ ticketingArrangement.get(j)[i]);
+                    ticketLabel.setFont(new Font("Serif", Font.PLAIN, 25));
+                    ticketLabel.setPreferredSize(new Dimension(40, 20));
+                    ticketLabel.setHorizontalAlignment(SwingConstants.LEFT);
+                }else{
+                    ticketLabel = new JLabel(ticketingArrangement.get(j)[i]);
+                    ticketLabel.setFont(new Font("Serif", Font.PLAIN, 25));
+                    ticketLabel.setPreferredSize(new Dimension(40, 20));
+                    ticketLabel.setHorizontalAlignment(SwingConstants.LEFT);
+                }
+                
     
                 // Add the label and text field to the panel e.g [First Name]: [John]
                 JPanel panel = new JPanel(new BorderLayout());
                 panel.add(label, BorderLayout.WEST);
-                //panel.add(userInfoLabel, BorderLayout.CENTER);
+                panel.add(ticketLabel, BorderLayout.CENTER);
                 panel.setBorder(BorderFactory.createEmptyBorder(25, 0, 10, 0));
     
                 middleRow.add(panel);
@@ -83,11 +97,13 @@ public class TicketingArrangement extends JFrame implements ActionListener{
 
         // Add actionlistener to create button
         //updateButton.addActionListener(this);
+        updateButton.addActionListener(this);
         homeButton.addActionListener(this);
         //reviewButton.addActionListener(this);
-        botRow.add(updateStudentButton);
+        /*botRow.add(updateStudentButton);
         botRow.add(updateAdultButton);
-        botRow.add(updateSeniorButton);
+        botRow.add(updateSeniorButton);*/
+        botRow.add(updateButton);
         botRow.add(homeButton);
 
 
@@ -107,6 +123,10 @@ public class TicketingArrangement extends JFrame implements ActionListener{
             case "Home":
                 dispose();
                 new Home(userInfo);
+                break;
+            case "Update Ticket Price":
+                dispose();
+                new UpdateTicket(userInfo);
                 break;
         
         }

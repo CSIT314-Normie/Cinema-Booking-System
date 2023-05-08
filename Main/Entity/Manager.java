@@ -20,4 +20,12 @@ public class Manager extends User {
     public boolean updateUser(ArrayList<String> information, String role) {
         return super.updateAcc(information, role);
     }
+    public ArrayList<String[]> getTicketingArrangement() {
+        return super.getDB().selectAllTicketingArrangement();
+    }
+
+    public boolean updateTicketPrice(String type, String price) {
+        return super.getDB().updateTicketPrice(type, price);
+    }
+
 }
