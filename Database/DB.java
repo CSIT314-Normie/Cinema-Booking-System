@@ -101,12 +101,13 @@ public class DB {
                     + "endTime VARCHAR(255) NOT NULL,"
                     + "duration VARCHAR(255) NOT NULL,"
                     + "date VARCHAR(255) NOT NULL,"
+                    + "screeningStatus VARCHAR(15) NOT NULL,"
                     + "FOREIGN KEY (movieName) REFERENCES movies(name),"
                     + "FOREIGN KEY (Hall) REFERENCES cinema_halls(Hall))"));
 
             // create seat_reserved table (reserved seats, which movie, which hall, which screening session)
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS seat_reserved ("
-                    + "ReservationID VARCHAR(10) PRIMARY KEY,"
+                    + "reservationID VARCHAR(10) PRIMARY KEY,"
                     + "seatID VARCHAR(10) NOT NULL,"
                     + "userEmail VARCHAR(255) NOT NULL,"
                     + "movieName VARCHAR(255) NOT NULL,"
