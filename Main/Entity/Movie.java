@@ -67,6 +67,7 @@ public class Movie {
                 allMovies.add(rs.getString("review"));
                 allMovies.add(rs.getString("description"));
                 allMovies.add(rs.getString("status"));
+                allMovies.add(rs.getString("duration"));
             }
 
         } catch (SQLException e) {

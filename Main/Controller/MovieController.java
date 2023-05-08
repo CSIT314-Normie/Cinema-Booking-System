@@ -30,7 +30,7 @@ public class MovieController {
         ArrayList<String> allMovies = movie.getAllMovies();
         ArrayList<String> availableMovies = new ArrayList<>();
 
-        for(int i = 0; i < allMovies.size(); i += 6) {
+        for(int i = 0; i < allMovies.size(); i += 7) {
             if(allMovies.get(i + 5).equals("Available")) {
                 availableMovies.add(allMovies.get(i));
                 availableMovies.add(allMovies.get(i + 1));
@@ -38,6 +38,7 @@ public class MovieController {
                 availableMovies.add(allMovies.get(i + 3));
                 availableMovies.add(allMovies.get(i + 4));
                 availableMovies.add(allMovies.get(i + 5));   
+                availableMovies.add(allMovies.get(i + 6));
             }
         }
 

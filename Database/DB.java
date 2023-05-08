@@ -58,7 +58,8 @@ public class DB {
                     + "rate VARCHAR(255) NOT NULL,"
                     + "review VARCHAR(255) NOT NULL, "
                     + "description VARCHAR(500) NOT NULL,"
-                    + "status VARCHAR(15) NOT NULL)"));
+                    + "status VARCHAR(15) NOT NULL,"
+                    + "duration VARCHAR(255) NOT NULL)"));
 
 
             // create user_movies table (movies that users have watched)
@@ -96,6 +97,10 @@ public class DB {
                     + "screeningID VARCHAR(10) PRIMARY KEY,"
                     + "movieName VARCHAR(255) NOT NULL,"
                     + "Hall VARCHAR(10) NOT NULL,"
+                    + "startTime VARCHAR(255) NOT NULL,"
+                    + "endTime VARCHAR(255) NOT NULL,"
+                    + "duration VARCHAR(255) NOT NULL,"
+                    + "date VARCHAR(255) NOT NULL,"
                     + "FOREIGN KEY (movieName) REFERENCES movies(name),"
                     + "FOREIGN KEY (Hall) REFERENCES cinema_halls(Hall))"));
 
