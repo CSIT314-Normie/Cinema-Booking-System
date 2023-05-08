@@ -255,52 +255,6 @@ public class DB {
         return values;
     }
 
-    /**
-     * Select ALL users from the database using 2 columns of information from the
-     * user
-     * E.g. SELECT role FROM users WHERE email = '' AND password = '';
-     * 
-     * @param info is the information to be selected, e.g. fname, lname, dob,
-     *             password, role or *
-     * @param key1 is the first WHERE clause of the user (e.g. email)
-     * @return arraylist of arrays containing the information, if the information is
-     *         not in whitelisted
-     *         or not found, an empty arraylist is returned
-     */
-    public ArrayList<String[]> selectAll(String info, String email) {
-        ArrayList<String[]> values = new ArrayList<>();
-
-        if (!whitelist.contains(info)) {
-            return new ArrayList<>();
-        }
-
-        PreparedStatement stmt;
-
-        try {
-            if (info.equals("*") && email.equals("*")) {
-                stmt = conn.prepareStatement("SELECT fname, lname, email, dob, role, activeStatus FROM users");
-            } else {
-                stmt = conn.prepareStatement("SELECT " + info + " FROM users WHERE email = ?");
-                stmt.setString(1, email);
-            }
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String[] temp = new String[6];
-                temp[0] = rs.getString("fname");
-                temp[1] = rs.getString("lname");
-                temp[2] = rs.getString("email");
-                temp[3] = rs.getString("dob");
-                temp[4] = rs.getString("role");
-                temp[5] = rs.getString("activeStatus");
-                values.add(temp);
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return values;
-    }
 
     /**
      * Select information from the database using 2 columns of information from the
@@ -344,55 +298,6 @@ public class DB {
 
         return values;
     }
-
-    /**
-     * This method is used to update a user's information in the database 
-     * @param modifiedAcc an Arraylist of Strings that contains the modified information of user
-     * @param email is the email of the user to be updated
-     * @return true if the user info is updated, false otherwise
-     */
-
-    public boolean updateUserAcc(ArrayList<String> modifiedAcc, String email) {
-        PreparedStatement stmt;
-
-        try {
-            stmt = conn.prepareStatement("UPDATE users SET fname = ?, lname = ?, email= ?, dob = ?, role = ? WHERE email = ?");
-            stmt.setString(1, modifiedAcc.get(0));
-            stmt.setString(2, modifiedAcc.get(1));
-            stmt.setString(3, modifiedAcc.get(2));
-            stmt.setString(4, modifiedAcc.get(3));
-            stmt.setString(5, modifiedAcc.get(4));
-            stmt.setString(6, email);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return true;
-    } 
-    
-    /**
-     * This method is used to delete(suspend) a user from the database
-     * 
-     * @param values is an Arraylist of Strings that contains the information of
-     *               user
-     * @param role   is the role of the user
-     * @return true if the user is deleted from the database, false otherwise
-     */
-    public boolean suspendUser(String userEmail) {
-        PreparedStatement stmt;
-
-        try {
-            stmt = conn.prepareStatement("UPDATE users SET activeStatus = ? WHERE email = ?");
-            stmt.setString(1, "Inactive");
-            stmt.setString(2, userEmail);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return true;
-    } 
 
     public boolean selectRR(ArrayList<String> values, String email) {
         return true;
