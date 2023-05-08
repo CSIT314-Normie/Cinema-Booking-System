@@ -54,7 +54,9 @@ public class DB {
                     + "name VARCHAR(255) PRIMARY KEY,"
                     + "image VARCHAR(255) NOT NULL,"
                     + "rate VARCHAR(255) NOT NULL,"
-                    + "review VARCHAR(255) NOT NULL)"));
+                    + "review VARCHAR(255) NOT NULL, "
+                    + "description VARCHAR(500) NOT NULL,"
+                    + "status VARCHAR(15) NOT NULL)"));
 
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS user_movies ("
                     + "email VARCHAR(255) NOT NULL,"

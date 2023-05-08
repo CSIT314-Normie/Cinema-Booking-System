@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.*;
@@ -46,10 +47,18 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     private JButton editAccountButton = new JButton("Edit Account");
     private JButton suspendAccountButton = new JButton("Suspend Account");
     private JButton addAccountButton = new JButton("Create Account");
+
+    // View ALL movies (CINEMA MANAGER ONLY)
+    private JPanel allMoviesPanel = new JPanel(new FlowLayout());
+    private ArrayList<String> allMoviesList;
+    private String[] selectedMovie;
+
+    private JButton editMovieButton = new JButton("Edit Movie Info");
     
     // suspend acc controller
     private SuspendAccountController suspendAccountController = new SuspendAccountController();
 
+    
     public Home(ArrayList<String> userInfo) {
         super("CSIT 314 Cinema Booking System - Home");
         this.userInfo = userInfo;
@@ -94,7 +103,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 break;
             case "Customer":
                 // Customer Home page
-                searchedMovieList = movieController.getMovies();
+                searchedMovieList = movieController.getAvailableMovies();
                 
                 JButton viewTicketHistoryButton = new JButton("Ticketing History");
                 panel.add(viewTicketHistoryButton);
@@ -131,17 +140,35 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
                 break; 
             case "Cinema Manager":
+                allMoviesList = movieController.getAllMovies();
                 //Ticket Arrangement options for price of tickets
-                JButton viewTicketArrangementButton = new JButton("Ticket Arrangement");
-                panel.add(viewTicketArrangementButton);
+                JButton viewTicketArrangementButton = new JButton("Ticket Arrangement"); 
 
-                viewTicketArrangementButton.addActionListener(this);
-                // Default Home 
+                JPanel cinemaManagerPanel = new JPanel(new FlowLayout());
+                cinemaManagerPanel.setPreferredSize(new Dimension(1035, 100));
+                allMoviesPanel.setPreferredSize(new Dimension(1035, 500));
+
+                JButton addMovieButton = new JButton("Add Movie");
                 
+                cinemaManagerPanel.add(viewTicketArrangementButton);
+                cinemaManagerPanel.add(addMovieButton);
+                cinemaManagerPanel.add(editMovieButton);
+                
+                displayMovies();
+
+                add(cinemaManagerPanel, BorderLayout.CENTER);
+                add(allMoviesPanel, BorderLayout.SOUTH);
+
+                pack();
+                
+                addMovieButton.addActionListener(this);
+                viewTicketArrangementButton.addActionListener(this);
+                editMovieButton.addActionListener(this);
                 break;
             
             case "Cinema Owner":
                 // Default Home  
+                // TODO: Cinema Owner Home page
                 break;
         }
         
@@ -220,6 +247,23 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 dispose();
                 new TicketingArrangement(userInfo);
                 break;
+            
+            case "Add Movie":
+                System.out.println("[+] Cinema Manager - Move to Add Movie page");
+                dispose();
+                new AddMovie(userInfo);
+                break;
+            
+            case "Edit Movie Info":
+                // check if a movie is selected
+                if (selectedMovie == null) {
+                    JOptionPane.showMessageDialog(null, "Please select a movie to edit", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    System.out.println("[+] Cinema Manager - Move to Edit Movie Info page");
+                    dispose();
+                    new UpdateMovieInfo(userInfo, selectedMovie);
+                }
+                break;
         }
     }
 
@@ -233,7 +277,6 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         // open Book.java with the movie title
         dispose();
         new Book(userInfo, movieTitle.getText());
-        
     }
 
     /*
@@ -299,7 +342,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
      */
 
     public void searchedMovies(String searchQuery) {
-        searchedMovieList = movieController.getMovies();
+        searchedMovieList = movieController.getAvailableMovies();
 
         if (searchQuery.equals("") || searchQuery.equals("Search for movies") || searchQuery.equals(" ")) {
             System.out.println("[+] Search query is empty");
@@ -308,9 +351,9 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 System.out.println("[+] Movie found"); 
 
                 // replace movies in searchMovieList with searched movies results
-                for (int i = 0; i < searchedMovieList.size(); i += 4) {
+                for (int i = 0; i < searchedMovieList.size(); i += 6) {
                     if (!(searchedMovieList.get(i).toLowerCase().contains(searchQuery.toLowerCase()))) {
-                        searchedMovieList.subList(i, i + 4).clear(); 
+                        searchedMovieList.subList(i, i + 6).clear(); 
                     }
                 }
 
@@ -329,7 +372,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         movieListPanel.removeAll(); 
 
          // Add movies to the content panel, and display
-        for (int i = 0; i < searchedMovieList.size(); i += 4) {
+        for (int i = 0; i < searchedMovieList.size(); i += 6) {
             JPanel moviePanel = new JPanel();
             moviePanel.setLayout(new BoxLayout(moviePanel, BoxLayout.Y_AXIS));
             moviePanel.setPreferredSize(new Dimension(200, 700));
@@ -337,7 +380,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             JLabel movieTitle = new JLabel(searchedMovieList.get(i)); 
 
             ImageIcon image = new ImageIcon((new File("./Main/Boundary/assets/" + searchedMovieList.get(i + 1))).getAbsolutePath());
-            Image scaledImage = image.getImage().getScaledInstance(100,200, Image.SCALE_SMOOTH);
+            Image scaledImage = image.getImage().getScaledInstance(150,200, Image.SCALE_SMOOTH);
             image = new ImageIcon(scaledImage);
 
             JLabel movieImage = new JLabel(image);
@@ -369,6 +412,63 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         movieListPanel.revalidate(); 
     }
 
+
+    /*
+     * Display movies in the system and their information - CINEMA MANAGER ONLY
+     */
+    public void displayMovies() {
+        allMoviesPanel.removeAll();  
+
+        String[] columns = {"Movie Name", "Image", "Rating", "Review", "Description", "Status"};
+        tableModel = new DefaultTableModel(columns, 0);
+
+        // Add movies to the content panel, and display
+        for (int i = 0; i < allMoviesList.size(); i += 6) {
+            String imagePath = "./Main/Boundary/assets/" + allMoviesList.get(i + 1);
+            ImageIcon image = new ImageIcon("./Main/Boundary/assets/" + allMoviesList.get(i + 1));
+            Image scaledImage = image.getImage().getScaledInstance(150,200, Image.SCALE_SMOOTH);
+            image = new ImageIcon(scaledImage); 
+
+            // add movie to the table
+            tableModel.addRow(new Object[] {allMoviesList.get(i), image, allMoviesList.get(i + 2), allMoviesList.get(i + 3), allMoviesList.get(i + 4), allMoviesList.get(i + 5)});
+        }
+
+        JTable allMoviesTable = new JTable(tableModel);  
+        allMoviesTable.setRowHeight(220);
+        
+        // render image in the table
+        allMoviesTable.getColumnModel().getColumn(1).setCellRenderer(new ImageRenderer());
+
+        // add listener for each row in the table
+        ListSelectionModel selectionModel = allMoviesTable.getSelectionModel();
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = allMoviesTable.getSelectedRow();
+                    // Perform action on the selected row (movie) here
+                    // add movie data to selectedMovie array (do not add the image)
+                    selectedMovie = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),  
+                                                    tableModel.getValueAt(selectedRow, 2).toString(),
+                                                    tableModel.getValueAt(selectedRow, 3).toString(),
+                                                    tableModel.getValueAt(selectedRow, 4).toString(),
+                                                    tableModel.getValueAt(selectedRow, 5).toString()}; 
+
+                    System.out.println("[+] Manager - Selected Movie: " + Arrays.toString(selectedMovie));
+                }
+            }
+        });   
+
+        // Add the JTable to a JScrollPane
+        scrollPane = new JScrollPane(allMoviesTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(750, 400));
+         
+        allMoviesPanel.add(scrollPane);
+
+        allMoviesPanel.repaint();
+        allMoviesPanel.revalidate(); 
+    }
+
+
     @Override
     public void mousePressed(MouseEvent e) {}
 
@@ -380,4 +480,20 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {}
+}
+
+class ImageRenderer extends DefaultTableCellRenderer {
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        if (value instanceof ImageIcon) {
+            ImageIcon imageIcon = (ImageIcon) value; 
+            JLabel label = new JLabel(imageIcon);
+            label.setOpaque(true);
+            label.setBackground(Color.WHITE);
+            return label;
+        } else {
+            return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        }
+    }
 }

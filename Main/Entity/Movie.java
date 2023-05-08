@@ -53,6 +53,29 @@ public class Movie {
         return movies;
     }
 
+    public ArrayList<String> getAllMovies() {
+        ArrayList<String> allMovies = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movies");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                allMovies.add(rs.getString("name"));
+                allMovies.add(rs.getString("image"));
+                allMovies.add(rs.getString("rate"));
+                allMovies.add(rs.getString("review"));
+                allMovies.add(rs.getString("description"));
+                allMovies.add(rs.getString("status"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return allMovies;
+    }
+
 
     public ArrayList<String> getUserWatchedMovies(String email) {
         ArrayList<String> movies = new ArrayList<>();
@@ -99,11 +122,13 @@ public class Movie {
     
         try {
             // Comments on this function are in the same function in User.java
-            stmt = conn.prepareStatement("INSERT INTO movies (name, image, rate, review) VALUES (?, ?, ?, ?)");
+            stmt = conn.prepareStatement("INSERT INTO movies (name, image, rate, review, description, status) VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, values.get(0));
             stmt.setString(2, values.get(1));
-            stmt.setString(3, values.get(2));
-            stmt.setString(4, values.get(3));
+            stmt.setString(3, "0");
+            stmt.setString(4, "0");
+            stmt.setString(5, values.get(2));
+            stmt.setString(6, values.get(3));
             stmt.executeUpdate();
 
             System.out.println(values.get(0) + " has been inserted into the database");
