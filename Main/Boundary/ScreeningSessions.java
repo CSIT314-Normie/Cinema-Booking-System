@@ -16,7 +16,7 @@ public class ScreeningSessions extends JFrame implements ActionListener {
 
     private ArrayList<String> userInfo;
 
-    private String[] halls = {"Hall A", "Hall B", "Hall C", "Hall D"};
+    private String[] halls = {"A", "B", "C", "D"};
     private String selectedHall;
 
     private JComboBox<String> hallDropDown = new JComboBox<>(halls);
@@ -28,7 +28,6 @@ public class ScreeningSessions extends JFrame implements ActionListener {
 
     private JPanel screeningListPanel = new JPanel(new FlowLayout());
 
-    
 
     public ScreeningSessions(ArrayList<String> userInfo) { 
         super("CSIT 314 Cinema Booking System - Home");
@@ -89,7 +88,7 @@ public class ScreeningSessions extends JFrame implements ActionListener {
     public void displayScreenings() {
         screeningListPanel.removeAll();
 
-        JLabel screeningIDLabel = new JLabel("Movie Screenings for " + selectedHall);
+        JLabel screeningIDLabel = new JLabel("Movie Screenings for: Hall " + selectedHall);
         screeningListPanel.add(screeningIDLabel);
 
         if (selectedHall == "" || selectedHall == null) {

@@ -9,14 +9,14 @@ public class MovieScreening {
     private DB db = new DB();
     private Connection conn = this.db.getConnection();
 
-    private String screeningID; // primary key
-    private String movieName; // foreign key to movie
-    private String Hall;    // foreign key to hall
-    private String startTime;
-    private String endTime;
-    private String duration;
-    private String date;
-    private String screeningStatus;
+    // private String screeningID; // primary key
+    // private String movieName; // foreign key to movie
+    // private String Hall;    // foreign key to hall
+    // private String startTime;
+    // private String endTime;
+    // private String duration;
+    // private String date;
+    // private String screeningStatus;
 
     public MovieScreening() {
 
@@ -102,4 +102,55 @@ public class MovieScreening {
 
         return true;
     } 
+
+
+     /*
+     * get all halls in a cinema
+     */
+    public ArrayList<String> getCinemaHalls(String cinemaname) {
+        ArrayList<String> hallInfo = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cinema_halls WHERE cinemaName = ?");
+            stmt.setString(1, cinemaname);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                hallInfo.add(rs.getString("hall"));
+                hallInfo.add(rs.getString("cinemaName"));
+                hallInfo.add(rs.getString("noOfSeats"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hallInfo;
+    }
+
+
+     /*
+    * To get all the seat information for a hall
+    */
+    public ArrayList<String> getAllSeats(String hall) {
+        ArrayList<String> allSeats = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM seat WHERE hall = ?");
+            stmt.setString(1, hall);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                allSeats.add(rs.getString("seatId")); 
+                allSeats.add(rs.getString("Hall"));
+                allSeats.add(rs.getString("seatRow"));
+                allSeats.add(rs.getString("seatNumber"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return allSeats;
+    }
 }
