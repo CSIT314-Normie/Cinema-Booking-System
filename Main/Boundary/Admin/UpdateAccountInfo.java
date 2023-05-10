@@ -8,6 +8,7 @@ import java.util.*;
 
 import Main.Controller.Admin.UpdateUserAccountInfoController;
 import Main.Boundary.*;
+import Main.Boundary.Admin.*;
 
 
 public class UpdateAccountInfo extends JFrame implements ActionListener, MouseListener {

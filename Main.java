@@ -24,7 +24,10 @@ public class Main {
             //"Main/Boundary/Owner/*.java",
 
             // Main/Controller java files
-            "Main/Controller/*.java", 
+            "Main/Controller/*.java",
+            "Main/Controller/Admin/*.java",
+            "Main/Controller/Customer/*.java",
+            "Main/Controller/Manager/*.java",
 
             // Main/Entity java files
             "Main/Entity/*.java"
