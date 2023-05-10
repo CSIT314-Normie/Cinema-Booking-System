@@ -165,7 +165,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 viewTicketArrangementButton.addActionListener(this);
                 editMovieButton.addActionListener(this);
                 screeningButton.addActionListener(this);
-                
+
                 break;
             case "Cinema Owner":
                 // Default Home  

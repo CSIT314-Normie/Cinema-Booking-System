@@ -165,5 +165,22 @@ public class Movie {
         return true;
     }
 
+    public boolean suspendMovie(String movieName) {
+        PreparedStatement stmt;
+    
+        try {
+            // Comments on this function are in the same function in User.java
+            stmt = conn.prepareStatement("UPDATE movies set status = ? name = ?");
+            stmt.setString(1,  "suspended");
+            stmt.setString(5, movieName); 
+            stmt.executeUpdate();
+
+            System.out.println(movieName + " has been suspended in the database");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return true;
+    }
 
 }
