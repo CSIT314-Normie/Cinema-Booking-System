@@ -7,11 +7,9 @@ import Main.Entity.*;
 import java.util.*;
 
 /**
- * This controller handles updating of info
+ * This controller handles updating of accounttinfo
  * - update of profile info - all USER
- * - update of users account information - USER ADMIN
- * - update of ticket price - CINEMA MANAGER
- * - update of movie session (to be implemented) - CINEMA MANAGER
+ * - update of users account information - USER ADMIN 
  */
 
 public class UpdateController {
@@ -37,19 +35,5 @@ public class UpdateController {
         } 
     }
 
-    /**
-     * To handle the update of movie information - CINEMA MANAGER
-     * @param role only cinema manager can update ticket price 
-     * @param type type of ticket
-     * @param price price of ticket
-     * @return
-     */
-    public boolean updateTicketPrice(String role, String type, String price) { 
-        if (role.equals("Cinema Manager")) {
-            Manager manager = new Manager();
-            return manager.updateTicketPrice(type, price);
-        } else {
-            return false;
-        } 
-    }
+    
 }

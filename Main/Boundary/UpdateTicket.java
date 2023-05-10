@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Main.Controller.UpdateController;
+import Main.Controller.TicketingArrangementController;
 
 public class UpdateTicket extends JFrame implements ActionListener{
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("Ticket Type:", "Price"));
@@ -140,13 +140,13 @@ public class UpdateTicket extends JFrame implements ActionListener{
         String ticketType = (String) dropdown.getSelectedItem();
         switch (e.getActionCommand()){
             case "Update":
-                UpdateController updateController = new UpdateController();
+            TicketingArrangementController updateTicketController = new TicketingArrangementController();
                 if(price.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please fill in all the fields");
                     break;
                 } 
 
-                if(updateController.updateTicketPrice(userInfo.get(0), ticketType, price)){
+                if(updateTicketController.updateTicketPrice(userInfo.get(0), ticketType, price)){
                     JOptionPane.showMessageDialog(null, "Ticket Price updated successfully");
                     dispose();
                     new TicketingArrangement(userInfo);
