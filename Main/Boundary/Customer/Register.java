@@ -5,10 +5,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-
 import Main.Controller.Customer.*;
 import Main.Boundary.*;
-
 
 public class Register extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));

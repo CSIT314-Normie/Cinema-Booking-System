@@ -1,14 +1,13 @@
-package Main.Boundary;
-
+package Main.Boundary.Customer;
 
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
-
+import Main.Boundary.Home;
 import Main.Controller.*;
-
+import Main.Controller.Admin.TicketingHistoryController;
 
 public class TicketingHistory extends JFrame implements ActionListener{
     private final ArrayList<String> userInfo;
