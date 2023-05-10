@@ -23,7 +23,7 @@ public class Book extends JFrame implements ActionListener {
     private transient LoginController loginController;
 
     public Book(ArrayList<String> userInfo, String movieName) {
-        super("Welcome to CSIT 314 Cinema Booking System - Book movie");
+        super("CSIT 314 Cinema Booking System - Book movie");
         this.userInfo = userInfo;
         setLayout(new BorderLayout());
         setSize(1035, 750);

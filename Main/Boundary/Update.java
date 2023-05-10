@@ -30,7 +30,7 @@ public class Update extends JFrame implements ActionListener {
     private String email;
 
     public Update(ArrayList<String> userInfo) {
-        super("Welcome to CSIT 314 Cinema Booking System - Update Account");
+        super("Update Account");
         this.userInfo = userInfo;   
         this.email = userInfo.get(2);
         setLayout(new FlowLayout());

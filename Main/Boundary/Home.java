@@ -137,19 +137,21 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
                 break; 
             case "Cinema Manager":
-                allMoviesList = movieController.getAllMovies();
-                //Ticket Arrangement options for price of tickets
+                allMoviesList = movieController.getAllMovies(); 
+
+                // buttons for cinema manager - view ticket arrangement, add movie, edit movie, screenings page
                 JButton viewTicketArrangementButton = new JButton("Ticket Arrangement"); 
+                JButton addMovieButton = new JButton("Add Movie");
+                JButton screeningButton = new JButton("Screening");
 
                 JPanel cinemaManagerPanel = new JPanel(new FlowLayout());
                 cinemaManagerPanel.setPreferredSize(new Dimension(1035, 100));
                 allMoviesPanel.setPreferredSize(new Dimension(1035, 500));
-
-                JButton addMovieButton = new JButton("Add Movie");
                 
                 cinemaManagerPanel.add(viewTicketArrangementButton);
                 cinemaManagerPanel.add(addMovieButton);
                 cinemaManagerPanel.add(editMovieButton);
+                cinemaManagerPanel.add(screeningButton);
                 
                 displayMovies();
 
@@ -161,8 +163,9 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 addMovieButton.addActionListener(this);
                 viewTicketArrangementButton.addActionListener(this);
                 editMovieButton.addActionListener(this);
+                screeningButton.addActionListener(this);
+                
                 break;
-            
             case "Cinema Owner":
                 // Default Home  
                 // TODO: Cinema Owner Home page
@@ -262,7 +265,11 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 }
                 break;
             
-            case "View Screening Sessions":
+            case "Screening":
+                // go to screening sessions page
+                System.out.println("[+] Cinema Manager - Move to Screening page");
+                dispose();
+                new ScreeningSessions(userInfo);
                 break; 
         }
     }

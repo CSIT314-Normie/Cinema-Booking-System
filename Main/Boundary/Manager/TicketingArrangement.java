@@ -33,7 +33,7 @@ public class TicketingArrangement extends JFrame implements ActionListener{
     private final JPanel overviewList = new JPanel(new BorderLayout());
 
     public TicketingArrangement(ArrayList<String> userInfo) {
-        super("Welcome to CSIT 314 Cinema Booking System - Ticketing Arrangement");
+        super("Cinema Manager - Ticketing Arrangement");
         this.userInfo = userInfo;
         setLayout(new FlowLayout());
         setSize(1035, 750);

@@ -27,7 +27,7 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
     private final transient UpdateController updateController = new UpdateController();
 
     public UpdateAccountInfo(ArrayList<String> userInfo, String[] accountInfo){
-        super("Admin - Edit User Account Info");
+        super("User Admin - Update User Account Info");
         this.userInfo = userInfo;
         setLayout(new FlowLayout());
         setSize(1035, 750);

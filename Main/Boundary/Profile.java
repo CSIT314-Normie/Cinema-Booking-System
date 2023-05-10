@@ -31,7 +31,7 @@ public class Profile extends JFrame implements ActionListener {
     private final JPanel overviewList = new JPanel(new BorderLayout());
 
     public Profile(ArrayList<String> userInfo) {
-        super("Welcome to CSIT 314 Cinema Booking System - Profile");
+        super("Profile");
         this.userInfo = userInfo;
         setLayout(new FlowLayout());
         setSize(1035, 750);

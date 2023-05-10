@@ -14,6 +14,10 @@ import javax.swing.JPanel;
 
 import Main.Boundary.Home;
 
+/*
+ * This is the page where the manager can view and manage all screening sessions 
+ */
+
 public class ScreeningSessions extends JFrame implements ActionListener {
 
     private final ArrayList<String> userInfo;
@@ -32,7 +36,7 @@ public class ScreeningSessions extends JFrame implements ActionListener {
 
 
     public ScreeningSessions(ArrayList<String> userInfo) {
-        super("CSIT 314 Cinema Booking System - Home");
+        super("Cinema Manager - Screening Sessions");
         this.userInfo = userInfo;
         setLayout(new BorderLayout());
         setSize(1035, 750);
@@ -50,12 +54,15 @@ public class ScreeningSessions extends JFrame implements ActionListener {
         centerPanel.add(hallDropDown);
 
         // add listener for hallDropDown
-        hallDropDown.addActionListener(e -> {
-            // display screenings for the selected hall
-            displayScreenings();
-        });
+        // hallDropDown.addActionListener(e -> {
+        //     // display screenings for the selected hall
+        //     displayScreenings();
+        // });
 
-        screeningListPanel.setPreferredSize(new java.awt.Dimension(1035, 600));
+        // screeningListPanel.setPreferredSize(new java.awt.Dimension(1035, 600));
+
+        add(topPanel, BorderLayout.NORTH);
+        add(centerPanel, BorderLayout.CENTER);
 
         homeButton.addActionListener(this);
     }

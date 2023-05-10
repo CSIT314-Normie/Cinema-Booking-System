@@ -37,7 +37,7 @@ public class UpdateMovieInfo extends JFrame implements ActionListener {
 
     public UpdateMovieInfo(ArrayList<String> userInfo, String[] movieInfo) {
          // Set up of the frame
-         super("Update Movie Info - " + movieInfo[0]);
+         super("Cinema Manager - Update Movie Info: " + movieInfo[0]);
          setLayout(new FlowLayout());
          setSize(1035, 750);
          setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

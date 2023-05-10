@@ -30,7 +30,7 @@ public class Review extends JFrame implements ActionListener {
     private final ArrayList<String> userInfo;
 
     public Review(ArrayList<String> userInfo) {
-        super("Welcome to CSIT 314 Cinema Booking System - Review");
+        super("Movie Review");
         this.userInfo = userInfo;
         setLayout(new FlowLayout());
         setSize(1035, 750);

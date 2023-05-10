@@ -19,7 +19,7 @@ public class TicketingHistory extends JFrame implements ActionListener{
     private final ArrayList<String[]> ticketingHistory;
 
     public TicketingHistory(ArrayList<String> userInfo) {
-        super("Welcome to CSIT 314 Cinema Booking System - Ticketing History");
+        super("Ticketing History");
         this.userInfo = userInfo;
         setLayout(new BorderLayout());
         setSize(1035, 750);

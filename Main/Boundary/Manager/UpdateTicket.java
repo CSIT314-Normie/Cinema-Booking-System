@@ -45,7 +45,7 @@ public class UpdateTicket extends JFrame implements ActionListener{
     JComboBox<String> dropdown;
 
     public UpdateTicket(ArrayList<String> userInfo) {
-        super("Welcome to CSIT 314 Cinema Booking System - Update Ticket Price");
+        super("Cinema Manager - Update Ticket Price");
         this.userInfo = userInfo;   
         setLayout(new FlowLayout());
         setSize(1035, 750);
