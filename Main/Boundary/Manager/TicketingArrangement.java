@@ -9,7 +9,7 @@ import java.awt.*;
 
 import Main.Boundary.Home;
 import Main.Controller.*;
-import Main.Controller.Manager.TicketingArrangementController;
+
 
 
 public class TicketingArrangement extends JFrame implements ActionListener{
