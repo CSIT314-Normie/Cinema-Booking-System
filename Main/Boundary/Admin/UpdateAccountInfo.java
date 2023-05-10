@@ -14,7 +14,7 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
     private final ArrayList<String> userInfo;
 
     private final JPanel topPanel;
-    private final JButton logoutButton = new JButton("Logout"); 
+    private final JButton logoutButton = new JButton("Logout");
     private final JButton homeButton = new JButton("Admin Home");
     private final String[] labelList = {"First Name: ", "Last Name: ", "Email: ", "DOB", "role: "};
     private final String[] roles = {"User Admin", "Cinema Manager"};
@@ -37,7 +37,7 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
         setVisible(true); // Show the frame
 
         // add a top panel to contain the home and logout buttons
-        topPanel = new JPanel(new FlowLayout()); 
+        topPanel = new JPanel(new FlowLayout());
         topPanel.setPreferredSize(new Dimension(1035, 50));
 
         // add user role label and buttons to the panel
@@ -139,23 +139,18 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) { 
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     @Override
-    public void mousePressed(MouseEvent e) { 
-    }
+    public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) { 
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     @Override
-    public void mouseEntered(MouseEvent e) { 
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) { 
-    }
+    public void mouseExited(MouseEvent e) {}
 }
 

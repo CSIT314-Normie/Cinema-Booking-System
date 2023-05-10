@@ -11,6 +11,8 @@ public class Main {
             "./Out/;./lib/mysql-connector-j-8.0.32.jar",
             "-d",
             "out",
+
+            // Core files
             "Database/DB.java",
             "Main/Driver.java", 
             
