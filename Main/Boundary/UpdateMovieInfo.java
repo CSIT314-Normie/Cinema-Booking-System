@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -21,12 +22,12 @@ import javax.swing.JTextField;
 import Main.Controller.MovieController;
 
 public class UpdateMovieInfo extends JFrame implements ActionListener {
-    private ArrayList<String> userInfo;
-    private String[] movieInfo; // movie name, movie description, movie status, movie duration
-    private ArrayList<JTextField> textfieldList = new ArrayList<>();
-    private String[] labelList = {"Movie Name: ", "Movie Description: ", "Movie Status: ", "Movie Duration: "};
-    private String[] statusList = {"Available", "Unavailable"}; 
-    private JComboBox<String> statusDropDown = new JComboBox<>(statusList);
+    private final ArrayList<String> userInfo;
+    private final String[] movieInfo; // movie name, movie description, movie status, movie duration
+    private final ArrayList<JTextField> textfieldList = new ArrayList<>();
+    private final String[] labelList = {"Movie Name: ", "Movie Description: ", "Movie Status: ", "Movie Duration: "};
+    private final String[] statusList = {"Available", "Unavailable"};
+    private final JComboBox<String> statusDropDown = new JComboBox<>(statusList);
     private ArrayList<String> modifiedMovieInfo;
     private String selectedStatus;
     
@@ -89,12 +90,9 @@ public class UpdateMovieInfo extends JFrame implements ActionListener {
         }
 
         // add listener for status dropdown
-        statusDropDown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selectedStatus = statusDropDown.getSelectedItem().toString();
-                System.out.println("[+] Selected Status: " + selectedStatus);
-            }
+        statusDropDown.addActionListener(e -> {
+            selectedStatus = Objects.requireNonNull(statusDropDown.getSelectedItem()).toString();
+            System.out.println("[+] Selected Status: " + selectedStatus);
         });
 
         // add update button

@@ -13,7 +13,7 @@ import Main.Boundary.Customer.*;
 
 public class Login extends JFrame implements ActionListener {
     private final JLabel welcomeLabel = new JLabel("Welcome to CSIT 314 Cinema Booking System");
-    private final ArrayList<String> lableList = new ArrayList<>(Arrays.asList("Email:", "Password:"));
+    private final ArrayList<String> labelList = new ArrayList<>(Arrays.asList("Email:", "Password:"));
     private final ArrayList<JTextField> textfieldList = new ArrayList<>();
 
     private final JButton createButton = new JButton();
@@ -44,7 +44,7 @@ public class Login extends JFrame implements ActionListener {
         // Middle row contains the labels and text fields
         middleRow.setLayout(new BoxLayout(middleRow, BoxLayout.Y_AXIS));
 
-        lableList.forEach(labelName -> {
+        labelList.forEach(labelName -> {
             JLabel label = new JLabel(labelName);
             JComponent field = labelName.equals("Password:") ? new JPasswordField() : new JTextField();
             JPanel row = new JPanel();
@@ -91,8 +91,8 @@ public class Login extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            LoginContoller loginContoller = new LoginContoller(textfieldList.get(0).getText(), textfieldList.get(1).getText());
-            ArrayList<String> loginResult = loginContoller.login();
+            LoginController loginController = new LoginController(textfieldList.get(0).getText(), textfieldList.get(1).getText());
+            ArrayList<String> loginResult = loginController.login();
 
             
             if (loginResult.get(1).equals("T")) {

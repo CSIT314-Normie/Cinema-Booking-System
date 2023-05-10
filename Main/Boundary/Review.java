@@ -19,15 +19,15 @@ public class Review extends JFrame implements ActionListener {
     // Create a panel to hold the movie details
     private final JPanel moviePanel = new JPanel(new GridLayout(0, 5));
 
-    // Create moviecontroller
-    private transient MovieController movieController;
+    // Create Movie Controller
+    private final transient MovieController movieController;
 
-    private ArrayList<JLabel> movieNameLabels = new ArrayList<>();
-    private ArrayList<JTextField> rateFields = new ArrayList<>();
-    private ArrayList<JTextField> reviewFields = new ArrayList<>();
-    private ArrayList<JButton> updateButtons = new ArrayList<>();
+    private final ArrayList<JLabel> movieNameLabels = new ArrayList<>();
+    private final ArrayList<JTextField> rateFields = new ArrayList<>();
+    private final ArrayList<JTextField> reviewFields = new ArrayList<>();
+    private final ArrayList<JButton> updateButtons = new ArrayList<>();
 
-    private ArrayList<String> userInfo;
+    private final ArrayList<String> userInfo;
 
     public Review(ArrayList<String> userInfo) {
         super("Welcome to CSIT 314 Cinema Booking System - Review");

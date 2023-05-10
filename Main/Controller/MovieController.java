@@ -25,7 +25,7 @@ public class MovieController {
         return movie.getAllMovies();
     }
 
-    // get movies that are avaialble
+    // get movies that are available
     public ArrayList<String> getAvailableMovies() {
         ArrayList<String> allMovies = movie.getAllMovies();
         ArrayList<String> availableMovies = new ArrayList<>();

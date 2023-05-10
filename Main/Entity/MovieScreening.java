@@ -6,8 +6,8 @@ import java.util.*;
 import java.sql.*;
 
 public class MovieScreening {
-    private DB db = new DB();
-    private Connection conn = this.db.getConnection();
+    private final DB db = new DB();
+    private final Connection conn = this.db.getConnection();
 
     // private String screeningID; // primary key
     // private String movieName; // foreign key to movie
@@ -107,12 +107,12 @@ public class MovieScreening {
      /*
      * get all halls in a cinema
      */
-    public ArrayList<String> getCinemaHalls(String cinemaname) {
+    public ArrayList<String> getCinemaHalls(String cinemaName) {
         ArrayList<String> hallInfo = new ArrayList<>();
 
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cinema_halls WHERE cinemaName = ?");
-            stmt.setString(1, cinemaname);
+            stmt.setString(1, cinemaName);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {

@@ -12,8 +12,8 @@ import Main.Controller.ProfileController;
 
 public class Profile extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
-    private ArrayList<String> userInfo;
-    private ArrayList<String> DBUserInfo = new ArrayList<>();
+    private final ArrayList<String> userInfo;
+    private final ArrayList<String> DBUserInfo;
 
     private final JLabel myProfileLabel = new JLabel("My Profile");
 
@@ -21,7 +21,7 @@ public class Profile extends JFrame implements ActionListener {
     private final JButton homeButton = new JButton("Home");
     private final JButton reviewButton = new JButton("Review");
 
-    private transient ProfileController profileController = new ProfileController();
+    private final transient ProfileController profileController = new ProfileController();
 
     // Frame's top, middle and bottom row
     private final JPanel topRow = new JPanel();

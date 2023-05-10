@@ -8,7 +8,7 @@ import java.util.*;
 
 
 public class CreateAccountController {
-    private UserAdmin user;  
+    private final UserAdmin user;
 
     public CreateAccountController() {
         this.user = new UserAdmin();

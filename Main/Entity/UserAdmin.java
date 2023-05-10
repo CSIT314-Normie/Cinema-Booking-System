@@ -7,8 +7,8 @@ import java.util.*;
 
 
 public class UserAdmin extends User {
-    private DB db = new DB();
-    private Connection conn = db.getConnection();
+    private final DB db = new DB();
+    private final Connection conn = db.getConnection();
     private PreparedStatement stmt;
 
     public UserAdmin() {

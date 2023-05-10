@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.table.*;
 import java.util.*;
 
@@ -16,7 +15,7 @@ import Main.Boundary.Manager.*;
 
 
 public class Home extends JFrame implements ActionListener, MouseListener {
-    private ArrayList<String> userInfo;
+    private final ArrayList<String> userInfo;
 
     private final JLabel userRoleLabel = new JLabel();
     private final JPanel panel = new JPanel(new FlowLayout());
@@ -25,35 +24,35 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     private final JButton profileButton = new JButton("Profile");
     private JScrollPane scrollPane;
  
-    private transient LoginContoller loginController;
-    private transient MovieController movieController = new MovieController(); 
+    private final transient LoginController loginController;
+    private final transient MovieController movieController = new MovieController();
 
     // Get movies from database
-    private JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));  
+    private final JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
     private ArrayList<String> searchedMovieList;  
 
     // search movies text field (CUSTOMER ONLY)
-    private JTextField searchField = new JTextField(40);
+    private final JTextField searchField = new JTextField(40);
 
     // manage user accounts (USER ADMIN ONLY)
-    private JPanel accountsPanel = new JPanel(new BorderLayout());
+    private final JPanel accountsPanel = new JPanel(new BorderLayout());
     private DefaultTableModel tableModel;
     private ArrayList<String[]> allAccounts;
     private String[] selectedAccount;
 
-    private JButton editAccountButton = new JButton("Edit Account");
-    private JButton suspendAccountButton = new JButton("Suspend Account");
-    private JButton addAccountButton = new JButton("Create Account");
+    private final JButton editAccountButton = new JButton("Edit Account");
+    private final JButton suspendAccountButton = new JButton("Suspend Account");
+    private final JButton addAccountButton = new JButton("Create Account");
 
     // View ALL movies (CINEMA MANAGER ONLY)
-    private JPanel allMoviesPanel = new JPanel(new FlowLayout());
+    private final JPanel allMoviesPanel = new JPanel(new FlowLayout());
     private ArrayList<String> allMoviesList;
     private String[] selectedMovie;
 
-    private JButton editMovieButton = new JButton("Edit Movie Info");
+    private final JButton editMovieButton = new JButton("Edit Movie Info");
     
     // suspend acc controller
-    private transient SuspendAccountController suspendAccountController = new SuspendAccountController();
+    private final transient SuspendAccountController suspendAccountController = new SuspendAccountController();
 
     
     public Home(ArrayList<String> userInfo) {
@@ -67,11 +66,11 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         setVisible(true); // Show the frame
 
         // Login "SESSION" for user to allow user to logout, can be further implemented
-        loginController = new LoginContoller(userInfo.get(0), userInfo.get(1), userInfo.get(2));
+        loginController = new LoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
         panel.setPreferredSize(new Dimension(1035, 50));
 
-        // add user role lable and buttons to the panel
+        // add user role label and buttons to the panel
         panel.add(userRoleLabel);
         panel.add(updateButton);
         panel.add(profileButton);
@@ -90,7 +89,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 // Add all accounts to the content panel 
                 displayAllAccounts();
                 
-                // addscrollpane to the frame  
+                // add scroll pane to the frame
                 add(accountsPanel, BorderLayout.CENTER);
 
                 editAccountButton.addActionListener(this);
@@ -134,7 +133,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 // add search panel to the frame
                 add(searchPanel, BorderLayout.CENTER);
     
-                // add scrollpane to the frame
+                // add scroll pane to the frame
                 add(scrollPane, BorderLayout.SOUTH);
 
                 break; 
@@ -299,7 +298,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
         accountsPanel.add(buttonPane, BorderLayout.CENTER); 
 
-        String columns[] = {"First Name", "Last Name", "Email", "Date of Birth", "Role", "activeStatus"};
+        String[] columns = {"First Name", "Last Name", "Email", "Date of Birth", "Role", "activeStatus"};
         tableModel = new DefaultTableModel(columns, 0);
 
         for (String[] row : allAccounts) {
@@ -316,20 +315,18 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
         // add listener for each row in the table
         ListSelectionModel selectionModel = allUserTable.getSelectionModel();
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRow = allUserTable.getSelectedRow();
-                    // Perform action on the selected row (account) here
-                    // add account data to selectedAccount array
-                    selectedAccount = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),
-                                                    tableModel.getValueAt(selectedRow, 1).toString(),
-                                                    tableModel.getValueAt(selectedRow, 2).toString(),
-                                                    tableModel.getValueAt(selectedRow, 3).toString(),
-                                                    tableModel.getValueAt(selectedRow, 4).toString()};  
-                }
+        selectionModel.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = allUserTable.getSelectedRow();
+                // Perform action on the selected row (account) here
+                // add account data to selectedAccount array
+                selectedAccount = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),
+                                                tableModel.getValueAt(selectedRow, 1).toString(),
+                                                tableModel.getValueAt(selectedRow, 2).toString(),
+                                                tableModel.getValueAt(selectedRow, 3).toString(),
+                                                tableModel.getValueAt(selectedRow, 4).toString()};
             }
-        });   
+        });
 
         // refresh the panel
         accountsPanel.revalidate();
@@ -392,7 +389,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             movieRate.setAlignmentX(Component.CENTER_ALIGNMENT);
             movieReview.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            // set font size for each Jlabel to be 13
+            // set font size for each JLabel to be 13
             movieTitle.setFont(new Font("Arial", Font.BOLD, 30));
             movieRate.setFont(new Font("Arial", Font.BOLD, 20));
             movieReview.setFont(new Font("Arial", Font.BOLD, 20));
@@ -442,19 +439,17 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
         // add listener for each row in the table
         ListSelectionModel selectionModel = allMoviesTable.getSelectionModel();
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRow = allMoviesTable.getSelectedRow();
-                    // Perform action on the selected row (movie) here
-                    // add movie data to selectedMovie array (do not add the image)
-                    selectedMovie = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),   
-                                                    tableModel.getValueAt(selectedRow, 4).toString(),
-                                                    tableModel.getValueAt(selectedRow, 5).toString(),
-                                                    tableModel.getValueAt(selectedRow, 6).toString()};  
-                }
+        selectionModel.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = allMoviesTable.getSelectedRow();
+                // Perform action on the selected row (movie) here
+                // add movie data to selectedMovie array (do not add the image)
+                selectedMovie = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),
+                                                tableModel.getValueAt(selectedRow, 4).toString(),
+                                                tableModel.getValueAt(selectedRow, 5).toString(),
+                                                tableModel.getValueAt(selectedRow, 6).toString()};
             }
-        });   
+        });
 
         // Add the JTable to a JScrollPane
         scrollPane = new JScrollPane(allMoviesTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

@@ -7,19 +7,19 @@ import Main.Entity.*;
 import java.util.*;
 
 
-public class LoginContoller {
+public class LoginController {
     private User user;
     private String email;
     private String password; 
 
-    public LoginContoller(String email, String password) {
+    public LoginController(String email, String password) {
         this.user = new User();
         this.email = email;
         this.password = password;
     }
 
 
-    public LoginContoller(String userRole, String canLogin, String email) {
+    public LoginController(String userRole, String canLogin, String email) {
         if (canLogin.equals("T")) {
             this.user = new User();
             ArrayList<String> userInfo = this.user.getDB().select("*", email);
@@ -78,18 +78,26 @@ public class LoginContoller {
 
     
     public boolean logout(String userRole) {
-        if (userRole.equals("Customer")) {
-            Customer customer = (Customer) this.user;
-            customer.logout();
-        } else if (userRole.equals("Cinema Manager")) {
-            Manager manager = (Manager) this.user;
-            manager.logout();
-        } else if (userRole.equals("Cinema Owner")) {
-            Owner owner = (Owner) this.user;
-            owner.logout();
-        } else if (userRole.equals("User Admin")) {
-            UserAdmin userAdmin = (UserAdmin) this.user;
-            userAdmin.logout();
+        switch (userRole) {
+            case "Customer":
+                Customer customer = (Customer) this.user;
+                customer.logout();
+                return true;
+
+            case "Cinema Manager":
+                Manager manager = (Manager) this.user;
+                manager.logout();
+                return true;
+
+            case "Cinema Owner":
+                Owner owner = (Owner) this.user;
+                owner.logout();
+                return true;
+
+            case "User Admin":
+                UserAdmin userAdmin = (UserAdmin) this.user;
+                userAdmin.logout();
+                return true;
         }
 
         return false;

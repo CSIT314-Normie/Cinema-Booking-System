@@ -5,7 +5,7 @@ import Database.DB;
 
 
 public class InitController {
-    private DB db = new DB();
+    private final DB db = new DB();
 
     
     public boolean isInit() {

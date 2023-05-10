@@ -14,22 +14,22 @@ import javax.swing.JPanel;
 
 public class ScreeningSessions extends JFrame implements ActionListener {
 
-    private ArrayList<String> userInfo;
+    private final ArrayList<String> userInfo;
 
-    private String[] halls = {"A", "B", "C", "D"};
+    private final String[] halls = {"A", "B", "C", "D"};
     private String selectedHall;
 
-    private JComboBox<String> hallDropDown = new JComboBox<>(halls);
+    private final JComboBox<String> hallDropDown = new JComboBox<>(halls);
 
-    private JButton homeButton = new JButton("Home");
-    private JButton updateSessionButton = new JButton("Update Screening Status");
-    private JButton addSessionButton = new JButton("Add Screening");
-    private JButton deleteSessionButton = new JButton("Delete Screening");
+    private final JButton homeButton = new JButton("Home");
+    private final JButton updateSessionButton = new JButton("Update Screening Status");
+    private final JButton addSessionButton = new JButton("Add Screening");
+    private final JButton deleteSessionButton = new JButton("Delete Screening");
 
-    private JPanel screeningListPanel = new JPanel(new FlowLayout());
+    private final JPanel screeningListPanel = new JPanel(new FlowLayout());
 
 
-    public ScreeningSessions(ArrayList<String> userInfo) { 
+    public ScreeningSessions(ArrayList<String> userInfo) {
         super("CSIT 314 Cinema Booking System - Home");
         this.userInfo = userInfo;
         setLayout(new BorderLayout());
@@ -48,13 +48,10 @@ public class ScreeningSessions extends JFrame implements ActionListener {
         centerPanel.add(hallDropDown);
 
         // add listener for hallDropDown
-        hallDropDown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { 
-                // display screenings for the selected hall
-                displayScreenings();
-            }
-        });  
+        hallDropDown.addActionListener(e -> {
+            // display screenings for the selected hall
+            displayScreenings();
+        });
 
         screeningListPanel.setPreferredSize(new java.awt.Dimension(1035, 600));
 
@@ -91,7 +88,7 @@ public class ScreeningSessions extends JFrame implements ActionListener {
         JLabel screeningIDLabel = new JLabel("Movie Screenings for: Hall " + selectedHall);
         screeningListPanel.add(screeningIDLabel);
 
-        if (selectedHall == "" || selectedHall == null) {
+        if (selectedHall.equals("") || selectedHall == null) {
             // display all screening sessions for all halls
 
         } else {

@@ -5,7 +5,7 @@ import Main.Entity.*;
 import java.util.*;
 
 public class TicketingHistoryController {
-    private Customer customer = new Customer();
+    private final Customer customer = new Customer();
     private String email;
 
     public TicketingHistoryController() {}

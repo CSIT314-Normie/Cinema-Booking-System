@@ -7,13 +7,13 @@ import Main.Entity.*;
 import java.util.*;
 
 /**
- * This controller handles updating of accounttinfo
+ * This controller handles updating of account info
  * - update of profile info - all USER
  * - update of users account information - USER ADMIN 
  */
 
 public class UpdateController {
-    private User user = new User();
+    private final User user = new User();
 
     public boolean updateAccount(ArrayList<String> updatedInfo, String email) {
         return user.updateAcc(updatedInfo, email);

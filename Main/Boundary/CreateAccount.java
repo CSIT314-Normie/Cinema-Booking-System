@@ -10,11 +10,11 @@ import Main.Controller.*;
 
 
 public class CreateAccount extends JFrame implements ActionListener {
-    private ArrayList<String> userInfo;
+    private final ArrayList<String> userInfo;
 
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:", "Role"));
     private final ArrayList<JTextField> textfieldList = new ArrayList<>();
-    private JComboBox<String> roleList = new JComboBox<>(new String[]{"User Admin", "Cinema Manager", "Customer", "Cinema Owner"});
+    private final JComboBox<String> roleList = new JComboBox<>(new String[]{"User Admin", "Cinema Manager", "Customer", "Cinema Owner"});
     private String role;
 
     private final JLabel createAccount = new JLabel("Create Account");
@@ -83,7 +83,7 @@ public class CreateAccount extends JFrame implements ActionListener {
                 textField.setPreferredSize(new Dimension(40, 20));
                 textField.setColumns(10);
 
-                // Add the label and text field to the panel e.g First Name: [text field]
+                // Add the label and text field to the panel e.g. First Name: [text field]
                 panel.add(label, BorderLayout.WEST);
                 panel.add(textField, BorderLayout.CENTER);
                 panel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));

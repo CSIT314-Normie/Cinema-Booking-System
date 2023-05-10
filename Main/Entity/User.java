@@ -9,8 +9,8 @@ import java.util.*;
 
 
 public class User {
-    private DB db = new DB();
-    private Connection conn = db.getConnection();
+    private final DB db = new DB();
+    private final Connection conn = db.getConnection();
     private PreparedStatement stmt;
 
     private String fname;
@@ -81,10 +81,10 @@ public class User {
 
 
     /**
-     * This method is used to update a user from the database, the user is identified by the email
+     * This method is used to update a user from the database, the user is identified by the email,
      * and it changes fname, lname, email, dob and password only.
      * @param values is an Arraylist of Strings that contains the information of user
-     * @param role is the role of the user
+     * @param email email of the user
      * @return true if the user is updated from the database, false otherwise
      */
     public boolean updateAcc(ArrayList<String> values, String email) {
@@ -110,10 +110,10 @@ public class User {
 
 
     /**
-     * This method is used to update a user ROLE from the database, the user is identified by the email
+     * This method is used to update a user ROLE from the database, the user is identified by the email,
      * and it changes role only
-     * @param values is an Arraylist of Strings that contains the information of user
      * @param role is the role of the user
+     * @param email email of the user
      * @return true if the user is updated from the database, false otherwise
      */
     public boolean updateUserRole(String role, String email) {

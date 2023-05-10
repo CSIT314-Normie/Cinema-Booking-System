@@ -38,7 +38,7 @@ public class UpdateTicket extends JFrame implements ActionListener{
     // Frame overview
     private final JPanel overviewList = new JPanel(new BorderLayout());
 
-    private ArrayList<String> userInfo;
+    private final ArrayList<String> userInfo;
 
     JTextField textField;
     JComboBox<String> dropdown;
@@ -79,12 +79,12 @@ public class UpdateTicket extends JFrame implements ActionListener{
 
         //Create dropdown list for ticket type
         String[] options = {"Student", "Adult", "Senior"};
-        dropdown = new JComboBox<String>(options);
+        dropdown = new JComboBox<>(options);
         dropdown.setFont(new Font("Serif", Font.PLAIN, 25));
         dropdown.setPreferredSize(new Dimension(40, 30));
         dropdown.setSelectedIndex(0);
 
-         // Add the label and dropdown list to the panel e.g First Name: [text field]
+         // Add the label and dropdown list to the panel e.g. First Name: [text field]
          JPanel panelOne = new JPanel(new BorderLayout());
          panelOne.add(ticketTypelabel, BorderLayout.WEST);
          panelOne.add(dropdown, BorderLayout.CENTER);
@@ -94,11 +94,11 @@ public class UpdateTicket extends JFrame implements ActionListener{
 
         //-- For Price label and textfield --
         // Create a label with the label name E.g "First Name", "Last Name", etc
-        JLabel pricelabel = new JLabel(labelNameList.get(1));
-        pricelabel.setFont(new Font("Serif", Font.PLAIN, 25));
-        pricelabel.setPreferredSize(new Dimension(200, 20));
-        pricelabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        pricelabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30));
+        JLabel priceLabel = new JLabel(labelNameList.get(1));
+        priceLabel.setFont(new Font("Serif", Font.PLAIN, 25));
+        priceLabel.setPreferredSize(new Dimension(200, 20));
+        priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        priceLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30));
 
         // Create a text field next to the label in the panel
         textField = new JTextField();
@@ -106,9 +106,9 @@ public class UpdateTicket extends JFrame implements ActionListener{
         textField.setPreferredSize(new Dimension(40, 30));
         textField.setColumns(10);
 
-        // Add the label and text field to the panel e.g First Name: [text field]
+        // Add the label and text field to the panel e.g. First Name: [text field]
         JPanel panelTwo = new JPanel(new BorderLayout());
-        panelTwo.add(pricelabel, BorderLayout.WEST);
+        panelTwo.add(priceLabel, BorderLayout.WEST);
         panelTwo.add(textField, BorderLayout.CENTER);
         panelTwo.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
 

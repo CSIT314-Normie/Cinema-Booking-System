@@ -20,7 +20,7 @@ public class Book extends JFrame implements ActionListener {
     private final JPanel panel = new JPanel(new FlowLayout());
     private final JLabel movieNameLabel;
 
-    private transient LoginContoller loginController;
+    private transient LoginController loginController;
 
     public Book(ArrayList<String> userInfo, String movieName) {
         super("Welcome to CSIT 314 Cinema Booking System - Book movie");
@@ -32,7 +32,7 @@ public class Book extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        loginController = new LoginContoller(userInfo.get(0), userInfo.get(1), userInfo.get(2));
+        loginController = new LoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
         panel.setPreferredSize(new Dimension(1035, 50));
 

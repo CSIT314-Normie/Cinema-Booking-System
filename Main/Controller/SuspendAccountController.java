@@ -4,7 +4,7 @@ import Main.Entity.UserAdmin;
 
 public class SuspendAccountController {
 
-    private UserAdmin userAdmin = new UserAdmin();
+    private final UserAdmin userAdmin = new UserAdmin();
     private String email;
 
     public SuspendAccountController() {

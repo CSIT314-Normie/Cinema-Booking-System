@@ -1,20 +1,21 @@
 package Main.Boundary;
 
-import Main.Controller.ProfileController;
-import Main.Controller.TicketingArrangementController;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 
+
+import Main.Controller.*;
+
+
 public class TicketingArrangement extends JFrame implements ActionListener{
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("Ticket Type:", "Price:"));
-    private ArrayList<String> userInfo;
+    private final ArrayList<String> userInfo;
     //private ArrayList<String> DBUserInfo = new ArrayList<>();
-    private transient TicketingArrangementController ticketingArrangementController = new TicketingArrangementController();
-    private ArrayList<String[]> ticketingArrangement;
+    private final transient TicketingArrangementController ticketingArrangementController = new TicketingArrangementController();
+    private final ArrayList<String[]> ticketingArrangement;
 
     private final JLabel myTicketArrangementLabel = new JLabel("Ticket Information");
 
@@ -67,20 +68,19 @@ public class TicketingArrangement extends JFrame implements ActionListener{
                 label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30));
     
                 // Create a label with the user info from the database E.g. "First Name: John"
-                JLabel ticketLabel = new JLabel();
-                if(i == 1){
+                JLabel ticketLabel;
+
+                if (i == 1){
                     ticketLabel = new JLabel("$"+ ticketingArrangement.get(j)[i]);
-                    ticketLabel.setFont(new Font("Serif", Font.PLAIN, 25));
-                    ticketLabel.setPreferredSize(new Dimension(40, 20));
-                    ticketLabel.setHorizontalAlignment(SwingConstants.LEFT);
-                }else{
+                } else {
                     ticketLabel = new JLabel(ticketingArrangement.get(j)[i]);
-                    ticketLabel.setFont(new Font("Serif", Font.PLAIN, 25));
-                    ticketLabel.setPreferredSize(new Dimension(40, 20));
-                    ticketLabel.setHorizontalAlignment(SwingConstants.LEFT);
                 }
-                
-    
+
+                ticketLabel.setFont(new Font("Serif", Font.PLAIN, 25));
+                ticketLabel.setPreferredSize(new Dimension(40, 20));
+                ticketLabel.setHorizontalAlignment(SwingConstants.LEFT);
+
+
                 // Add the label and text field to the panel e.g [First Name]: [John]
                 JPanel panel = new JPanel(new BorderLayout());
                 panel.add(label, BorderLayout.WEST);

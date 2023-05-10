@@ -11,7 +11,7 @@ import java.util.*;
 */
 
 public class TicketingArrangementController {
-    private Manager manager = new Manager();
+    private final Manager manager = new Manager();
     
 
     public TicketingArrangementController() {}
@@ -25,7 +25,7 @@ public class TicketingArrangementController {
      * @param role only cinema manager can update ticket price 
      * @param type type of ticket
      * @param price price of ticket
-     * @return
+     * @return boolean if the update is successful
      */
     public boolean updateTicketPrice(String role, String type, String price) { 
         if (role.equals("Cinema Manager")) {

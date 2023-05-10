@@ -9,8 +9,8 @@ import java.sql.*;
 
 
 public class Movie {
-    private DB db = new DB();
-    private Connection conn = this.db.getConnection();
+    private final DB db = new DB();
+    private final Connection conn = this.db.getConnection();
     private String name;
     private String imageName;
     private String rate;

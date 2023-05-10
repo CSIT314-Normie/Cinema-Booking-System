@@ -26,7 +26,7 @@ public class Update extends JFrame implements ActionListener {
     // Frame overview
     private final JPanel overviewList = new JPanel(new BorderLayout());
     
-    private ArrayList<String> userInfo;
+    private final ArrayList<String> userInfo;
     private String email;
 
     public Update(ArrayList<String> userInfo) {
@@ -71,7 +71,7 @@ public class Update extends JFrame implements ActionListener {
             textField.setPreferredSize(new Dimension(40, 30));
             textField.setColumns(10);
 
-            // Add the label and text field to the panel e.g First Name: [text field]
+            // Add the label and text field to the panel e.g. First Name: [text field]
             JPanel panel = new JPanel(new BorderLayout());
             panel.add(label, BorderLayout.WEST);
             panel.add(textField, BorderLayout.CENTER);
