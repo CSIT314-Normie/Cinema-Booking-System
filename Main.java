@@ -28,9 +28,12 @@ public class Main {
         // }
 
         runProcess.waitFor();
+
         if (runProcess.exitValue() != 0) {
             System.err.println("Program exited with non-zero exit code " + runProcess.exitValue());
             System.exit(1);
+        } else {
+            System.out.println("Compiled");
         }
     }
 }
