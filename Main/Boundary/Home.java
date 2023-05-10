@@ -7,8 +7,10 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.util.*;
 
-import Main.Controller.*;
-import Main.Controller.Admin.SuspendAccountController;
+import Main.Controller.LoginController;
+import Main.Controller.Admin.*;
+import Main.Controller.Customer.*;
+import Main.Controller.Manager.*; 
 import Main.Boundary.Admin.*;
 import Main.Boundary.Customer.*;
 import Main.Boundary.Manager.*;
@@ -25,7 +27,9 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     private JScrollPane scrollPane;
  
     private final transient LoginController loginController;
-    private final transient MovieController movieController = new MovieController();
+    // private final transient MovieController movieController = new MovieController();
+    private final transient AvailableMoviesController availableMoviesController = new AvailableMoviesController();
+    private final transient AllMoviesController allMoviesController = new AllMoviesController();
 
     // Get movies from database
     private final JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
@@ -99,7 +103,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 break;
             case "Customer":
                 // Customer Home page
-                searchedMovieList = movieController.getAvailableMovies();
+                searchedMovieList = availableMoviesController.getAvailableMovies();
 
                 System.out.println("[+] Customer - Home Page");
                 
@@ -138,7 +142,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
                 break; 
             case "Cinema Manager":
-                allMoviesList = movieController.getAllMovies(); 
+                allMoviesList = allMoviesController.getAllMovies(); 
 
                 // buttons for cinema manager - view ticket arrangement, add movie, edit movie, screenings page
                 JButton viewTicketArrangementButton = new JButton("Ticket Arrangement"); 
@@ -289,7 +293,6 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
     /*
      * Display all user accounts in a table, and allow user admins to "EDIT", "DELETE" and "SUSPEND" accounts - USER ADMIN ONLY
-     * 
      */
     public void displayAllAccounts() {
         allAccounts.clear();
@@ -340,13 +343,13 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         accountsPanel.repaint();
     }
 
-    /*
+    /**
      * Search for movies - CUSTOMER ONLY
      * @param searchQuery 
      */
 
     public void searchedMovies(String searchQuery) {
-        searchedMovieList = movieController.getAvailableMovies();
+        searchedMovieList = availableMoviesController.getAvailableMovies();
 
         if (searchQuery.equals("") || searchQuery.equals("Search for movies") || searchQuery.equals(" ")) {
             System.out.println("[+] Search query is empty");

@@ -1,6 +1,6 @@
 package Main.Boundary;
 
-import Main.Controller.MovieController;
+import Main.Controller.MovieReviewController;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -20,7 +20,7 @@ public class Review extends JFrame implements ActionListener {
     private final JPanel moviePanel = new JPanel(new GridLayout(0, 5));
 
     // Create Movie Controller
-    private final transient MovieController movieController;
+    private final transient MovieReviewController movieReviewController;
 
     private final ArrayList<JLabel> movieNameLabels = new ArrayList<>();
     private final ArrayList<JTextField> rateFields = new ArrayList<>();
@@ -40,7 +40,7 @@ public class Review extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
 
         // Set up Movie controller
-        movieController = new MovieController(this.userInfo.get(2));
+        movieReviewController = new MovieReviewController();
     
         // Set padding for header labels
         movieHeader.setBorder(BorderFactory.createEmptyBorder(20, 50, 10, 50));
@@ -56,16 +56,16 @@ public class Review extends JFrame implements ActionListener {
         moviePanel.add(homeButton);
         
         // Iterate through the list of movies
-        for (int i = 0; i < movieController.getUserWatchedMovies().size(); i += 3) {
+        for (int i = 0; i < movieReviewController.getUserWatchedMovies().size(); i += 3) {
             // Create a new JLabel and JTextField for each movie detail
-            JLabel movieNameLabel = new JLabel(movieController.getUserWatchedMovies().get(i));
-            JTextField rateField = new JTextField(movieController.getUserWatchedMovies().get(i + 1));
-            JTextField reviewField = new JTextField(movieController.getUserWatchedMovies().get(i + 2));
+            JLabel movieNameLabel = new JLabel(movieReviewController.getUserWatchedMovies().get(i));
+            JTextField rateField = new JTextField(movieReviewController.getUserWatchedMovies().get(i + 1));
+            JTextField reviewField = new JTextField(movieReviewController.getUserWatchedMovies().get(i + 2));
             JButton updateButton = new JButton("Update");
 
             // Set default text for rating and review fields
-            rateField.setText(movieController.getUserWatchedMovies().get(i + 1));
-            reviewField.setText(movieController.getUserWatchedMovies().get(i + 2));
+            rateField.setText(movieReviewController.getUserWatchedMovies().get(i + 1));
+            reviewField.setText(movieReviewController.getUserWatchedMovies().get(i + 2));
             
             // Set padding for movie detail labels
             movieNameLabel.setBorder(BorderFactory.createEmptyBorder(20, 50, 10, 50));
@@ -121,7 +121,7 @@ public class Review extends JFrame implements ActionListener {
             }
     
             
-            if (movieController.updateMovieRateReview(movieName, rating, review)) {
+            if (movieReviewController.updateMovieRateReview(movieName, rating, review)) {
                 JOptionPane.showMessageDialog(null, "Movie details updated successfully");
             } else {
                 JOptionPane.showMessageDialog(null, "Movie details update failed");

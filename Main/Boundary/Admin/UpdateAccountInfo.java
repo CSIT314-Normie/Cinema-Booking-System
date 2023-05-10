@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.util.*;
 
 
-import Main.Controller.UpdateController;
+import Main.Controller.Admin.UpdateUserAccountInfoController;
 import Main.Boundary.*;
 
 
@@ -24,7 +24,7 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
     private final String userEmail;
     private String selectedRole;
 
-    private final transient UpdateController updateController = new UpdateController();
+    private final transient UpdateUserAccountInfoController updateUserAccController = new UpdateUserAccountInfoController();
 
     public UpdateAccountInfo(ArrayList<String> userInfo, String[] accountInfo){
         super("User Admin - Update User Account Info");
@@ -116,7 +116,7 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
                     }
                 }
                 System.out.println("[+] Modified Account Info: " + modifiedAcc);
-                if(updateController.updateAccountInfo(userInfo.get(0), modifiedAcc, userEmail)){
+                if(updateUserAccController.updateAccountInfo(userInfo.get(0), modifiedAcc, userEmail)){
                     System.out.println("[+] Account Info Updated Successfully!");
                     JOptionPane.showMessageDialog(null, "User account information successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // dispose();

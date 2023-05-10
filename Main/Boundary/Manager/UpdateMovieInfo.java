@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import Main.Boundary.Home;
-import Main.Controller.MovieController;
+import Main.Controller.Manager.UpdateMovieInfoController;
 
 public class UpdateMovieInfo extends JFrame implements ActionListener {
     private final ArrayList<String> userInfo;
@@ -115,7 +115,7 @@ public class UpdateMovieInfo extends JFrame implements ActionListener {
                 break;
 
             case "Update":
-                MovieController movieController = new MovieController();
+                UpdateMovieInfoController updateMovieInfoController = new UpdateMovieInfoController();
                 // update movie info
                 modifiedMovieInfo = new ArrayList<>();
                 modifiedMovieInfo.add(0, textfieldList.get(0).getText()); // add movie name
@@ -127,7 +127,7 @@ public class UpdateMovieInfo extends JFrame implements ActionListener {
                 if (modifiedMovieInfo.contains("")) {
                     JOptionPane.showMessageDialog(null, "Please fill in all the fields"); 
                 } else {
-                    if (movieController.updateMovieInfo(modifiedMovieInfo, movieInfo[0])) {
+                    if (updateMovieInfoController.updateMovieInfo(modifiedMovieInfo, movieInfo[0])) {
                         JOptionPane.showMessageDialog(null, "Movie info updated successfully");
                         // dispose();
                         // new Home(userInfo);
