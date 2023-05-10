@@ -1,8 +1,7 @@
 package Main.Boundary;
 
 
-import Main.Controller.UpdateController;
-
+import Main.Controller.UpdateAccountController;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -104,7 +103,7 @@ public class Update extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {          
             case "Update":
-                UpdateController updateController = new UpdateController();
+            UpdateAccountController updateController = new UpdateAccountController();
                 ArrayList<String> updatedUserInfo = new ArrayList<>();
                 textfieldList.forEach(textField -> updatedUserInfo.add(textField.getText()));
 

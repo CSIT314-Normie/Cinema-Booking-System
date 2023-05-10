@@ -9,6 +9,10 @@ import Main.Entity.*;
  */
 
 
+/*
+ * This controller handles the suspension of accounts - Done by the USER ADMIN
+ */
+
 public class SuspendAccountController {
 
     private final UserAdmin userAdmin = new UserAdmin();

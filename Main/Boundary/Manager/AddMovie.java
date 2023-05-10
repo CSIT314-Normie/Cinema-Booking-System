@@ -9,6 +9,7 @@ import java.util.*;
 
 
 import Main.Controller.*;
+import Main.Controller.Manager.AddNewMovieController;
 import Main.Boundary.*;
 
 
@@ -25,13 +26,13 @@ public class AddMovie extends JFrame implements ActionListener {
     private JButton submitButton = new JButton("Submit");
 
     // As of now, there will be 4 fields (Movie Name, movie image, movie description, movie status (Fully Booked or Available (Default))
-    private String[] labelList = {"Movie Name: ", "Movie Image: ", "Movie Description: ", "Movie Status: "};
+    private String[] labelList = {"Movie Name: ", "Movie Image: ", "Movie Description: ", "Movie Status: ", "Movie Duration: "};
     private ArrayList<JTextField> fieldList = new ArrayList<JTextField>(2); // 2 text fields: movie name and movie description
     private JComboBox<String> statusList = new JComboBox<>(new String[]{"Available", "Unavailable"});
     private String movieStatus = "Available"; // default status
     private String movieImgFileName; 
 
-    private transient MovieController movieController = new MovieController();
+    private transient AddNewMovieController addNewMovieController = new AddNewMovieController();
 
     public AddMovie(ArrayList<String> userInfo) {
         super("Cinema Manager - Add Movie");
@@ -232,6 +233,10 @@ public class AddMovie extends JFrame implements ActionListener {
                         if (i == 3) {
                             movieInfo.add(movieStatus);
                         }
+
+                        if (i == 4) {
+                            movieInfo.add(fieldList.get(i).getText());
+                        }
                     }
                     // add image and status to movieInfo
                     // movieInfo.set(1, movieImgFileName);
@@ -239,7 +244,7 @@ public class AddMovie extends JFrame implements ActionListener {
                     System.out.println("[+] movieInfo arrayList: " + movieInfo.size());
 
                     // add movie to database
-                    if (movieController.insertMovie(movieInfo)) {
+                    if (addNewMovieController.insertMovie(movieInfo)) {
                         JOptionPane.showMessageDialog(this, "Movie added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                         // new Home(userInfo);
                         // dispose();

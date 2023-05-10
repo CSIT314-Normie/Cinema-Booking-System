@@ -1,4 +1,4 @@
-package Main.Controller;
+package Main.Controller.Admin;
 
 
 import Main.Entity.*;
@@ -6,13 +6,11 @@ import Main.Entity.*;
 
 import java.util.*;
 
-/**
- * This controller handles updating of account info
- * - update of profile info - all USER
- * - update of users account information - USER ADMIN 
- */
+/*
+ * This controller handles updating of users account information - Done by USER ADMIN 
+*/
 
-public class UpdateController {
+public class UpdateUserAccountInfoController {
     private final User user = new User();
 
     public boolean updateAccount(ArrayList<String> updatedInfo, String email) {

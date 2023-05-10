@@ -1,25 +1,11 @@
-package Main.Controller;
-
+package Main.Controller.Customer;
 
 import Main.Entity.*;
 
-
 import java.util.*;
 
-
-public class MovieController {
+public class AvailableMoviesController {
     Movie movie = new Movie();
-    private String email;
-    
-    public MovieController() {}
-
-    public MovieController(String email) {
-        this.email = email;
-    }
-
-    public ArrayList<String> getMovies() {
-        return movie.getMovies();
-    }
 
     public ArrayList<String> getAllMovies() {
         return movie.getAllMovies();
@@ -43,26 +29,5 @@ public class MovieController {
         }
 
         return availableMovies;
-    }
-
-    public boolean updateMovieInfo(ArrayList<String> movieInfo, String movieName) {
-        return movie.updateMovieInfo(movieInfo, movieName);
-    }
-
-    // set email
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public ArrayList<String> getUserWatchedMovies() {
-        return movie.getUserWatchedMovies(this.email);
-    }
-
-    public boolean updateMovieRateReview(String movieName, String rating, String review) {
-        return movie.updateMovieRR(this.email, movieName, rating, review);
-    }
-
-    public boolean insertMovie(ArrayList<String> movieInfo) {
-        return movie.insertMovie(movieInfo);
     }
 }

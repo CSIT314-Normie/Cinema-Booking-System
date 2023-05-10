@@ -3,7 +3,7 @@ package Main.Controller.Manager;
 import Main.Entity.Movie;
 
 /**
- * This controller handles the suspension movies 
+ * This controller handles the suspension movies - Done by the CINEMA MANAGER
  */
 
 public class SuspendMovieController {

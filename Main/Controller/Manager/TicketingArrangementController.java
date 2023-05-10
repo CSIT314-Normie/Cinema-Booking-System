@@ -1,4 +1,4 @@
-package Main.Controller;
+package Main.Controller.Manager;
 
 import Main.Entity.*;
 
