@@ -8,6 +8,7 @@ import javax.swing.table.*;
 import java.util.*;
 
 import Main.Controller.*;
+import Main.Controller.Admin.SuspendAccountController;
 import Main.Boundary.Admin.*;
 import Main.Boundary.Customer.*;
 import Main.Boundary.Manager.*;
@@ -164,7 +165,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 viewTicketArrangementButton.addActionListener(this);
                 editMovieButton.addActionListener(this);
                 screeningButton.addActionListener(this);
-                
+
                 break;
             case "Cinema Owner":
                 // Default Home  

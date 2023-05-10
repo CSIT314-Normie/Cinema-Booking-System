@@ -1,0 +1,20 @@
+package Main.Controller.Manager;
+
+import Main.Entity.Movie;
+
+/**
+ * This controller handles the suspension movies 
+ */
+
+public class SuspendMovieController {
+
+    private Movie movie = new Movie();
+    private String email;
+
+    public SuspendMovieController() {
+    }
+
+    public boolean suspendMovie(String movieName) {
+        return this.movie.suspendMovie(movieName);
+    }
+}
