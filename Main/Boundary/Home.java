@@ -13,7 +13,6 @@ import Main.Boundary.Customer.*;
 import Main.Boundary.Manager.*;
 
 
-
 public class Home extends JFrame implements ActionListener, MouseListener {
     private final ArrayList<String> userInfo;
 

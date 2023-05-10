@@ -1,4 +1,4 @@
-package Main.Boundary;
+package Main.Boundary.Manager;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -11,6 +11,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import Main.Boundary.Home;
 
 public class ScreeningSessions extends JFrame implements ActionListener {
 

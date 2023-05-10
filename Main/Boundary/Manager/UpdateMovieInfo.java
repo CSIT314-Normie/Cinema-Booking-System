@@ -1,4 +1,4 @@
-package Main.Boundary;
+package Main.Boundary.Manager;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import Main.Boundary.Home;
 import Main.Controller.MovieController;
 
 public class UpdateMovieInfo extends JFrame implements ActionListener {

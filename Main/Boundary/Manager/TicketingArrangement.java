@@ -1,4 +1,4 @@
-package Main.Boundary;
+package Main.Boundary.Manager;
 
 
 import java.awt.event.*;
@@ -6,7 +6,7 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 
-
+import Main.Boundary.Home;
 import Main.Controller.*;
 
 

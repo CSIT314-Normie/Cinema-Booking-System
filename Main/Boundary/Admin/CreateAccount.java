@@ -1,10 +1,11 @@
-package Main.Boundary;
+package Main.Boundary.Admin;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
+import Main.Boundary.Home;
 import Main.Controller.*;
 
 

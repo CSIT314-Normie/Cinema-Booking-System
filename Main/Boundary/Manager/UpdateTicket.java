@@ -1,4 +1,4 @@
-package Main.Boundary;
+package Main.Boundary.Manager;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import Main.Boundary.Home;
 import Main.Controller.TicketingArrangementController;
 
 public class UpdateTicket extends JFrame implements ActionListener{
