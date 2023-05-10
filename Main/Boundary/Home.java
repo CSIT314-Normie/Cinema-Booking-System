@@ -145,7 +145,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 allMoviesList = allMoviesController.getAllMovies(); 
 
                 // buttons for cinema manager - view ticket arrangement, add movie, edit movie, screenings page
-                JButton viewTicketArrangementButton = new JButton("Ticket Arrangement"); 
+                JButton ticketArrangementButton = new JButton("Ticket Arrangement"); 
                 JButton addMovieButton = new JButton("Add Movie");
                 JButton screeningButton = new JButton("Screening");
 
@@ -153,7 +153,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 cinemaManagerPanel.setPreferredSize(new Dimension(1035, 100));
                 allMoviesPanel.setPreferredSize(new Dimension(1035, 500));
                 
-                cinemaManagerPanel.add(viewTicketArrangementButton);
+                cinemaManagerPanel.add(ticketArrangementButton);
                 cinemaManagerPanel.add(addMovieButton);
                 cinemaManagerPanel.add(editMovieButton);
                 cinemaManagerPanel.add(screeningButton);
@@ -166,7 +166,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 pack();
                 
                 addMovieButton.addActionListener(this);
-                viewTicketArrangementButton.addActionListener(this);
+                ticketArrangementButton.addActionListener(this);
                 editMovieButton.addActionListener(this);
                 screeningButton.addActionListener(this);
 

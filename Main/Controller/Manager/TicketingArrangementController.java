@@ -16,6 +16,10 @@ public class TicketingArrangementController {
 
     public TicketingArrangementController() {}
 
+    /**
+     * To handle the retrieval of ticketing arrangement information - CINEMA MANAGER
+     * @return ArrayList<String[]> ticketing arrangement information
+     */
     public ArrayList<String[]> getTicketingArrangement() { 
         return ticket.getTicketingArrangement(); 
     }

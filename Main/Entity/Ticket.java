@@ -23,6 +23,11 @@ public class Ticket {
         return db;
     }
 
+    /**
+     * To handle the retrieval of ticketing arrangement information from
+     * the database - CINEMA MANAGER
+     * @return ArrayList<String[]> ticketing arrangement information
+     */
     public ArrayList<String[]> getTicketingArrangement() {
         ArrayList<String[]> values = new ArrayList<>();
 
@@ -41,11 +46,15 @@ public class Ticket {
             System.err.println(e.getMessage());
         }
         return values;
-        //return super.getDB().selectAllTicketingArrangement();
     }
 
+    /**
+     * To handle the update of ticket price in the database - CINEMA MANAGER
+     * @param type of tickets, e.g., student, adult, senior citizen
+     * @param price of tickets for the type
+     * @return
+     */
     public boolean updateTicketPrice(String type, String price) {
-        //return super.getDB().updateTicketPrice(type, price);
         PreparedStatement stmt;
         try {
             stmt = conn.prepareStatement("UPDATE ticket_arrangement SET price = ? WHERE ticketType = ?");
