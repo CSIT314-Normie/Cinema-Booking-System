@@ -33,6 +33,14 @@ public class Main {
             "Main/Entity/*.java"
         };
 
+        // print out cmd as a string
+         String cmdString = "";
+         for (String s : cmd) {
+             cmdString += s + " ";
+         }
+
+        System.out.println(cmdString);
+
 
         ProcessBuilder compileBuilder = new ProcessBuilder(cmd);
         compileBuilder.redirectErrorStream(true);
