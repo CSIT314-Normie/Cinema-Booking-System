@@ -1,12 +1,13 @@
-Compile classes:
-javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar" -d out Database/DB.java Main/Driver.java Main/Boundary/*.java Main/Boundary/Admin/*.java Main/Boundary/Customer/*.java Main/Boundary/Manager/*.java Main/Controller/*.java Main/Controller/Admin/*.java Main/Controller/Customer/*.java Main/Controller/Manager/*.java Main/Entity/*.java
+Alternative to Main.java
 
-Change directory to:
-Out
+Compile classes:
+javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar;./Main/Boundary/assets" -d out Database/DB.java Main/Driver.java Main/Boundary/*.java Main/Boundary/Admin/*.java Main/Boundary/Customer/*.java Main/Boundary/Manager/*.java Main/Controller/*.java Main/Controller/Admin/*.java Main/Controller/Customer/*.java Main/Controller/Manager/*.java Main/Entity/*.java
+
+Change directory to Out:
+cd Out
 
 Create .jar:
-jar cvfm run.jar Manifest.txt Database/DB.class Main/Driver.class Main/Boundary/*.class Main/Boundary/Admin/*.class Main/Boundary/Customer/*.class Main/Boundary/Manager/*.class Main/Controller/*.class Main/Controller/Admin/*.class Main/Controller/Customer/*.class Main/Controller/Manager/*.class Main/Entity/*.class
+jar -cvf run.jar Database/DB.class Main/Driver.class Main/Boundary/*.class Main/Boundary/Admin/*.class Main/Boundary/Customer/*.class Main/Boundary/Manager/*.class Main/Controller/*.class Main/Controller/Admin/*.class Main/Controller/Customer/*.class Main/Controller/Manager/*.class Main/Entity/*.class
 
 Run .jar:
-java -jar run.jar
-java -cp run.jar;lib/mysql-connector-j-8.0.32.jar Main.Driver
+java -classpath ".\run.jar;.\..\lib\mysql-connector-j-8.0.32.jar;..\Main\Boundary\assets" Main.Driver
