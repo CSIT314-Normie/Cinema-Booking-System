@@ -1,7 +1,10 @@
-package Main.Controller;
+package Main.Controller.Admin;
 
 import Main.Entity.UserAdmin;
 
+/**
+ * This is Admins Suspend Account Controller
+ */
 public class SuspendAccountController {
 
     private final UserAdmin userAdmin = new UserAdmin();
