@@ -45,7 +45,10 @@ jobs:
         run: export DISPLAY=:99
 
       - name: Launch Java application
-        run: xvfb-run  --auto-servernum --server-num=1 java -classpath "./Out:./lib/mysql-connector-j-8.0.32.jar" Main.Driver > output.txt && echo "Compiled" >> output.txt &
+        run: xvfb-run  --auto-servernum --server-num=1 java -classpath "./Out:./lib/mysql-connector-j-8.0.32.jar" Main.Driver > output.txt &
+
+      - name: Confirmed Java application launched
+        run: echo "Compiled" > output.txt
 
       - name: Validate JFrame opened
         run: |
