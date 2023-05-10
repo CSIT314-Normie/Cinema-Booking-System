@@ -1,27 +1,13 @@
 package Main.Boundary;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import Main.Controller.*;
 
-import Main.Controller.CreateAccountController;
+
 
 public class CreateAccount extends JFrame implements ActionListener {
     private ArrayList<String> userInfo;
@@ -107,12 +93,16 @@ public class CreateAccount extends JFrame implements ActionListener {
 
         }
 
-        roleList.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                role = (String) roleList.getSelectedItem();
-            }
-        });
+        // roleList.addActionListener(new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         role = (String) roleList.getSelectedItem();
+        //     }
+        // });
+
+        // Implement lambda expression for actionlistener
+        roleList.addActionListener(e -> role = (String) roleList.getSelectedItem());
+        
 
         // Middle row
         overviewList.add(middleRow, BorderLayout.CENTER);

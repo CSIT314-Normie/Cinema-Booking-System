@@ -1,22 +1,19 @@
 package Main.Boundary;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.File;
-import java.awt.event.ActionEvent;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
+import javax.swing.event.*;
+import javax.swing.table.*;
 import java.util.*;
 
-import Main.Controller.LoginContoller;
-import Main.Controller.MovieController;
-import Main.Controller.SuspendAccountController;
+import Main.Controller.*;
+import Main.Boundary.Admin.*;
+import Main.Boundary.Customer.*;
+import Main.Boundary.Manager.*;
+
+
 
 public class Home extends JFrame implements ActionListener, MouseListener {
     private ArrayList<String> userInfo;
@@ -56,7 +53,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     private JButton editMovieButton = new JButton("Edit Movie Info");
     
     // suspend acc controller
-    private SuspendAccountController suspendAccountController = new SuspendAccountController();
+    private transient SuspendAccountController suspendAccountController = new SuspendAccountController();
 
     
     public Home(ArrayList<String> userInfo) {

@@ -11,14 +11,15 @@ public class Main {
             "./Out/;./lib/mysql-connector-j-8.0.32.jar",
             "-d",
             "out",
-            "Database/*.java",
-            "Main/*.java", 
+            "Database/DB.java",
+            "Main/Driver.java", 
             
             // Main/Boundary java files
+            "Main/Boundary/*.java",
             "Main/Boundary/Admin/*.java",
             "Main/Boundary/Customer/*.java",
             "Main/Boundary/Manager/*.java",
-            "Main/Boundary/Owner/*.java",
+            //"Main/Boundary/Owner/*.java",
 
             // Main/Controller java files
             "Main/Controller/*.java", 

@@ -1,42 +1,30 @@
-package Main.Boundary;
+package Main.Boundary.Admin;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font; 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField; 
 
 import Main.Controller.UpdateController;
+import Main.Boundary.*;
+
 
 public class UpdateAccountInfo extends JFrame implements ActionListener, MouseListener {
-    private ArrayList<String> userInfo;
+    private final ArrayList<String> userInfo;
 
-    private JPanel topPanel; 
+    private final JPanel topPanel;
     private final JButton logoutButton = new JButton("Logout"); 
     private final JButton homeButton = new JButton("Admin Home");
-    private String[] labelList = {"First Name: ", "Last Name: ", "Email: ", "DOB", "role: "};
-    private String[] roles = {"User Admin", "Cinema Manager"};
-    private ArrayList<JTextField> fieldList = new ArrayList<JTextField>(4);
-    private JComboBox<String> roleList = new JComboBox<String>(roles);
+    private final String[] labelList = {"First Name: ", "Last Name: ", "Email: ", "DOB", "role: "};
+    private final String[] roles = {"User Admin", "Cinema Manager"};
+    private final ArrayList<JTextField> fieldList = new ArrayList<>(4);
+    private final JComboBox<String> roleList = new JComboBox<>(roles);
     private ArrayList<String> modifiedAcc;
-    private String userEmail;
+    private final String userEmail;
     private String selectedRole;
 
-    private UpdateController updateController = new UpdateController();
+    private final transient UpdateController updateController = new UpdateController();
 
     public UpdateAccountInfo(ArrayList<String> userInfo, String[] accountInfo){
         super("Admin - Edit User Account Info");
@@ -52,7 +40,7 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
         topPanel = new JPanel(new FlowLayout()); 
         topPanel.setPreferredSize(new Dimension(1035, 50));
 
-        // add user role lable and buttons to the panel 
+        // add user role label and buttons to the panel
         topPanel.add(homeButton);
         topPanel.add(logoutButton);
 
@@ -96,13 +84,10 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
             formPanel.add(panel); 
         }
 
-        roleList.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Get the selected item from the combo box
-                selectedRole = (String) roleList.getSelectedItem();
-                System.out.println("[+] Selected role: " + selectedRole); 
-            }
+        roleList.addActionListener(e -> {
+            // Get the selected item from the combo box
+            selectedRole = (String) roleList.getSelectedItem();
+            System.out.println("[+] Selected role: " + selectedRole);
         });
 
         JButton updateButton = new JButton("Update");
@@ -121,7 +106,7 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
 
         switch (e.getActionCommand()) {
             case "Update":
-                modifiedAcc = new ArrayList<String>();
+                modifiedAcc = new ArrayList<>();
                 for(int i = 0; i < fieldList.size(); i++){
                     if (i == 4) { // drop down menu for role
                         modifiedAcc.add(selectedRole);

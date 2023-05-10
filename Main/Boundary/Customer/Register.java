@@ -1,12 +1,14 @@
-package Main.Boundary;
-
-import Main.Controller.RegisterController;
+package Main.Boundary.Customer;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+
+
+import Main.Controller.*;
+import Main.Boundary.*;
+
 
 public class Register extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));

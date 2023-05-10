@@ -1,13 +1,12 @@
-package Main.Boundary;
+package Main.Boundary.Customer;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-import Main.Controller.LoginContoller;
-import Main.Controller.MovieController;
+import Main.Controller.*;
+import Main.Boundary.*;
 
 
 public class Book extends JFrame implements ActionListener {
@@ -21,7 +20,7 @@ public class Book extends JFrame implements ActionListener {
     private final JPanel panel = new JPanel(new FlowLayout());
     private final JLabel movieNameLabel;
 
-    private LoginContoller loginController;
+    private transient LoginContoller loginController;
 
     public Book(ArrayList<String> userInfo, String movieName) {
         super("Welcome to CSIT 314 Cinema Booking System - Book movie");

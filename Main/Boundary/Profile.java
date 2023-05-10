@@ -1,13 +1,13 @@
 package Main.Boundary;
 
 
-import Main.Controller.ProfileController;
-
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+
+
+import Main.Controller.ProfileController;
 
 
 public class Profile extends JFrame implements ActionListener {
@@ -21,7 +21,7 @@ public class Profile extends JFrame implements ActionListener {
     private final JButton homeButton = new JButton("Home");
     private final JButton reviewButton = new JButton("Review");
 
-    private static final ProfileController profileController = new ProfileController();
+    private transient ProfileController profileController = new ProfileController();
 
     // Frame's top, middle and bottom row
     private final JPanel topRow = new JPanel();

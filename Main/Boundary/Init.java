@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import Main.Boundary.Customer.*;
+
+
 public class Init extends JFrame implements ActionListener {
     private final JFrame pageFrame = new JFrame();
     private final JLabel logoLabel;

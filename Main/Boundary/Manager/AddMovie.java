@@ -1,16 +1,16 @@
-package Main.Boundary;
+package Main.Boundary.Manager;
+
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.File;
-import java.awt.event.ActionEvent;
 import javax.swing.*; 
-
 import java.util.*;
 
-import Main.Controller.MovieController;
+
+import Main.Controller.*;
+import Main.Boundary.*;
+
 
 public class AddMovie extends JFrame implements ActionListener {
     private ArrayList<String> userInfo; 
@@ -31,7 +31,7 @@ public class AddMovie extends JFrame implements ActionListener {
     private String movieStatus = "Available"; // default status
     private String movieImgFileName; 
 
-    private MovieController movieController = new MovieController();
+    private transient MovieController movieController = new MovieController();
 
     public AddMovie(ArrayList<String> userInfo) {
         super("Cinema Manager - Add Movie");
