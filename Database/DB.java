@@ -336,47 +336,6 @@ public class DB {
         return values;
     }
 
-    public ArrayList<String[]> selectAllTicketingArrangement() {
-        PreparedStatement stmt;
-
-        ArrayList<String[]> values = new ArrayList<>();
-
-        try {
-            stmt = conn.prepareStatement("SELECT * FROM ticket_arrangement");
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String[] temp = new String[2];
-                temp[0] = rs.getString("ticketType");
-                temp[1] = rs.getString("price");
-
-                values.add(temp);
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        return values;
-    }
-
-    public boolean updateTicketPrice(String type, String price) {
-        PreparedStatement stmt;
-        try {
-            stmt = conn.prepareStatement("UPDATE ticket_arrangement SET price = ? WHERE ticketType = ?");
-            stmt.setString(1, price);
-            stmt.setString(2, type);
-            stmt.executeUpdate();
-
-            System.out.println(type + "ticket price has been updated in the database");
-            return true;
-
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return false;
-    }
-
-
     /**
      * Test Driven Development
      * The following few methods are used to test the database connection

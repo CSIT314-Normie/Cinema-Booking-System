@@ -1,12 +1,15 @@
 package Main.Boundary.Manager;
 
+import Main.Controller.Manager.TicketingArrangementController;
 
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 
-import Main.Boundary.Home; 
+
+import Main.Boundary.Home;
+import Main.Controller.*;
 import Main.Controller.Manager.*;
 
 
@@ -15,7 +18,7 @@ public class TicketingArrangement extends JFrame implements ActionListener{
     private final ArrayList<String> userInfo;
     //private ArrayList<String> DBUserInfo = new ArrayList<>();
     private final transient TicketingArrangementController ticketingArrangementController = new TicketingArrangementController();
-    private final ArrayList<String[]> ticketingArrangement;
+    private final ArrayList<String[]> ticketingArrangementList;
 
     private final JLabel myTicketArrangementLabel = new JLabel("Ticket Information");
 
@@ -43,8 +46,8 @@ public class TicketingArrangement extends JFrame implements ActionListener{
         setLocationRelativeTo(null);
 
         // Get the user info from the database
-        //DBUserInfo = profileController.getUserInfo(this.userInfo.get(2));
-        this.ticketingArrangement = ticketingArrangementController.getTicketingArrangement();
+        // Need to add into sequence diagram
+        this.ticketingArrangementList = ticketingArrangementController.getTicketingArrangement();
     
 
         // Put a JLabel called "Ticket Information" on the top row
@@ -60,20 +63,21 @@ public class TicketingArrangement extends JFrame implements ActionListener{
 
         for(int j = 0; j < 3; j++){
             for (int i = 0; i < 2; i++) {
-                // Create a label with the label name E.g "First Name", "Last Name", etc
+                // Create a label with the label name
                 JLabel label = new JLabel(labelNameList.get(i));
+
                 label.setFont(new Font("Serif", Font.PLAIN, 25));
                 label.setPreferredSize(new Dimension(200, 20));
                 label.setHorizontalAlignment(SwingConstants.RIGHT);
                 label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30));
     
-                // Create a label with the user info from the database E.g. "First Name: John"
+                // Create a ticket label 
                 JLabel ticketLabel;
 
-                if (i == 1){
-                    ticketLabel = new JLabel("$"+ ticketingArrangement.get(j)[i]);
+                if (i == 1) {
+                    ticketLabel = new JLabel("$"+ ticketingArrangementList.get(j)[i]);
                 } else {
-                    ticketLabel = new JLabel(ticketingArrangement.get(j)[i]);
+                    ticketLabel = new JLabel(ticketingArrangementList.get(j)[i]);
                 }
 
                 ticketLabel.setFont(new Font("Serif", Font.PLAIN, 25));

@@ -147,7 +147,7 @@ public class UpdateTicket extends JFrame implements ActionListener{
                     break;
                 } 
 
-                if(updateTicketController.updateTicketPrice(userInfo.get(0), ticketType, price)){
+                if(updateTicketController.updateTicketPrice(ticketType, price)){
                     JOptionPane.showMessageDialog(null, "Ticket Price updated successfully");
                     dispose();
                     new TicketingArrangement(userInfo);
