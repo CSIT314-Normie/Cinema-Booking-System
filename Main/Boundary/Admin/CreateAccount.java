@@ -10,7 +10,6 @@ import Main.Controller.*;
 import Main.Controller.Admin.*;
 
 
-
 public class CreateAccount extends JFrame implements ActionListener {
     private final ArrayList<String> userInfo;
 

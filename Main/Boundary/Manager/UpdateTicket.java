@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import Main.Boundary.Home;
-import Main.Controller.Manager.TicketingArrangementController;
+import Main.Controller.Manager.*;
 
 public class UpdateTicket extends JFrame implements ActionListener{
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("Ticket Type:", "Price"));

@@ -1,15 +1,12 @@
 package Main.Controller.Admin;
 
-
 import Main.Entity.*;
-
 
 import java.util.*;
 
 /*
  * This controller handles the creation of accounts - Done by the USER ADMIN
- */
-
+*/
 
 public class CreateAccountController {
     private final UserAdmin user;

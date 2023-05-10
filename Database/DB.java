@@ -336,26 +336,6 @@ public class DB {
         return values;
     }
 
-    // public bool insertTicket(String table, String[] values) {
-    // return true;
-    // }
-
-    // public bool updateTicket(String table, String[] values) {
-    // return true;
-    // }
-
-    // public bool selectTicketHistory(String table, String[] values) {
-    // return true;
-    // }
-
-    // public bool insertTicketHistory(String table, String[] values) {
-    // return true;
-    // }
-
-    // public bool deleteRR(String table, String[] values) {
-    // return true;
-    // }
-
     /**
      * Test Driven Development
      * The following few methods are used to test the database connection

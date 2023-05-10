@@ -5,11 +5,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-
 import Main.Controller.Admin.UpdateUserAccountInfoController;
-import Main.Boundary.*;
-import Main.Boundary.Admin.*;
-
+import Main.Boundary.*; 
 
 public class UpdateAccountInfo extends JFrame implements ActionListener, MouseListener {
     private final ArrayList<String> userInfo;

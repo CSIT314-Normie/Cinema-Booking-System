@@ -35,15 +35,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Compile Java code
+      # always add "./Out/;./lib/mysql-connector-j-8.0.32.jar" to the classpath
         run: |
-         javac -classpath ./Out/;./lib/mysql-connector-j-8.0.32.jar -d out Database/DB.java Main/Driver.java Main/Boundary/*.java Main/Boundary/Admin/*.java Main/Boundary/Customer/*.java Main/Boundary/Manager/*.java Main/Controller/*.java Main/Controller/Admin/*.java Main/Controller/Customer/*.java Main/Controller/Manager/*.java Main/Entity/*.java
-          if [ $? -eq 0 ]; then
-            echo "Compiled"
-          else
-            echo "Compilation failed"
-            exit 1
-          fi
-  
+          javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar" -d out Database/DB.java Main/Driver.java Main/Boundary/*.java Main/Boundary/Admin/*.java Main/Boundary/Customer/*.java Main/Boundary/Manager/*.java Main/Controller/*.java Main/Controller/Admin/*.java Main/Controller/Customer/*.java Main/Controller/Manager/*.java Main/Entity/*.java
+ 
 
       - name: Start Xvfb
         run: Xvfb :99 -ac &

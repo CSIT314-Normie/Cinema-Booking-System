@@ -1,17 +1,10 @@
 package Main.Controller.Admin;
 
-import Main.Entity.*;
-
-
-/**
- * This controller handles the creation of accounts
- * USED BY USER ADMIN
- */
-
+import Main.Entity.*; 
 
 /*
  * This controller handles the suspension of accounts - Done by the USER ADMIN
- */
+*/
 
 public class SuspendAccountController {
 

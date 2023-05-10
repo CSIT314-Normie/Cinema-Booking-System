@@ -1,14 +1,12 @@
 package Main.Boundary;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-
+import Main.Boundary.Customer.Review;
 import Main.Controller.ProfileController;
-
 
 public class Profile extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
@@ -43,7 +41,6 @@ public class Profile extends JFrame implements ActionListener {
         // Get the user info from the database
         DBUserInfo = profileController.getUserInfo(this.userInfo.get(2));
 
-        
         // Put a JLabel called "My Profile" on the top row
         myProfileLabel.setFont(new Font("Serif", Font.PLAIN, 40));
         topRow.add(myProfileLabel);
@@ -84,10 +81,15 @@ public class Profile extends JFrame implements ActionListener {
         // Add actionlistener to create button
         updateButton.addActionListener(this);
         homeButton.addActionListener(this);
-        reviewButton.addActionListener(this);
+
+        if (userInfo.get(0) == "Customer") {
+            botRow.add(reviewButton);
+            reviewButton.addActionListener(this);
+        }
+
         botRow.add(updateButton);
         botRow.add(homeButton);
-        botRow.add(reviewButton);
+        
 
         // Bottom row contains the button
         overviewList.add(botRow, BorderLayout.SOUTH);
@@ -99,7 +101,6 @@ public class Profile extends JFrame implements ActionListener {
         add(overviewList);
     }
     
-
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
