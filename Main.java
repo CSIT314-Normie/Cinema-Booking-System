@@ -5,7 +5,30 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         // compile the code
-        ProcessBuilder compileBuilder = new ProcessBuilder("javac", "-classpath", "./Out/;./lib/mysql-connector-j-8.0.32.jar", "-d", "out", "Database/*.java", "Main/*.java", "Main/Boundary/*.java", "Main/Controller/*.java", "Main/Entity/*.java");
+        String[] cmd = {
+            "javac",
+            "-classpath",
+            "./Out/;./lib/mysql-connector-j-8.0.32.jar",
+            "-d",
+            "out",
+            "Database/*.java",
+            "Main/*.java", 
+            
+            // Main/Boundary java files
+            "Main/Boundary/Admin/*.java",
+            "Main/Boundary/Customer/*.java",
+            "Main/Boundary/Manager/*.java",
+            "Main/Boundary/Owner/*.java",
+
+            // Main/Controller java files
+            "Main/Controller/*.java", 
+
+            // Main/Entity java files
+            "Main/Entity/*.java"
+        };
+
+
+        ProcessBuilder compileBuilder = new ProcessBuilder(cmd);
         compileBuilder.redirectErrorStream(true);
         Process compileProcess = compileBuilder.start();
         compileProcess.waitFor();
