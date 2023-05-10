@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import Main.Boundary.Home;
-import Main.Controller.Manager.UpdateMovieInfoController;
+import Main.Controller.Manager.*;
 
 public class UpdateMovieInfo extends JFrame implements ActionListener {
     private final ArrayList<String> userInfo;

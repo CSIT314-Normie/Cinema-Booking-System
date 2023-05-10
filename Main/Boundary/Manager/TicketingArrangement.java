@@ -6,9 +6,8 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 
-import Main.Boundary.Home;
-import Main.Controller.*;
-import Main.Controller.Manager.TicketingArrangementController;
+import Main.Boundary.Home; 
+import Main.Controller.Manager.*;
 
 
 public class TicketingArrangement extends JFrame implements ActionListener{

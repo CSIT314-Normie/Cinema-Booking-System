@@ -6,12 +6,9 @@ import java.awt.event.*;
 import java.io.File;
 import javax.swing.*; 
 import java.util.*;
-
-
-import Main.Controller.*;
-import Main.Controller.Manager.AddNewMovieController;
+ 
+import Main.Controller.Manager.*;
 import Main.Boundary.*;
-
 
 public class AddMovie extends JFrame implements ActionListener {
     private ArrayList<String> userInfo; 
