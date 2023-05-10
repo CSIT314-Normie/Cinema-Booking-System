@@ -16,12 +16,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
+import javax.swing.JPanel; 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Main.Controller.UpdateTicketController;
+import Main.Controller.UpdateController;
 
 public class UpdateTicket extends JFrame implements ActionListener{
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("Ticket Type:", "Price"));
@@ -141,13 +140,13 @@ public class UpdateTicket extends JFrame implements ActionListener{
         String ticketType = (String) dropdown.getSelectedItem();
         switch (e.getActionCommand()){
             case "Update":
-                UpdateTicketController updateTicketController = new UpdateTicketController();
+                UpdateController updateController = new UpdateController();
                 if(price.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please fill in all the fields");
                     break;
                 } 
 
-                if(updateTicketController.updateTicketPrice(ticketType, price)){
+                if(updateController.updateTicketPrice(userInfo.get(0), ticketType, price)){
                     JOptionPane.showMessageDialog(null, "Ticket Price updated successfully");
                     dispose();
                     new TicketingArrangement(userInfo);
@@ -156,7 +155,6 @@ public class UpdateTicket extends JFrame implements ActionListener{
                 }
                 break;
             
-                
             case "Home":
                 dispose();
                 new Home(userInfo);
