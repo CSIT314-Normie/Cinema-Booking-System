@@ -376,25 +376,6 @@ public class DB {
         return false;
     }
 
-    // public bool insertTicket(String table, String[] values) {
-    // return true;
-    // }
-
-    // public bool updateTicket(String table, String[] values) {
-    // return true;
-    // }
-
-    // public bool selectTicketHistory(String table, String[] values) {
-    // return true;
-    // }
-
-    // public bool insertTicketHistory(String table, String[] values) {
-    // return true;
-    // }
-
-    // public bool deleteRR(String table, String[] values) {
-    // return true;
-    // }
 
     /**
      * Test Driven Development
