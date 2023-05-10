@@ -39,7 +39,7 @@ public class DB {
             System.out.println("[+] Connected to the database on initialisation");
 
             ArrayList<PreparedStatement> stmts = new ArrayList<>();
-            String[] tables = { "users", "movies", "user_movies", "ticket_arrangement" , "cinema_halls", "seats", "movie_screening", "seat_reserved", "add Cinema Hall A", "add Cinema Hall B", "add Cinema Hall C", "add Cinema Hall D", "add Admin" };
+            String[] tables = { "users", "movies", "user_movies", "reviews", "ticket_arrangement" , "cinema_halls", "seats", "movie_screening", "seat_reserved", "add Cinema Hall A", "add Cinema Hall B", "add Cinema Hall C", "add Cinema Hall D", "add Admin" };
 
             // Create users table
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
@@ -69,6 +69,15 @@ public class DB {
                     + "rate VARCHAR(255) NOT NULL,"
                     + "review VARCHAR(255) NOT NULL,"
                     + "PRIMARY KEY (email, movieName),"
+                    + "FOREIGN KEY (email) REFERENCES users(email),"
+                    + "FOREIGN KEY (movieName) REFERENCES movies(name))"));
+
+            // create reviews table (reviews of movies)
+            stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS reviews ("
+                    + "reviewID VARCHAR(10) PRIMARY KEY,"
+                    + "email VARCHAR(255) NOT NULL,"
+                    + "movieName VARCHAR(255) NOT NULL,"
+                    + "review VARCHAR(255) NOT NULL," 
                     + "FOREIGN KEY (email) REFERENCES users(email),"
                     + "FOREIGN KEY (movieName) REFERENCES movies(name))"));
 
