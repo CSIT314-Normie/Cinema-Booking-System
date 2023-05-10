@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.util.*;
 
 
-import Main.Controller.Customer.RegisterAccountController;
+import Main.Controller.Customer.*;
 import Main.Boundary.*;
 
 
