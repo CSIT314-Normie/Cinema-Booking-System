@@ -1,6 +1,7 @@
 import java.io.*;
 
 
+// Run this to start the app
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         // compile the code
