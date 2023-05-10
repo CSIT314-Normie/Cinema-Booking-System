@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField; 
 
-import Main.Controller.UpdateAccountInfoController;
+import Main.Controller.UpdateController;
 
 public class UpdateAccountInfo extends JFrame implements ActionListener, MouseListener {
     private ArrayList<String> userInfo;
@@ -36,7 +36,7 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
     private String userEmail;
     private String selectedRole;
 
-    private UpdateAccountInfoController updateAccountInfoController = new UpdateAccountInfoController();
+    private UpdateController updateController = new UpdateController();
 
     public UpdateAccountInfo(ArrayList<String> userInfo, String[] accountInfo){
         super("Admin - Edit User Account Info");
@@ -131,7 +131,7 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
                     }
                 }
                 System.out.println("[+] Modified Account Info: " + modifiedAcc);
-                if(updateAccountInfoController.updateAccountInfo(modifiedAcc, userEmail)){
+                if(updateController.updateAccountInfo(userInfo.get(0), modifiedAcc, userEmail)){
                     System.out.println("[+] Account Info Updated Successfully!");
                     JOptionPane.showMessageDialog(null, "User account information successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // dispose();
