@@ -16,9 +16,9 @@ public class TicketingHistory extends JFrame implements ActionListener{
     private final JPanel topRow = new JPanel(); 
 
     private final transient TicketingHistoryController ticketingHistoryController = new TicketingHistoryController();
-    private final ArrayList<String[]> ticketingHistory;
+    private final ArrayList<String[]> ticketHistory;
 
-    public TicketingHistory(ArrayList<String> userInfo) {
+    public TicketingHistory(ArrayList<String> userInfo) {   
         super("Ticketing History");
         this.userInfo = userInfo;
         setLayout(new BorderLayout());
@@ -28,13 +28,13 @@ public class TicketingHistory extends JFrame implements ActionListener{
         setResizable(false);
         setLocationRelativeTo(null);
 
-        this.ticketingHistory = ticketingHistoryController.getTicketingHistory(this.userInfo.get(2));
+        this.ticketHistory = ticketingHistoryController.getTicketingHistory(this.userInfo.get(2));
 
         // display the ticketing history (ie, the list of movies the user has booked) 
         // create a panel to display the ticketing history
         JPanel ticketingHistoryPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
 
-        for (String[] strings : ticketingHistory) {
+        for (String[] strings : ticketHistory) {
             JPanel singleHistoryPanel = new JPanel();
             singleHistoryPanel.setLayout(new BoxLayout(singleHistoryPanel, BoxLayout.Y_AXIS));
             singleHistoryPanel.setPreferredSize(new Dimension(200, 600));
