@@ -11,13 +11,13 @@ import java.util.*;
 */
 
 public class TicketingArrangementController {
-    private final Manager manager = new Manager();
+    Ticket ticket = new Ticket();
     
 
     public TicketingArrangementController() {}
 
     public ArrayList<String[]> getTicketingArrangement() { 
-        return this.manager.getTicketingArrangement(); 
+        return ticket.getTicketingArrangement(); 
     }
     
     /**
@@ -27,12 +27,7 @@ public class TicketingArrangementController {
      * @param price price of ticket
      * @return boolean if the update is successful
      */
-    public boolean updateTicketPrice(String role, String type, String price) { 
-        if (role.equals("Cinema Manager")) {
-            Manager manager = new Manager();
-            return manager.updateTicketPrice(type, price);
-        } else {
-            return false;
-        } 
+    public boolean updateTicketPrice(String type, String price) { 
+        return ticket.updateTicketPrice(type, price);
     }
 }

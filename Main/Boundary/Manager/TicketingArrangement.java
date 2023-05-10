@@ -1,5 +1,6 @@
 package Main.Boundary.Manager;
 
+import Main.Controller.Manager.TicketingArrangementController;
 
 import java.awt.event.*;
 import java.util.*;
