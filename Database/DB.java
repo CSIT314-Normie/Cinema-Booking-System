@@ -39,7 +39,7 @@ public class DB {
             System.out.println("[+] Connected to the database on initialisation");
 
             ArrayList<PreparedStatement> stmts = new ArrayList<>();
-            String[] tables = { "users", "movies", "user_movies", "reviews", "ticket_arrangement" , "cinema_halls", "seats", "movie_screening", "seat_reserved", "add Cinema Hall A", "add Cinema Hall B", "add Cinema Hall C", "add Cinema Hall D", "add Admin" };
+            String[] tables = { "users", "movies", "user_movies", "reviews", "ticket_arrangement" , "cinema_halls", "seats", "movie_screening", "seat_reserved",  "add Admin", "add Cinema Hall A", "add Cinema Hall B", "add Cinema Hall C", "add Cinema Hall D", "add screening" };
 
             // Create users table
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
@@ -106,10 +106,10 @@ public class DB {
                     + "screeningID VARCHAR(10) PRIMARY KEY,"
                     + "movieName VARCHAR(255) NOT NULL,"
                     + "Hall VARCHAR(10) NOT NULL,"
+                    + "date VARCHAR(255) NOT NULL,"
                     + "startTime VARCHAR(255) NOT NULL,"
                     + "endTime VARCHAR(255) NOT NULL,"
                     + "duration VARCHAR(255) NOT NULL,"
-                    + "date VARCHAR(255) NOT NULL,"
                     + "screeningStatus VARCHAR(15) NOT NULL,"
                     + "FOREIGN KEY (movieName) REFERENCES movies(name),"
                     + "FOREIGN KEY (Hall) REFERENCES cinema_halls(Hall))"));
@@ -117,6 +117,7 @@ public class DB {
             // create seat_reserved table (reserved seats, which movie, which hall, which screening session)
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS seat_reserved ("
                     + "reservationID VARCHAR(10) PRIMARY KEY,"
+                    + "Hall VARCHAR(10) NOT NULL,"
                     + "seatID VARCHAR(10) NOT NULL,"
                     + "userEmail VARCHAR(255) NOT NULL,"
                     + "movieName VARCHAR(255) NOT NULL,"
@@ -139,6 +140,8 @@ public class DB {
 
             stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'D', 'Cinema 2', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'D');"));
 
+            stmts.add(conn.prepareStatement("INSERT INTO movie_screening (screeningID, movieName, Hall, date, startTime, endTime, duration, screeningStatus) SELECT '1', 'Barbie Movie', 'A', '12/06/2023', '12:00pm', '15:00pm', '3 hours', 'Available' FROM dual WHERE NOT EXISTS (SELECT * FROM movie_screening WHERE screeningID = '1');"));
+            
             stmts.add(conn.prepareStatement(
                     "CREATE TRIGGER update_movies_rate_review " +
                             "AFTER UPDATE ON user_movies " +
