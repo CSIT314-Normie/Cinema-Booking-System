@@ -27,13 +27,44 @@ public class MovieScreening {
     }
 
     /*
-     * To get all the movie screening information
+     * To get ALL movie screening information
      */
     public ArrayList<String> getAllScreenings() {
         ArrayList<String> allScreenings = new ArrayList<>();
         
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                allScreenings.add(rs.getString("screeningId"));
+                allScreenings.add(rs.getString("movieName"));
+                allScreenings.add(rs.getString("hall"));
+                allScreenings.add(rs.getString("startTime"));
+                allScreenings.add(rs.getString("endTime"));
+                allScreenings.add(rs.getString("duration"));
+                allScreenings.add(rs.getString("date"));
+                allScreenings.add(rs.getString("screeningStatus"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return allScreenings;
+    }
+
+    /**
+     * To get a screenings for a specific hall
+     * @param hall
+     * @return ArrayList<String> screenings
+    */
+    public ArrayList<String> getScreeningsForHall(String hall) {
+        ArrayList<String> allScreenings = new ArrayList<>();
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE hall = ?");
+            stmt.setString(1, hall);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()){
@@ -138,6 +169,38 @@ public class MovieScreening {
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM seat WHERE hall = ?");
             stmt.setString(1, hall);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                allSeats.add(rs.getString("seatId")); 
+                allSeats.add(rs.getString("Hall"));
+                allSeats.add(rs.getString("seatRow"));
+                allSeats.add(rs.getString("seatNumber"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return allSeats;
+    }
+
+
+    /**
+     * Get seats reserved for a specific movie screening (movie name and screening ID)
+     * @param movieName
+     * @param screeningID
+     * @param hall
+     * @return ArrayList<String> reservedSeats
+     */
+    public ArrayList<String> getSeatsReservedForScreening(String movieName, String screeningID, String hall) {
+        ArrayList<String> allSeats = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM seat_reserved WHERE hall = ? AND movieName = ? AND screeningID = ?");
+            stmt.setString(1, hall);
+            stmt.setString(2, movieName);
+            stmt.setString(3, screeningID);
 
             ResultSet rs = stmt.executeQuery();
 
