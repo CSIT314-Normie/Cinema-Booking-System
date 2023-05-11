@@ -115,18 +115,18 @@ public class MovieScreening {
     /* 
      * update screening status
     */
-    public boolean updateScreeningStatus(ArrayList<String> values) {
+    public boolean updateScreeningStatus(String screeningID, String newScreeningStatus) {
         PreparedStatement stmt;
     
         try {
             // Comments on this function are in the same function in User.java
             stmt = conn.prepareStatement("UPDATE movie_screening SET screeningStatus = ? WHERE screeningID = ?");
-            stmt.setString(1, values.get(0));
-            stmt.setString(2, values.get(1));  
+            stmt.setString(1, newScreeningStatus);
+            stmt.setString(2, screeningID);  
 
             stmt.executeUpdate();
 
-            System.out.println(values.get(1) + " screening status has been updated");
+            System.out.println("screening " + screeningID + "'s screening status has been updated");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
