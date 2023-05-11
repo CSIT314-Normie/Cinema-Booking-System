@@ -132,13 +132,13 @@ public class DB {
 
 
             // 2 cinemas, 2 halls in each cinema, 12 seats in each hall
-            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'A', 'Cinema 1', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'A');"));
+            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'A', 'Greenville cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'A');"));
 
-            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'B', 'Cinema 1', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'B');"));
+            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'B', 'Greenville Cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'B');"));
 
-            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'C', 'Cinema 2', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'C');"));
+            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'C', 'Townsville Cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'C');"));
 
-            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'D', 'Cinema 2', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'D');"));
+            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'D', 'Townsville Cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'D');"));
 
             stmts.add(conn.prepareStatement("INSERT INTO movie_screening (screeningID, movieName, Hall, date, startTime, endTime, duration, screeningStatus) SELECT '1', 'Barbie Movie', 'A', '12/06/2023', '12:00pm', '15:00pm', '3 hours', 'Available' FROM dual WHERE NOT EXISTS (SELECT * FROM movie_screening WHERE screeningID = '1');"));
             

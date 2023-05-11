@@ -216,4 +216,37 @@ public class MovieScreening {
 
         return allSeats;
     }
+
+    /**
+     * To get all screenings for a movie - CUSTOMER
+     * @param movieName
+     * @return ArrayList<String> screenings
+     */
+    public ArrayList<String> getAllScreeningsForAMovie(String movieName) {
+        ArrayList<String> allScreenings = new ArrayList<>();
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ?");
+            stmt.setString(1, movieName);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                allScreenings.add(rs.getString("screeningId"));
+                allScreenings.add(rs.getString("movieName"));
+                allScreenings.add(rs.getString("hall"));
+                allScreenings.add(rs.getString("startTime"));
+                allScreenings.add(rs.getString("endTime"));
+                allScreenings.add(rs.getString("duration"));
+                allScreenings.add(rs.getString("date"));
+                allScreenings.add(rs.getString("screeningStatus"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return allScreenings;
+    }
+
+    
 }

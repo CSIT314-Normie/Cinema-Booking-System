@@ -6,6 +6,7 @@ import java.io.File;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.util.*;
+import java.util.List;
 
 import Main.Boundary.Admin.*;
 import Main.Boundary.Customer.*;
@@ -285,10 +286,13 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         JPanel clickedMoviePanel = (JPanel) e.getSource();
         JLabel movieTitle = (JLabel) clickedMoviePanel.getComponent(0);
         System.out.println("Movie panel clicked: " + movieTitle.getText());
+
+        List<String> movieInfo = searchedMovieList.subList(searchedMovieList.indexOf(movieTitle.getText()), searchedMovieList.indexOf(movieTitle.getText()) + 7);
+        System.out.println(movieInfo);
         
         // open Book.java with the movie title
         dispose();
-        new Book(userInfo, movieTitle.getText());
+        new Book(userInfo, movieInfo);
     }
 
     /*
