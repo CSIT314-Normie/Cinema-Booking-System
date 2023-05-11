@@ -141,7 +141,7 @@ public class UpdateTicket extends JFrame implements ActionListener{
         String ticketType = (String) dropdown.getSelectedItem();
         switch (e.getActionCommand()){
             case "Update":
-            TicketingArrangementController updateTicketController = new TicketingArrangementController();
+            UpdateTicketController updateTicketController = new UpdateTicketController();
                 if(price.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please fill in all the fields");
                     break;
