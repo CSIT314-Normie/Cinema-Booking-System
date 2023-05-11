@@ -3,6 +3,7 @@ package Main.Boundary.Manager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList; 
@@ -11,9 +12,11 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import Main.Boundary.Home;
@@ -29,11 +32,14 @@ public class ScreeningSessions extends JFrame implements ActionListener {
 
     private final String[] halls = {"all halls", "A", "B", "C", "D"};
     private String selectedHall = "all halls";
+    private String newScreeningStatus;
+    private String[] selectedScreening;
 
     private final JComboBox<String> hallDropDown = new JComboBox<>(halls);
 
     private final JButton homeButton = new JButton("Home");
-    private final JButton updateSessionButton = new JButton("Update Screening Status");
+    private final JButton updateSessionButton = new JButton("Update Screening");
+    private final JButton updateStatusButton = new JButton("Update Status");
     private final JButton addSessionButton = new JButton("Add Screening");
     private final JButton deleteSessionButton = new JButton("Delete Screening");
 
@@ -58,7 +64,7 @@ public class ScreeningSessions extends JFrame implements ActionListener {
         topPanel.add(homeButton);
 
         JPanel centerPanel = new JPanel(new FlowLayout());
-        centerPanel.setPreferredSize(new java.awt.Dimension(1035, 700));
+        centerPanel.setPreferredSize(new java.awt.Dimension(1035, 650));
         centerPanel.add(hallDropDown);
 
         displayScreenings();
@@ -71,12 +77,27 @@ public class ScreeningSessions extends JFrame implements ActionListener {
         });
 
         screeningListPanel.setPreferredSize(new Dimension(1035, 600));
+        centerPanel.add(screeningListPanel);
 
+        // buttons to manage screening sessions
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.setPreferredSize(new Dimension(1035, 50));
+        buttonPanel.add(updateSessionButton);
+        buttonPanel.add(updateStatusButton);
+        buttonPanel.add(addSessionButton);
+        buttonPanel.add(deleteSessionButton);
+
+        // add panels to frame
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
-        add(screeningListPanel, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
 
+        // add action listeners
         homeButton.addActionListener(this);
+        updateSessionButton.addActionListener(this);
+        updateStatusButton.addActionListener(this);
+        addSessionButton.addActionListener(this);
+        deleteSessionButton.addActionListener(this);
     }
 
     @Override
@@ -86,14 +107,40 @@ public class ScreeningSessions extends JFrame implements ActionListener {
                 new Home(userInfo);
                 dispose();
                 break;
-            case "Update Screening Status":
-                 
+
+            case "Update Screening":
+                // UPDATE SCREENING INFO
+                // new UpdateScreening(userInfo);
+                // dispose();
                 break;
+            case "Update Screening Status":
+                // TODO: test after booking has been implemented!
+                if (selectedScreening != null) {
+                    JOptionPane.showMessageDialog(null, "Please select a screening session.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    UpdateScreeningStatusController updateScreeningStatusController = new UpdateScreeningStatusController();
+                    if (selectedScreening[7].equals("Available") && selectedScreening[8].equals("12")) {
+                        newScreeningStatus = "Fully Booked";
+                    } else {
+                        newScreeningStatus = "Available";
+                    }
+                    // update screening status
+                   if (updateScreeningStatusController.updateScreeningStatus(selectedScreening[0], newScreeningStatus)) {
+                          JOptionPane.showMessageDialog(null, "Screening status updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                          displayScreenings();
+                    } else {
+                          JOptionPane.showMessageDialog(null, "Screening status update failed.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                break;
+
             case "Add Screening":
+                // ADD NEW SCREENING
                  
                 break;
             case "Delete Screening":
-                 
+                // DELETE SCREENING ONLY IF IT HAS ENDED
+                // doesnt actually delete, just set screening status to "Ended"
                 break;
         }
          
@@ -117,10 +164,11 @@ public class ScreeningSessions extends JFrame implements ActionListener {
             screenings = getScreeningsInfoController.getAllScreenings();
         }
         
-        String[] columns = {"Movie Name", "Hall", "Date", "Start Time", "End Time", "Duration", "Screening Status", "Reserved Seats"};
+        String[] columns = {"Screening ID", "Movie Name", "Hall", "Date", "Start Time", "End Time", "Duration", "Screening Status", "Reserved Seats"};
         DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
 
         for (int i = 0; i < screenings.size(); i += 9) {
+            String screeningID = screenings.get(i);
             String movieName = screenings.get(i + 1);
             String hall = screenings.get(i + 2);
             String date = screenings.get(i + 3);
@@ -130,10 +178,28 @@ public class ScreeningSessions extends JFrame implements ActionListener {
             String screeningStatus = screenings.get(i + 7);
             String seatsReserved = screenings.get(i + 8);
  
-            tableModel.addRow(new Object[] {movieName, hall, date, startTime, endTime, duration, screeningStatus, seatsReserved});
+            tableModel.addRow(new Object[] {screeningID, movieName, hall, date, startTime, endTime, duration, screeningStatus, seatsReserved});
         }
 
         JTable screeningTable = new JTable(tableModel);  
+
+        // add listener for screeningTable
+        ListSelectionModel selectionModel = screeningTable.getSelectionModel();
+        selectionModel.addListSelectionListener(e -> {
+                if (!selectionModel.isSelectionEmpty()) {
+                    int selectedRow = selectionModel.getMinSelectionIndex(); 
+                    selectedScreening = new String[] {tableModel.getValueAt(selectedRow, 0).toString(),
+                                                    tableModel.getValueAt(selectedRow, 1).toString(), 
+                                                    tableModel.getValueAt(selectedRow, 2).toString(), 
+                                                    tableModel.getValueAt(selectedRow, 3).toString(), 
+                                                    tableModel.getValueAt(selectedRow, 4).toString(), 
+                                                    tableModel.getValueAt(selectedRow, 5).toString(), 
+                                                    tableModel.getValueAt(selectedRow, 6).toString(), 
+                                                    tableModel.getValueAt(selectedRow, 7).toString(),
+                                                    tableModel.getValueAt(selectedRow, 8).toString()};
+                }
+            }
+        );
 
          // Add the JTable to a JScrollPane
         scrollPane = new JScrollPane(screeningTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
