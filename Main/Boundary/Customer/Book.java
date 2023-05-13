@@ -3,38 +3,38 @@ package Main.Boundary.Customer;
 import java.awt.*; 
 import java.awt.event.*;
 import java.io.File;
-
 import javax.swing.*;
 import java.util.*;
 import java.util.List;
 
 import Main.Controller.*;
 import Main.Boundary.*;
-import Main.Boundary.Manager.ScreeningSessions;
 import Main.Controller.Customer.*;
 
+
+
 public class Book extends JFrame implements ActionListener {
-    private ArrayList<String> userInfo;
-    private List<String> movieInfo;
-    private String movieName;
+    private final ArrayList<String> userInfo;
+    private final List<String> movieInfo; // NOT IN USED (remove?)
+    private final String movieName;
 
     private final JLabel userRoleLabel = new JLabel();
     private final JButton homeButton = new JButton("Home"); 
     private final JButton profileButton = new JButton("Profile");
     private final JPanel panel = new JPanel(new FlowLayout());
-    private final JLabel movieNameLabel;
+    private final JLabel movieNameLabel; // NOT IN USED (remove?)
 
-    private transient LoginController loginController;
-    private transient GetScreeningsController getScreeningsController;
+    private final transient LoginController loginController;
+    private final transient GetScreeningsController getScreeningsController = new GetScreeningsController();
 
     private ArrayList<String> allScreeningsForMovie;
 
-    private String[] cinemas = {"All", "Greenville Cinema", "Townsville Cinema"};
-    private JComboBox<String> cinemaComboBox = new JComboBox<>(cinemas);
+    private final String[] cinemas = {"All", "Greenville Cinema", "Townsville Cinema"};
+    private final JComboBox<String> cinemaComboBox = new JComboBox<>(cinemas);
     private String selectedCinema = "All"; // by default
 
-    private JPanel movieBookingPanel = new JPanel(new BorderLayout());
-    private JPanel screeningPanel = new JPanel(new FlowLayout());
+    private final JPanel movieBookingPanel = new JPanel(new BorderLayout());
+    private final JPanel screeningPanel = new JPanel(new FlowLayout());
 
     public Book(ArrayList<String> userInfo, List<String> movieInfo) {
         super("CSIT 314 Cinema Booking System - Book movie: " + movieInfo.get(0));
@@ -52,12 +52,11 @@ public class Book extends JFrame implements ActionListener {
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
 
         // GET ALL SCREENINGS FOR A MOVIE
-        getScreeningsController = new GetScreeningsController();
         allScreeningsForMovie = getScreeningsController.getAllScreenings(movieName);
 
         panel.setPreferredSize(new Dimension(1035, 50));
 
-        // add user role lable and buttons to the panel
+        // add user role label and buttons to the panel
         // panel.add(userRoleLabel); 
         panel.add(profileButton); 
         panel.add(homeButton); 
@@ -120,14 +119,11 @@ public class Book extends JFrame implements ActionListener {
         profileButton.addActionListener(this);
 
         // add listener to the combo box
-        cinemaComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selectedCinema = (String) cinemaComboBox.getSelectedItem();
-                System.out.println("Selected cinema: " + selectedCinema); // for debugging
+        cinemaComboBox.addActionListener(e -> {
+            selectedCinema = (String) cinemaComboBox.getSelectedItem();
+            System.out.println("Selected cinema: " + selectedCinema); // for debugging
 
-                displayMovieScreenings();
-            }
+            displayMovieScreenings();
         });
     }
 
@@ -156,7 +152,7 @@ public class Book extends JFrame implements ActionListener {
                 System.out.println("[+] Move to Profile page");
                 dispose();
                 new Profile(userInfo);
-                break; 
+                break;
         }
     }
 
