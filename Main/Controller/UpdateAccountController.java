@@ -12,7 +12,7 @@ import java.util.*;
  */
 
 public class UpdateAccountController {
-    private User user = new User();
+    private final User user = new User();
 
     /**
      * To handle the update of account information - USER 

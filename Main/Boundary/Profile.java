@@ -82,7 +82,7 @@ public class Profile extends JFrame implements ActionListener {
         updateButton.addActionListener(this);
         homeButton.addActionListener(this);
 
-        if (userInfo.get(0) == "Customer") {
+        if (userInfo.get(0).equals("Customer")) {
             botRow.add(reviewButton);
             reviewButton.addActionListener(this);
         }

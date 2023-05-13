@@ -5,7 +5,7 @@ import Main.Entity.*;
 import java.util.*;
 
 public class AddNewMovieController {
-    Movie movie = new Movie();
+    private final Movie movie = new Movie();
     
     public AddNewMovieController() {}
 
