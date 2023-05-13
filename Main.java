@@ -19,10 +19,10 @@ public class Main {
             // Main/Boundary java files
             "Main/Boundary/*.java",
             "Main/Boundary/Admin/*.java",
+            "Main/Boundary/CinemaOwner/*.java",
             "Main/Boundary/Customer/*.java",
             "Main/Boundary/Manager/*.java",
-            //"Main/Boundary/Owner/*.java",
-
+            
             // Main/Controller java files
             "Main/Controller/*.java",
             "Main/Controller/Admin/*.java",
