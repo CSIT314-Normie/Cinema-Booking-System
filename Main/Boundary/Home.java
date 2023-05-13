@@ -109,7 +109,9 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 System.out.println("[+] Customer - Home Page");
                 
                 JButton viewTicketHistoryButton = new JButton("Ticketing History");
+                JButton viewLoyaltyPointsButton = new JButton("Loyalty Points");
                 panel.add(viewTicketHistoryButton);
+                panel.add(viewLoyaltyPointsButton);
     
                 viewTicketHistoryButton.addActionListener(this);
     
