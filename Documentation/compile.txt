@@ -11,3 +11,8 @@ jar -cvf run.jar Database/DB.class Main/Driver.class Main/Boundary/*.class Main/
 
 Run .jar:
 java -classpath ".\run.jar;.\..\lib\mysql-connector-j-8.0.32.jar;..\Main\Boundary\assets" Main.Driver
+
+
+MANUAL TESTING
+javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar" -d out Database/DB.java Main/Driver.java Main/Boundary/*.java Main/Boundary/Admin/*.java Main/Boundary/CinemaOwner/*.java Main/Boundary/Customer/*.java Main/Boundary/Manager/*.java Main/Controller/*.java Main/Controller/Admin/*.java Main/Controller/Customer/*.java Main/Controller/Manager/*.java Main/Entity/*.java 
+java -classpath "./Out;./lib/mysql-connector-j-8.0.32.jar" Main.Driver 
