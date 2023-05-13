@@ -32,7 +32,7 @@ public class GetScreeningsInfoController {
 
     /**
      * To get a screening for a specific hall
-     * @param hall
+     * @param hall hall to get screening for
      * @return ArrayList<String> screenings
      */
     public ArrayList<String> getScreeningsForHall(String hall) {

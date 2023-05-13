@@ -8,7 +8,7 @@ import Main.Entity.*;
 
 public class SuspendMovieController {
 
-    private Movie movie = new Movie();
+    private final Movie movie = new Movie();
     private String email;
 
     public SuspendMovieController() {

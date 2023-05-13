@@ -7,7 +7,8 @@ import java.util.*;
 
 import Main.Boundary.Home;
 import Main.Controller.*;
-import Main.Controller.Admin.TicketingHistoryController;
+import Main.Controller.Admin.*;
+
 
 public class TicketingHistory extends JFrame implements ActionListener{
     private final ArrayList<String> userInfo;

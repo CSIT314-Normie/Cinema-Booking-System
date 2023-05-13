@@ -24,7 +24,7 @@ public class Update extends JFrame implements ActionListener {
     private final JPanel overviewList = new JPanel(new BorderLayout());
     
     private final ArrayList<String> userInfo;
-    private String email;
+    private final String email;
 
     public Update(ArrayList<String> userInfo) {
         super("Update Account");

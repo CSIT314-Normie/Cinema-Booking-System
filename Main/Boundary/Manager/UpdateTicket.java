@@ -1,25 +1,10 @@
 package Main.Boundary.Manager;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel; 
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
+import javax.swing.*;
 import Main.Boundary.Home;
 import Main.Controller.Manager.*;
 
@@ -41,8 +26,10 @@ public class UpdateTicket extends JFrame implements ActionListener{
 
     private final ArrayList<String> userInfo;
 
-    JTextField textField;
-    JComboBox<String> dropdown;
+    private final JTextField textField;
+    private final JComboBox<String> dropdown;
+
+    private final transient UpdateTicketController updateTicketController = new UpdateTicketController();
 
     public UpdateTicket(ArrayList<String> userInfo) {
         super("Cinema Manager - Update Ticket Price");
@@ -141,7 +128,7 @@ public class UpdateTicket extends JFrame implements ActionListener{
         String ticketType = (String) dropdown.getSelectedItem();
         switch (e.getActionCommand()){
             case "Update":
-            UpdateTicketController updateTicketController = new UpdateTicketController();
+            
                 if(price.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please fill in all the fields");
                     break;

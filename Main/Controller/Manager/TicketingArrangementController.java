@@ -10,7 +10,7 @@ import java.util.*;
 */
 
 public class TicketingArrangementController {
-    Ticket ticket = new Ticket();
+    private final Ticket ticket = new Ticket();
     
 
     public TicketingArrangementController() {}
