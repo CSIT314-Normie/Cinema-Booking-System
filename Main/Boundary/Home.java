@@ -10,8 +10,6 @@ import java.util.List;
 
 
 import Main.Boundary.Admin.*;
-import Main.Boundary.CinemaOwner.ReportA;
-import Main.Boundary.CinemaOwner.ReportB;
 import Main.Boundary.Customer.*;
 import Main.Boundary.Manager.*;
 
@@ -302,12 +300,12 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             case "Report A":
                 System.out.println("[+] Cinema Owner - Move to Report A page");
                 dispose();
-                new ReportA();
+                //new ReportA();
                 break;
             case "Report B":
                 System.out.println("[+] Cinema Owner - Move to Report B page");
                 dispose();
-                new ReportB();
+                //new ReportB();
                 break;
         }
     }
@@ -319,8 +317,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         JLabel movieTitle = (JLabel) clickedMoviePanel.getComponent(0);
         System.out.println("Movie panel clicked: " + movieTitle.getText());
 
-        List<String> movieInfo = searchedMovieList.subList(searchedMovieList.indexOf(movieTitle.getText()),
-                searchedMovieList.indexOf(movieTitle.getText()) + 7);
+        List<String> movieInfo = searchedMovieList.subList(searchedMovieList.indexOf(movieTitle.getText()), searchedMovieList.indexOf(movieTitle.getText()) + 7);
         System.out.println(movieInfo);
 
         // open Book.java with the movie title
@@ -427,8 +424,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
             JLabel movieTitle = new JLabel(searchedMovieList.get(i));
 
-            ImageIcon image = new ImageIcon(
-                    (new File("./Main/Boundary/assets/" + searchedMovieList.get(i + 1))).getAbsolutePath());
+            ImageIcon image = new ImageIcon((new File("./Main/Boundary/assets/" + searchedMovieList.get(i + 1))).getAbsolutePath());
             Image scaledImage = image.getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
             image = new ImageIcon(scaledImage);
 
