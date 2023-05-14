@@ -7,9 +7,7 @@ import Main.Entity.Movie;
 
 public class AddScreeningSessionController {
     Movie movie = new Movie();
-    MovieScreening movieScreening = new MovieScreening();
-
-    ArrayList<String> screeningSessionInfo = new ArrayList<>();
+    MovieScreening movieScreening = new MovieScreening(); 
 
     public AddScreeningSessionController() {
     }
@@ -29,16 +27,7 @@ public class AddScreeningSessionController {
     public ArrayList<String> getAvailableMovies() { 
         return movie.getAvailableMovies();
     }
-
-    /**
-     * Get all screening sessions 
-     * @return ArrayList<String> screeningSessions
-     */
-    public ArrayList<String> getAllScreeningSessions() { 
-        this.screeningSessionInfo = movieScreening.getAllScreenings();
-        return this.screeningSessionInfo;
-    }
-
+ 
     /**
      * Validate Screening Session - check if the Hall for the time slot is available (check: HALL, date, timeSlot startTime, endTime)
      * @param screeningSessionInfo

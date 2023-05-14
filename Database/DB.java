@@ -139,7 +139,7 @@ public class DB {
                 + "seatID VARCHAR(10) NOT NULL,"
                 + "userEmail VARCHAR(255) NOT NULL,"
                 + "movieName VARCHAR(255) NOT NULL,"
-                + "screeningID VARCHAR(10) NOT NULL,"
+                + "screeningID INT NOT NULL,"
                 + "FOREIGN KEY (userEmail) REFERENCES users(email),"
                 + "FOREIGN KEY (movieName) REFERENCES movies(name),"
                 + "FOREIGN KEY (screeningID) REFERENCES movie_screening(screeningID),"

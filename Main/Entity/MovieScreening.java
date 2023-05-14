@@ -178,12 +178,11 @@ public class MovieScreening {
         PreparedStatement stmt;
     
         try {
-            // Comments on this function are in the same function in User.java
             stmt = conn.prepareStatement("UPDATE movie_screening SET screeningStatus = ? WHERE screeningID = ?");
             stmt.setString(1, newScreeningStatus);
             stmt.setString(2, screeningID);  
 
-            stmt.executeUpdate();
+            stmt.executeUpdate(); 
 
             System.out.println("screening " + screeningID + "'s screening status has been updated");
         } catch (SQLException e) {
@@ -192,6 +191,41 @@ public class MovieScreening {
 
         return true;
     } 
+
+    /**
+     * Update screening session info - normally just the Hall
+     * @param screeningID
+     * @param updateColumn
+     * @param value
+     * @return boolean
+     */
+    public boolean updateScreeningSession(int screeningID, String updateColumn, String value) {
+        PreparedStatement stmt;
+    
+        try {
+            // Update the column specified by the user with the value specified by the user
+
+            // UPDATE movie_screening SET hall = 'hall' WHERE screeningID = 'screeningID'
+            stmt = conn.prepareStatement("UPDATE movie_screening SET " + updateColumn + " = ? WHERE screeningID = ?");
+            stmt.setString(1, value);
+            stmt.setInt(2, screeningID);  
+
+            stmt.executeUpdate(); 
+
+            // UPDATE seat_Reserved SET hall = 'hall' WHERE screeningID = 'screeningID'
+            stmt = conn.prepareStatement("UPDATE seat_Reserved SET " + updateColumn + " = ? WHERE screeningID = ?");
+            stmt.setString(1, value);
+            stmt.setInt(2, screeningID);
+
+            stmt.executeUpdate();
+
+            System.out.println("screening " + screeningID + "'s " + updateColumn + " has been updated");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return true;
+    }
 
 
      /*

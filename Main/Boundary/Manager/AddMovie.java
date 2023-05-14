@@ -16,7 +16,7 @@ public class AddMovie extends JFrame implements ActionListener {
     private final JPanel centerPanel;
     private final JPanel movieImgPanel = new JPanel(new FlowLayout());
 
-    private final JButton homeButton = new JButton("Manager Home");
+    private final JButton homeButton = new JButton("Home");
     private final JButton logoutButton = new JButton("Logout");
     private final JButton uploadButton = new JButton("Upload image");
     private final JButton deleteImgButton = new JButton("Delete image");

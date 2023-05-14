@@ -4,7 +4,8 @@ import java.awt.*;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList; 
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -94,18 +95,29 @@ public class ScreeningSessions extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Home":
-                new Home(userInfo);
                 dispose();
+                new Home(userInfo);
+                
                 break;
 
             case "Update Screening":
-                // UPDATE SCREENING INFO
-                // new UpdateScreening(userInfo);
-                // dispose();
+                if (selectedScreening == null) {
+                    JOptionPane.showMessageDialog(null, "Please select a screening session.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else { 
+                    if (selectedScreening[7].equals("Ended")) {
+                        JOptionPane.showMessageDialog(null, "Screening has ended. Cannot update.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        ArrayList<String> selectedScreeningInfo = new ArrayList<>(Arrays.asList(selectedScreening)); 
+                        dispose();
+                        new UpdateScreeningSession(userInfo, selectedScreeningInfo);
+                    }
+                } 
+
                 break;
+
             case "Update Screening Status":
                 // TODO: test after booking has been implemented!
-                if (selectedScreening != null) {
+                if (selectedScreening == null) {
                     JOptionPane.showMessageDialog(null, "Please select a screening session.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     UpdateScreeningStatusController updateScreeningStatusController = new UpdateScreeningStatusController();
@@ -188,7 +200,7 @@ public class ScreeningSessions extends JFrame implements ActionListener {
                                                     tableModel.getValueAt(selectedRow, 5).toString(), 
                                                     tableModel.getValueAt(selectedRow, 6).toString(), 
                                                     tableModel.getValueAt(selectedRow, 7).toString(),
-                                                    tableModel.getValueAt(selectedRow, 8).toString()};
+                                                    tableModel.getValueAt(selectedRow, 8).toString()}; 
                 }
             }
         );
