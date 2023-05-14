@@ -28,8 +28,7 @@ public class ScreeningSessions extends JFrame implements ActionListener {
 
     private final JComboBox<String> hallDropDown = new JComboBox<>(halls);
 
-    private final JButton homeButton = new JButton("Home");
-    private final JButton updateSessionButton = new JButton("Update Screening");
+    private final JButton homeButton = new JButton("Home"); 
     private final JButton updateStatusButton = new JButton("Update Status");
     private final JButton addSessionButton = new JButton("Add Screening");
     private final JButton deleteSessionButton = new JButton("Delete Screening");
@@ -73,7 +72,6 @@ public class ScreeningSessions extends JFrame implements ActionListener {
         // buttons to manage screening sessions
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setPreferredSize(new Dimension(1035, 50));
-        buttonPanel.add(updateSessionButton);
         buttonPanel.add(updateStatusButton);
         buttonPanel.add(addSessionButton);
         buttonPanel.add(deleteSessionButton);
@@ -84,8 +82,7 @@ public class ScreeningSessions extends JFrame implements ActionListener {
         add(buttonPanel, BorderLayout.SOUTH);
 
         // add action listeners
-        homeButton.addActionListener(this);
-        updateSessionButton.addActionListener(this);
+        homeButton.addActionListener(this); 
         updateStatusButton.addActionListener(this);
         addSessionButton.addActionListener(this);
         deleteSessionButton.addActionListener(this);
@@ -98,22 +95,7 @@ public class ScreeningSessions extends JFrame implements ActionListener {
                 dispose();
                 new Home(userInfo);
                 
-                break;
-
-            case "Update Screening":
-                if (selectedScreening == null) {
-                    JOptionPane.showMessageDialog(null, "Please select a screening session.", "Error", JOptionPane.ERROR_MESSAGE);
-                } else { 
-                    if (selectedScreening[7].equals("Ended")) {
-                        JOptionPane.showMessageDialog(null, "Screening has ended. Cannot update.", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        ArrayList<String> selectedScreeningInfo = new ArrayList<>(Arrays.asList(selectedScreening)); 
-                        dispose();
-                        new UpdateScreeningSession(userInfo, selectedScreeningInfo);
-                    }
-                } 
-
-                break;
+                break; 
 
             case "Update Screening Status":
                 // TODO: test after booking has been implemented!
