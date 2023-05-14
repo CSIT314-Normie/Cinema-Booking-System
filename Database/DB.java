@@ -103,10 +103,11 @@ public class DB {
 
             // ceate movie screening table (movie name, screening ID, Hall ID)
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS movie_screening ("
-                    + "screeningID VARCHAR(10) PRIMARY KEY,"
+                    + "screeningID INT AUTO_INCREMENT PRIMARY KEY,"
                     + "movieName VARCHAR(255) NOT NULL,"
                     + "Hall VARCHAR(10) NOT NULL,"
                     + "date VARCHAR(255) NOT NULL,"
+                    + "timeSlot VARCHAR(255) NOT NULL,"
                     + "startTime VARCHAR(255) NOT NULL,"
                     + "endTime VARCHAR(255) NOT NULL,"
                     + "duration VARCHAR(255) NOT NULL,"
@@ -140,7 +141,7 @@ public class DB {
 
             stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'D', 'Townsville Cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'D');"));
 
-            stmts.add(conn.prepareStatement("INSERT INTO movie_screening (screeningID, movieName, Hall, date, startTime, endTime, duration, screeningStatus) SELECT '1', 'Barbie Movie', 'A', '12/06/2023', '12:00pm', '15:00pm', '3 hours', 'Available' FROM dual WHERE NOT EXISTS (SELECT * FROM movie_screening WHERE screeningID = '1');"));
+            stmts.add(conn.prepareStatement("INSERT INTO movie_screening (movieName, Hall, date, timeSlot, startTime, endTime, duration, screeningStatus) SELECT 'Barbie Movie', 'A', '12/06/2023', 'Afternoon 1', '12:15pm', '15:15pm', '3 hours', 'Available' FROM dual WHERE NOT EXISTS (SELECT * FROM movie_screening WHERE screeningID = '1');"));
             
             stmts.add(conn.prepareStatement(
                     "CREATE TRIGGER update_movies_rate_review " +

@@ -82,11 +82,9 @@ public class UpdateMovieInfo extends JFrame implements ActionListener {
                 fieldPanel.add(field, BorderLayout.EAST);
             }
             
-        
             fieldPanel.add(label, BorderLayout.WEST);
             fieldPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
             
-
             formPanel.add(fieldPanel);
         }
 

@@ -4,10 +4,10 @@ import Main.Entity.*;
 
 import java.util.*;
 
-public class AddNewMovieController {
+public class AddMovieController {
     Movie movie = new Movie();
     
-    public AddNewMovieController() {}
+    public AddMovieController() {}
 
     public boolean insertMovie(ArrayList<String> movieInfo) {
         return movie.insertMovie(movieInfo);

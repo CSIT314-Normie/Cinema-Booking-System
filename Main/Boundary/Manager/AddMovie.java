@@ -29,7 +29,7 @@ public class AddMovie extends JFrame implements ActionListener {
     private String movieStatus = "Available"; // default status
     private String movieImgFileName; 
 
-    private transient AddNewMovieController addNewMovieController = new AddNewMovieController();
+    private transient AddMovieController addNewMovieController = new AddMovieController();
 
     public AddMovie(ArrayList<String> userInfo) {
         super("Cinema Manager - Add Movie");

@@ -80,6 +80,30 @@ public class Movie {
         return allMovies;
     }
 
+    public ArrayList<String> getAvailableMovies() {
+        ArrayList<String> allMovies = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movies WHERE status = 'Available'");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                allMovies.add(rs.getString("name"));
+                allMovies.add(rs.getString("image"));
+                allMovies.add(rs.getString("rate"));
+                allMovies.add(rs.getString("review"));
+                allMovies.add(rs.getString("description"));
+                allMovies.add(rs.getString("status"));
+                allMovies.add(rs.getString("duration"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return allMovies;
+    }
+
 
     public ArrayList<String> getUserWatchedMovies(String email) {
         ArrayList<String> movies = new ArrayList<>();
