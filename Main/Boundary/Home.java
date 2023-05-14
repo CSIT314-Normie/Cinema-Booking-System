@@ -11,6 +11,7 @@ import java.util.List;
 
 import Main.Boundary.Admin.*;
 import Main.Boundary.Customer.*;
+import Main.Boundary.Owner.*;
 import Main.Boundary.Manager.*;
 
 import Main.Controller.*;
@@ -300,7 +301,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             case "Report A":
                 System.out.println("[+] Cinema Owner - Move to Report A page");
                 dispose();
-                //new ReportA();
+                new ReportA();
                 break;
             case "Report B":
                 System.out.println("[+] Cinema Owner - Move to Report B page");
