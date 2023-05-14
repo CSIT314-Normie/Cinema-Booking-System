@@ -126,7 +126,9 @@ public class ScreeningSessions extends JFrame implements ActionListener {
 
             case "Add Screening":
                 // ADD NEW SCREENING
-                 
+                dispose();
+                new AddScreeningSession(userInfo);
+
                 break;
             case "Delete Screening":
                 // DELETE SCREENING ONLY IF IT HAS ENDED

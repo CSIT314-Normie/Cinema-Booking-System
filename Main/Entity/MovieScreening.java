@@ -40,10 +40,10 @@ public class MovieScreening {
                 allScreenings.add(rs.getString("screeningId"));
                 allScreenings.add(rs.getString("movieName"));
                 allScreenings.add(rs.getString("hall"));
+                allScreenings.add(rs.getString("date"));
                 allScreenings.add(rs.getString("startTime"));
                 allScreenings.add(rs.getString("endTime"));
                 allScreenings.add(rs.getString("duration"));
-                allScreenings.add(rs.getString("date"));
                 allScreenings.add(rs.getString("screeningStatus"));
             }
 
@@ -53,6 +53,31 @@ public class MovieScreening {
 
         return allScreenings;
     }
+
+    /** 
+     * To get all halls
+     * @return ArrayList<String> halls
+     */
+    public ArrayList<String> getAllHalls() {
+        ArrayList<String> allHalls = new ArrayList<>();
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cinema_halls");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                allHalls.add(rs.getString("Hall"));
+                allHalls.add(rs.getString("cinemaName"));
+                allHalls.add(rs.getString("noOfSeats")); 
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return allHalls;
+    }
+
 
     /**
      * To get a screenings for a specific hall
@@ -71,10 +96,10 @@ public class MovieScreening {
                 allScreenings.add(rs.getString("screeningId"));
                 allScreenings.add(rs.getString("movieName"));
                 allScreenings.add(rs.getString("hall"));
+                allScreenings.add(rs.getString("date"));
                 allScreenings.add(rs.getString("startTime"));
                 allScreenings.add(rs.getString("endTime"));
                 allScreenings.add(rs.getString("duration"));
-                allScreenings.add(rs.getString("date"));
                 allScreenings.add(rs.getString("screeningStatus"));
             }
 
@@ -85,22 +110,56 @@ public class MovieScreening {
         return allScreenings;
     }
 
-    /*
-     * Insert a new movie screening
+    /** 
+     * Validate if a movie screening can be added
+     * @param ArrayList<String> values
+     * @return boolean
      */
-    public boolean insertScreening(ArrayList<String> values) {
+    public boolean validateScreeningSession(ArrayList<String> values) {
+        PreparedStatement stmt;
+        boolean valid = true;
+    
+        try {
+            // Comments on this function are in the same function in User.java
+            stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE hall = ? AND date = ? AND timeSlot = ? AND startTime = ? AND endTime = ?");
+            stmt.setString(1, values.get(1));
+            stmt.setString(2, values.get(2));
+            stmt.setString(3, values.get(3));
+            stmt.setString(4, values.get(4)); 
+            stmt.setString(5, values.get(5));
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                valid = false;
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return valid;
+    }
+
+    /**
+     * Insert a new movie screening
+     * @param ArrayList<String> values
+     * @return boolean
+     */
+    public boolean insertScreeningSession(ArrayList<String> values) {
         PreparedStatement stmt;
     
         try {
             // Comments on this function are in the same function in User.java
-            stmt = conn.prepareStatement("INSERT INTO movie_screening (screeningID, movieName, Hall, startTime, endTime, duration, date, screeningStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            stmt = conn.prepareStatement("INSERT INTO movie_screening (movieName, Hall, date, timeSlot, startTime, endTime, duration, screeningStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, values.get(0));
             stmt.setString(2, values.get(1)); 
             stmt.setString(3, values.get(2));
             stmt.setString(4, values.get(3));
             stmt.setString(5, values.get(4));
-            stmt.setString(6, values.get(5));
+            stmt.setString(6, values.get(5)); 
             stmt.setString(7, values.get(6));
+            stmt.setString(8, values.get(7));
 
             stmt.executeUpdate();
 
