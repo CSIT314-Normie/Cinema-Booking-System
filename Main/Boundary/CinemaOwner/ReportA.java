@@ -24,12 +24,10 @@ public class ReportA extends JFrame implements ActionListener
         // combobox for the type of report for ReportA (Revenue for each cinema)
         String[] typeOfReportA = {"Hourly", "Daily", "Weekly"};
 
-        // Type safety: The constructor JComboBox(Object[]) belongs to the raw type JComboBox. References to generic type JComboBox<E> should be parameterize
-        JComboBox<String> ReportAList = new JComboBox(typeOfReportA);
         
-        
-        //this.add(ReportAList);
-        this.pack();
+        //JComboBox<String> ReportAList = new JComboBox(typeOfReportA);       
+        //add(ReportAList);
+        //this.pack();
     }   
     
     // action listener for comboBox

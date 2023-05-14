@@ -301,13 +301,13 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 break;
             case "Report A":
                 System.out.println("[+] Cinema Owner - Move to Report A page");
-                dispose();
-                new ReportA();
+                // dispose();
+                // new ReportA();
                 break;
             case "Report B":
                 System.out.println("[+] Cinema Owner - Move to Report B page");
-                dispose();
-                new ReportB();
+                // dispose();
+                // new ReportB();
                 break;
         }
     }
