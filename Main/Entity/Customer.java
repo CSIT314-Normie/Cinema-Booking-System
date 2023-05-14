@@ -83,6 +83,6 @@ public class Customer extends User {
             System.err.println(e.getMessage());
         }
 
-        return null;
+        return "0";
     }
 }
