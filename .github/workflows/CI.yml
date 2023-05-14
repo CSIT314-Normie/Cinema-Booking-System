@@ -20,11 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install XVFB
-        run: sudo apt-get install xvfb
-
-      - name: Install XDOTOOL
-        run: sudo apt-get install xdotool
+      - name: Install XVFB and XDOTOOL
+        run: sudo apt-get install xdotool xvfb
 
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v1
@@ -34,12 +31,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Create Out directory
+        run: mkdir Out
+
       - name: Compile Java code
       # always add "./Out/;./lib/mysql-connector-j-8.0.32.jar" to the classpath
         run: |
-          javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar" -d Out Database/DB.java Main/Driver.java Main/Boundary/*.java Main/Boundary/Admin/*.java Main/Boundary/Customer/*.java Main/Boundary/Manager/*.java Main/Controller/*.java Main/Controller/Admin/*.java Main/Controller/Customer/*.java Main/Controller/Manager/*.java Main/Entity/*.java
+          javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar" -d Out Database/DB.java Main/Driver.java Main/Boundary/*.java Main/Boundary/Admin/*.java Main/Boundary/Owner/*.java Main/Boundary/Customer/*.java Main/Boundary/Manager/*.java Main/Controller/*.java Main/Controller/Admin/*.java Main/Controller/Customer/*.java Main/Controller/Manager/*.java Main/Entity/*.java
  
-
       - name: Start Xvfb
         run: Xvfb :99 -ac &
 

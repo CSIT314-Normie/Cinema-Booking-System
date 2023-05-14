@@ -11,25 +11,25 @@ import Main.Controller.Manager.*;
 import Main.Boundary.*;
 
 public class AddMovie extends JFrame implements ActionListener {
-    private ArrayList<String> userInfo; 
-    private JPanel topPanel;
-    private JPanel centerPanel;
-    private JPanel movieImgPanel = new JPanel(new FlowLayout());
+    private final ArrayList<String> userInfo;
+    private final JPanel topPanel;
+    private final JPanel centerPanel;
+    private final JPanel movieImgPanel = new JPanel(new FlowLayout());
 
-    private JButton homeButton = new JButton("Manager Home");
-    private JButton logoutButton = new JButton("Logout");
-    private JButton uploadButton = new JButton("Upload image");
-    private JButton deleteImgButton = new JButton("Delete image");
-    private JButton submitButton = new JButton("Submit");
+    private final JButton homeButton = new JButton("Manager Home");
+    private final JButton logoutButton = new JButton("Logout");
+    private final JButton uploadButton = new JButton("Upload image");
+    private final JButton deleteImgButton = new JButton("Delete image");
+    private final JButton submitButton = new JButton("Submit");
 
     // As of now, there will be 4 fields (Movie Name, movie image, movie description, movie status (Fully Booked or Available (Default))
-    private String[] labelList = {"Movie Name: ", "Movie Image: ", "Movie Description: ", "Movie Status: ", "Movie Duration: "};
-    private ArrayList<JTextField> fieldList = new ArrayList<JTextField>(2); // 2 text fields: movie name and movie description
-    private JComboBox<String> statusList = new JComboBox<>(new String[]{"Available", "Unavailable"});
+    private final String[] labelList = {"Movie Name: ", "Movie Image: ", "Movie Description: ", "Movie Status: ", "Movie Duration: "};
+    private final ArrayList<JTextField> fieldList = new ArrayList<>(2); // 2 text fields: movie name and movie description
+    private final JComboBox<String> statusList = new JComboBox<>(new String[]{"Available", "Unavailable"});
     private String movieStatus = "Available"; // default status
     private String movieImgFileName; 
 
-    private transient AddMovieController addNewMovieController = new AddMovieController();
+    private final transient AddMovieController addNewMovieController = new AddMovieController();
 
     public AddMovie(ArrayList<String> userInfo) {
         super("Cinema Manager - Add Movie");
@@ -73,7 +73,7 @@ public class AddMovie extends JFrame implements ActionListener {
             fieldList.add(field);
 
             if (i == 3) { // drop down menu for role
-                statusList.setSelectedItem("Available");;
+                statusList.setSelectedItem("Available");
                 panel.add(label, BorderLayout.WEST);
                 panel.add(statusList, BorderLayout.EAST);
                 panel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
@@ -99,12 +99,7 @@ public class AddMovie extends JFrame implements ActionListener {
         displayUploadedImage();
 
         // add listener to the drop down menu
-        statusList.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                movieStatus = (String) statusList.getSelectedItem();
-            }
-        });
+        statusList.addActionListener(e -> movieStatus = (String) statusList.getSelectedItem());
 
         add(topPanel);
         add(centerPanel);
@@ -200,7 +195,6 @@ public class AddMovie extends JFrame implements ActionListener {
                     if (movieStatus == null) {
                         JOptionPane.showMessageDialog(this, "Please select movie status", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    return;
                 } else {
                     // check if movie image file is uploaded
                     if (movieImgFileName == null) {

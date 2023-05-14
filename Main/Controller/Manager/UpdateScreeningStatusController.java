@@ -5,7 +5,7 @@ import java.util.*;
 import Main.Entity.*;
 
 public class UpdateScreeningStatusController {
-    MovieScreening movieScreening = new MovieScreening();
+    private final MovieScreening movieScreening = new MovieScreening();
 
     public UpdateScreeningStatusController() {}
 

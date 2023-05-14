@@ -159,7 +159,7 @@ public class AddScreeningSession extends JFrame implements ActionListener {
                     } else if (selectedInfo[3].equals("Afternoon 1")){
                         selectedInfo[4] = "12:15pm";
                         selectedInfo[5] = "15:15pm";
-                    } else if (selectedInfo[3].equals("Afernoon 2")) {
+                    } else if (selectedInfo[3].equals("Afternoon 2")) {
                         selectedInfo[4] = "15:30pm";
                         selectedInfo[5] = "18:30pm";
                     } else if (selectedInfo[3].equals("Evening 1")) {
@@ -215,7 +215,7 @@ public class AddScreeningSession extends JFrame implements ActionListener {
                     } else {
                         addScreeningSessionController.addScreeningSession(this.newScreening);
                         JOptionPane.showMessageDialog(null, "Screening session added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        
+
                         dispose();
                         new ScreeningSessions(userInfo);
                     } 
