@@ -12,8 +12,7 @@ import Main.Boundary.*;
 import Main.Controller.Customer.*;
 
 
-
-public class Book extends JFrame implements ActionListener {
+public class MovieScreenings extends JFrame implements ActionListener {
     private final ArrayList<String> userInfo;
     private final List<String> movieInfo; // NOT IN USED (remove?)
     private final String movieName;
@@ -25,7 +24,7 @@ public class Book extends JFrame implements ActionListener {
     private final JLabel movieNameLabel; // NOT IN USED (remove?)
 
     private final transient LoginController loginController;
-    private final transient GetScreeningsController getScreeningsController = new GetScreeningsController();
+    private final transient GetMovieScreeningsController getScreeningsController = new GetMovieScreeningsController();
 
     private ArrayList<String> allScreeningsForMovie;
 
@@ -36,7 +35,7 @@ public class Book extends JFrame implements ActionListener {
     private final JPanel movieBookingPanel = new JPanel(new BorderLayout());
     private final JPanel screeningPanel = new JPanel(new FlowLayout());
 
-    public Book(ArrayList<String> userInfo, List<String> movieInfo) {
+    public MovieScreenings(ArrayList<String> userInfo, List<String> movieInfo) {
         super("CSIT 314 Cinema Booking System - Book movie: " + movieInfo.get(0));
         this.userInfo = userInfo;
         this.movieInfo = movieInfo;
@@ -96,7 +95,6 @@ public class Book extends JFrame implements ActionListener {
         movieDescriptionText.setWrapStyleWord(true);
         movieDescriptionText.setOpaque(false);
         movieDescriptionText.setEditable(false);
- 
 
         JScrollPane scrollPane = new JScrollPane(movieBookingPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setPreferredSize(new Dimension(800, 650));
@@ -175,7 +173,7 @@ public class Book extends JFrame implements ActionListener {
         cinemaTwoPanel.setPreferredSize(new Dimension(400, 220));
         cinemaTwoPanel.setBorder(BorderFactory.createTitledBorder("Townsville Cinema")); 
 
-        for (int i = 0; i < allScreeningsForMovie.size(); i += 8) { 
+        for (int i = 0; i < allScreeningsForMovie.size(); i += 9) { 
             JButton sessionButton;
             // for greenville cinema (cinema one)
             if (allScreeningsForMovie.get(i + 2).equals("A") || allScreeningsForMovie.get(i + 2).equals("B")) {

@@ -323,7 +323,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
         // open Book.java with the movie title
         dispose();
-        new Book(userInfo, movieInfo);
+        new MovieScreenings(userInfo, movieInfo);
     }
 
     /*
