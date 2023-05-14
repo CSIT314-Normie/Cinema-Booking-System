@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import Main.Entity.MovieScreening;
 
-public class GetScreeningsController {
+public class GetMovieScreeningsController {
     MovieScreening movieScreening = new MovieScreening();
 
-    public GetScreeningsController() {}
+    public GetMovieScreeningsController() {}
 
     /**
      * To get ALL movie screening information

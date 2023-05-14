@@ -327,6 +327,7 @@ public class MovieScreening {
                 allScreenings.add(rs.getString("screeningId"));
                 allScreenings.add(rs.getString("movieName"));
                 allScreenings.add(rs.getString("hall"));
+                allScreenings.add(rs.getString("Date"));
                 allScreenings.add(rs.getString("startTime"));
                 allScreenings.add(rs.getString("endTime"));
                 allScreenings.add(rs.getString("duration"));
