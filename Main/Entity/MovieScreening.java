@@ -192,75 +192,17 @@ public class MovieScreening {
         return true;
     } 
 
+
     /**
-     * Update screening session info - normally just the Hall
-     * @param screeningID
-     * @param updateColumn
-     * @param value
-     * @return boolean
-     */
-    public boolean updateScreeningSession(int screeningID, String updateColumn, String value) {
-        PreparedStatement stmt;
-    
-        try {
-            // Update the column specified by the user with the value specified by the user
-
-            // UPDATE movie_screening SET hall = 'hall' WHERE screeningID = 'screeningID'
-            stmt = conn.prepareStatement("UPDATE movie_screening SET " + updateColumn + " = ? WHERE screeningID = ?");
-            stmt.setString(1, value);
-            stmt.setInt(2, screeningID);  
-
-            stmt.executeUpdate(); 
-
-            // UPDATE seat_Reserved SET hall = 'hall' WHERE screeningID = 'screeningID'
-            stmt = conn.prepareStatement("UPDATE seat_Reserved SET " + updateColumn + " = ? WHERE screeningID = ?");
-            stmt.setString(1, value);
-            stmt.setInt(2, screeningID);
-
-            stmt.executeUpdate();
-
-            System.out.println("screening " + screeningID + "'s " + updateColumn + " has been updated");
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return true;
-    }
-
-
-     /*
-     * get all halls in a cinema
-     */
-    public ArrayList<String> getCinemaHalls(String cinemaName) {
-        ArrayList<String> hallInfo = new ArrayList<>();
-
-        try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cinema_halls WHERE cinemaName = ?");
-            stmt.setString(1, cinemaName);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                hallInfo.add(rs.getString("hall"));
-                hallInfo.add(rs.getString("cinemaName"));
-                hallInfo.add(rs.getString("noOfSeats"));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return hallInfo;
-    }
-
-
-     /*
     * To get all the seat information for a hall
+    * @param hall
+    * @return ArrayList<String> allSeats
     */
     public ArrayList<String> getAllSeats(String hall) {
         ArrayList<String> allSeats = new ArrayList<>();
 
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM seat WHERE hall = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM seats WHERE hall = ?");
             stmt.setString(1, hall);
 
             ResultSet rs = stmt.executeQuery();
@@ -276,24 +218,21 @@ public class MovieScreening {
         }
 
         return allSeats;
-    }
-
+    } 
 
     /**
-     * Get seats reserved for a specific movie screening (movie name and screening ID)
-     * @param movieName
-     * @param screeningID
+     * Get seats reserved for a specific movie screening (movie name and screening ID) 
      * @param hall
+     * @param screeningID
      * @return ArrayList<String> reservedSeats
      */
-    public ArrayList<String> getSeatsReservedForScreening(String movieName, String screeningID, String hall) {
+    public ArrayList<String> getSeatsReservedForScreening(String hall, String screeningID) {
         ArrayList<String> allSeats = new ArrayList<>();
 
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM seat_reserved WHERE hall = ? AND movieName = ? AND screeningID = ?");
-            stmt.setString(1, hall);
-            stmt.setString(2, movieName);
-            stmt.setString(3, screeningID);
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM seat_reserved WHERE hall = ? AND screeningID = ?");
+            stmt.setString(1, hall); 
+            stmt.setString(2, screeningID);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -313,33 +252,83 @@ public class MovieScreening {
     /**
      * To get all screenings for a movie - CUSTOMER
      * @param movieName
+     * @param date
      * @return ArrayList<String> screenings
      */
-    public ArrayList<String> getAllScreeningsForAMovie(String movieName) {
+    public ArrayList<String> getAllScreeningsForAMovie(String movieName, String date) {
         ArrayList<String> allScreenings = new ArrayList<>();
         
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ?");
-            stmt.setString(1, movieName);
-            ResultSet rs = stmt.executeQuery();
+            if (date.equals("All")) {
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ?");
+                stmt.setString(1, movieName);
+                ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()){
-                allScreenings.add(rs.getString("screeningId"));
-                allScreenings.add(rs.getString("movieName"));
-                allScreenings.add(rs.getString("hall"));
-                allScreenings.add(rs.getString("Date"));
-                allScreenings.add(rs.getString("startTime"));
-                allScreenings.add(rs.getString("endTime"));
-                allScreenings.add(rs.getString("duration"));
-                allScreenings.add(rs.getString("date"));
-                allScreenings.add(rs.getString("screeningStatus"));
-            }
+                while (rs.next()){
+                    allScreenings.add(rs.getString("screeningId"));
+                    allScreenings.add(rs.getString("movieName"));
+                    allScreenings.add(rs.getString("hall"));
+                    allScreenings.add(rs.getString("Date"));
+                    allScreenings.add(rs.getString("startTime"));
+                    allScreenings.add(rs.getString("endTime"));
+                    allScreenings.add(rs.getString("duration"));
+                    allScreenings.add(rs.getString("date"));
+                    allScreenings.add(rs.getString("screeningStatus"));
+                } 
+            } else {
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ? AND date = ?");
+                stmt.setString(1, movieName);
+                stmt.setString(2, date);
+                ResultSet rs = stmt.executeQuery();
 
+                while (rs.next()){
+                    allScreenings.add(rs.getString("screeningId"));
+                    allScreenings.add(rs.getString("movieName"));
+                    allScreenings.add(rs.getString("hall"));
+                    allScreenings.add(rs.getString("Date"));
+                    allScreenings.add(rs.getString("startTime"));
+                    allScreenings.add(rs.getString("endTime"));
+                    allScreenings.add(rs.getString("duration"));
+                    allScreenings.add(rs.getString("date"));
+                    allScreenings.add(rs.getString("screeningStatus"));
+                }
+            }     
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return allScreenings;
+    }
+
+    /**
+     * To get a screening for a movie - CUSTOMER
+     * @param screeningID
+     * @return ArrayList<String> screening
+     */
+    public ArrayList<String> getScreeningInfo(String screeningID) {
+        ArrayList<String> screening = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE screeningID = ?");  
+                stmt.setString(1, screeningID);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    screening.add(rs.getString("screeningId"));
+                    screening.add(rs.getString("movieName"));
+                    screening.add(rs.getString("hall"));
+                    screening.add(rs.getString("Date"));
+                    screening.add(rs.getString("startTime"));
+                    screening.add(rs.getString("endTime"));
+                    screening.add(rs.getString("duration"));
+                    screening.add(rs.getString("date"));
+                    screening.add(rs.getString("screeningStatus"));
+                }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return screening;
     }
 
     

@@ -13,8 +13,8 @@ public class GetMovieScreeningsController {
      * To get ALL movie screening information
      * @return ArrayList<String> allScreenings
      */
-    public ArrayList<String> getAllScreenings(String movieName) {
-        return movieScreening.getAllScreeningsForAMovie(movieName);
+    public ArrayList<String> getAllScreenings(String movieName, String date) {
+        return movieScreening.getAllScreeningsForAMovie(movieName, date);
     }
     
 }

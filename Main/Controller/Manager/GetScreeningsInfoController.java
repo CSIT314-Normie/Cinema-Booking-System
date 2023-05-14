@@ -18,10 +18,10 @@ public class GetScreeningsInfoController {
         // add seats reserved for each screening to the ArrayList
         for (int i = 0; i < screenings.size(); i += 9) {
             String screeningID = screenings.get(i);
-            String movieName = screenings.get(i + 1);
+            // String movieName = screenings.get(i + 1);
             String hall = screenings.get(i + 2);
 
-            ArrayList<String> seatsReserved = movieScreening.getSeatsReservedForScreening(screeningID, movieName, hall);
+            ArrayList<String> seatsReserved = movieScreening.getSeatsReservedForScreening(hall, screeningID);
             int seatsReservedCount = seatsReserved.size();
 
             screenings.add(i + 8, Integer.toString(seatsReservedCount));
@@ -41,9 +41,9 @@ public class GetScreeningsInfoController {
         // add seats reserved for each screening to the ArrayList
         for (int i = 0; i < screenings.size(); i += 9) {
             String screeningID = screenings.get(i);
-            String movieName = screenings.get(i + 1); 
+            // String movieName = screenings.get(i + 1); 
 
-            ArrayList<String> seatsReserved = movieScreening.getSeatsReservedForScreening(screeningID, movieName, hall);
+            ArrayList<String> seatsReserved = movieScreening.getSeatsReservedForScreening(hall, screeningID);
             int seatsReservedCount = seatsReserved.size();
 
             screenings.add(i + 8, Integer.toString(seatsReservedCount));
