@@ -1,17 +1,13 @@
 package Main.Boundary.CinemaOwner;
 
+
 import javax.swing.JComboBox;
-
-import javafx.event.ActionEvent;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import javax.swing.*; 
 import java.util.*;
  
-
-
 
 public class ReportA extends JFrame implements ActionListener
 
@@ -27,10 +23,10 @@ public class ReportA extends JFrame implements ActionListener
         // combobox for the type of report for ReportA (Revenue for each cinema)
         String[] typeOfReportA = {"Hourly", "Daily", "Weekly"};
 
-        JComboBox ReportAList = new JComboBox(typeOfReportA);
+        //JComboBox ReportAList = new JComboBox(typeOfReportA);
         
         
-        this.add(ReportAList);
+        //this.add(ReportAList);
         this.pack();
         setSize(1035, 750);
     }

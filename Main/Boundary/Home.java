@@ -9,8 +9,7 @@ import java.util.*;
 import java.util.List;
 
 import Main.Boundary.Admin.*;
-import Main.Boundary.CinemaOwner.ReportA;
-import Main.Boundary.CinemaOwner.ReportB;
+import Main.Boundary.CinemaOwner.*;
 import Main.Boundary.Customer.*;
 import Main.Boundary.Manager.*;
 import Main.Controller.*;
