@@ -34,10 +34,10 @@ public class Main {
         };
 
         // print out cmd as a string
-         String cmdString = "";
-         for (String s : cmd) {
-             cmdString += s + " ";
-         }
+        String cmdString = "";
+        for (String s : cmd) {
+            cmdString += s + " ";
+        }
 
         System.out.println(cmdString);
 

@@ -9,9 +9,7 @@ import javax.swing.*;
 import java.util.*;
  
 
-public class ReportA extends JFrame implements ActionListener
-
-{
+public class ReportA extends JFrame implements ActionListener {
     public ReportA(){
         super("Revenue for each cinema");
         setLayout(new BorderLayout());

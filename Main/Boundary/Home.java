@@ -8,11 +8,10 @@ import javax.swing.table.*;
 import java.util.*;
 import java.util.List;
 
-import Main.Boundary.*;
+
 import Main.Boundary.Admin.*;
-import Main.Boundary.CinemaOwner.ReportA;
-import Main.Boundary.CinemaOwner.ReportB;
 import Main.Boundary.Customer.*;
+import Main.Boundary.CinemaOwner.*;
 import Main.Boundary.Manager.*;
 
 import Main.Controller.*;
@@ -30,7 +29,6 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     private final JButton updateButton = new JButton("Update");
     private final JButton profileButton = new JButton("Profile");
     private JScrollPane scrollPane;
-
 
     // Get movies from database
     private final JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
@@ -111,8 +109,8 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 editAccountButton.addActionListener(this);
                 suspendAccountButton.addActionListener(this);
                 addAccountButton.addActionListener(this);
-
                 break;
+
             case "Customer":
                 // Customer Home page
                 searchedMovieList = availableMoviesController.getAvailableMovies();
@@ -151,8 +149,8 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
                 // add scroll pane to the frame
                 add(scrollPane, BorderLayout.SOUTH);
-
                 break;
+
             case "Cinema Manager":
                 allMoviesList = allMoviesController.getAllMovies();
 
@@ -182,16 +180,16 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 ticketArrangementButton.addActionListener(this);
                 editMovieButton.addActionListener(this);
                 screeningButton.addActionListener(this);
-
                 break;
+
             case "Cinema Owner":
-                // button for Report A in Cinema Owner
                 JButton reportAButton = new JButton("Report A");
-                panel.add(reportAButton);
-                reportAButton.addActionListener(this);
-                // button for Report B in Cinema Owner
                 JButton reportBButton = new JButton("Report B");
+
+                panel.add(reportAButton);
                 panel.add(reportBButton);
+
+                reportAButton.addActionListener(this);
                 reportBButton.addActionListener(this);
                 break;
         }
@@ -302,13 +300,13 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 break;
             case "Report A":
                 System.out.println("[+] Cinema Owner - Move to Report A page");
-                // dispose();
-                // new ReportA();
+                dispose();
+                new ReportA();
                 break;
             case "Report B":
                 System.out.println("[+] Cinema Owner - Move to Report B page");
-                // dispose();
-                // new ReportB();
+                dispose();
+                new ReportB();
                 break;
         }
     }
