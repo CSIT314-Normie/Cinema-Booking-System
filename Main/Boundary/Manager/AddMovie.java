@@ -115,17 +115,15 @@ public class AddMovie extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "Manager Home":
-                new Home(userInfo);
+            case "Home":
                 dispose();
+                new Home(userInfo);
                 break;
             case "Logout":
-                new Login();
                 dispose();
+                new Login();
                 break;
-            case "Upload image":
-                // TODO handle uploading of movie image from local file system
-
+            case "Upload image": 
                 // Create a new file chooser dialog
                 JFileChooser fileChooser = new JFileChooser();
 
