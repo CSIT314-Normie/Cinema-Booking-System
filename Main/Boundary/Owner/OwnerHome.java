@@ -7,7 +7,7 @@ import javax.swing.table.*;
 import java.util.*;
 
 
-import Main.Controller.*;
+import Main.Controller.Owner.*;
 
 public class OwnerHome extends JFrame implements ActionListener{
     private final ArrayList<String> userInfo;
@@ -20,7 +20,7 @@ public class OwnerHome extends JFrame implements ActionListener{
     private final JButton reportAButton = new JButton("Report A");
     private final JButton reportBButton = new JButton("Report B");
    
-    private final transient LoginController loginController;
+    private final transient OwnerLoginController loginController;
 
 
     public OwnerHome(ArrayList<String> userInfo) {
@@ -34,7 +34,7 @@ public class OwnerHome extends JFrame implements ActionListener{
         setVisible(true);
 
         // Login "SESSION" for user to allow user to logout, can be further implemented
-        loginController = new LoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
+        loginController = new OwnerLoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
         panel.setPreferredSize(new Dimension(1035, 50));
 

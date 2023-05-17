@@ -1,12 +1,13 @@
 package Main.Boundary.Customer;
 
-import Main.Controller.UpdateAccountController;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.util.*;
+
+import Main.Controller.Customer.*;
 
 public class CustomerUpdate extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
@@ -101,7 +102,7 @@ public class CustomerUpdate extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {          
             case "Update":
-            UpdateAccountController updateController = new UpdateAccountController();
+            CustomerUpdateAccountController updateController = new CustomerUpdateAccountController();
                 ArrayList<String> updatedUserInfo = new ArrayList<>();
                 textfieldList.forEach(textField -> updatedUserInfo.add(textField.getText()));
 

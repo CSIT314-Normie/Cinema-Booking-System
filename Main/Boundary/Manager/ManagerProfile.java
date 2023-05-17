@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.util.*;
 
 
-import Main.Controller.ProfileController;
+import Main.Controller.Manager.*;
 
 public class ManagerProfile extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
@@ -18,7 +18,7 @@ public class ManagerProfile extends JFrame implements ActionListener {
     private final JButton updateButton = new JButton("Edit Profile");
     private final JButton homeButton = new JButton("Home");
 
-    private final transient ProfileController profileController = new ProfileController();
+    private final transient ManagerProfileController profileController = new ManagerProfileController();
 
     // Frame's top, middle and bottom row
     private final JPanel topRow = new JPanel();

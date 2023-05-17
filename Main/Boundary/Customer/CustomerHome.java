@@ -30,7 +30,7 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
     private final JTextField searchField = new JTextField(40);
 
     
-    private final transient LoginController loginController;
+    private final transient CustomerLoginController loginController;
     private final transient loyaltyPointController loyaltyPointController = new loyaltyPointController();
     private final transient AvailableMoviesController availableMoviesController = new AvailableMoviesController();
     
@@ -46,7 +46,7 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
         setVisible(true); // Show the frame
 
         // Login "SESSION" for user to allow user to logout, can be further implemented
-        loginController = new LoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
+        loginController = new CustomerLoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
         JLabel loyaltyPoints = new JLabel(" | Loyalty Points: " + loyaltyPointController.getLoyaltyPoint(userInfo.get(2)));
         

@@ -1,12 +1,14 @@
 package Main.Boundary.Manager;
 
-import Main.Controller.UpdateAccountController;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.util.*;
+
+
+import Main.Controller.Manager.*;
 
 public class ManagerUpdate extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
@@ -101,7 +103,7 @@ public class ManagerUpdate extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {          
             case "Update":
-            UpdateAccountController updateController = new UpdateAccountController();
+            ManagerUpdateAccountController updateController = new ManagerUpdateAccountController();
                 ArrayList<String> updatedUserInfo = new ArrayList<>();
                 textfieldList.forEach(textField -> updatedUserInfo.add(textField.getText()));
 

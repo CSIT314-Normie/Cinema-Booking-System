@@ -8,7 +8,7 @@ import java.util.*;
 
 import Main.Boundary.Init;
 
-import Main.Controller.*;
+import Main.Controller.Manager.*;
 
 
 public class ManagerLogin extends JFrame implements ActionListener {
@@ -91,7 +91,7 @@ public class ManagerLogin extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            LoginController loginController = new LoginController(textfieldList.get(0).getText(), textfieldList.get(1).getText());
+            ManagerLoginController loginController = new ManagerLoginController(textfieldList.get(0).getText(), textfieldList.get(1).getText());
             ArrayList<String> loginResult = loginController.login();
 
             

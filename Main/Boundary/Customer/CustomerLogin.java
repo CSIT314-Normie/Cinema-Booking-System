@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.util.*;
 
 
-import Main.Controller.*;
+import Main.Controller.Customer.*;
 
 
 public class CustomerLogin extends JFrame implements ActionListener {
@@ -90,7 +90,7 @@ public class CustomerLogin extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            LoginController loginController = new LoginController(textfieldList.get(0).getText(), textfieldList.get(1).getText());
+            CustomerLoginController loginController = new CustomerLoginController(textfieldList.get(0).getText(), textfieldList.get(1).getText());
             ArrayList<String> loginResult = loginController.login();
 
             

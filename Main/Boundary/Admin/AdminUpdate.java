@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.util.*;
 
 
-import Main.Controller.UpdateAccountController;
+import Main.Controller.Admin.*;
 
 
 public class AdminUpdate extends JFrame implements ActionListener {
@@ -104,7 +104,7 @@ public class AdminUpdate extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {          
             case "Update":
-            UpdateAccountController updateController = new UpdateAccountController();
+            AdminUpdateAccountController updateController = new AdminUpdateAccountController();
                 ArrayList<String> updatedUserInfo = new ArrayList<>();
                 textfieldList.forEach(textField -> updatedUserInfo.add(textField.getText()));
 

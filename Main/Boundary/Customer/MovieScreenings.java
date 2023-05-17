@@ -28,7 +28,7 @@ public class MovieScreenings extends JFrame implements ActionListener {
     private final JLabel movieNameLabel; 
     private final JLabel selectedScreeningLabel = new JLabel(); 
 
-    private final transient LoginController loginController;
+    private final transient CustomerLoginController loginController;
     private final transient GetMovieScreeningsController getScreeningsController = new GetMovieScreeningsController();
 
     private ArrayList<String> allScreeningsForMovie;
@@ -55,7 +55,7 @@ public class MovieScreenings extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        loginController = new LoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
+        loginController = new CustomerLoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
 
         // GET ALL SCREENINGS FOR A MOVIE (ALL DATES)

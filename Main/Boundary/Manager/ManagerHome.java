@@ -27,7 +27,7 @@ public class ManagerHome extends JFrame implements ActionListener {
     private final JButton editMovieButton = new JButton("Edit Movie Info");
 
 
-    private final transient LoginController loginController;
+    private final transient ManagerLoginController loginController;
     private final transient AllMoviesController allMoviesController = new AllMoviesController();
 
     public ManagerHome(ArrayList<String> userInfo) {
@@ -41,7 +41,7 @@ public class ManagerHome extends JFrame implements ActionListener {
         setVisible(true); // Show the frame
 
         // Login "SESSION" for user to allow user to logout, can be further implemented
-        loginController = new LoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
+        loginController = new ManagerLoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
         panel.setPreferredSize(new Dimension(1035, 50));
 

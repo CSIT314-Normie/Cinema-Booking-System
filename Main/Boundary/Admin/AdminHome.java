@@ -35,7 +35,7 @@ public class AdminHome extends JFrame implements ActionListener {
     private String[] selectedAccount;
 
 
-    private final transient LoginController loginController;
+    private final transient AdminLoginController loginController;
     private final transient SuspendAccountController suspendAccountController = new SuspendAccountController();
     
 
@@ -50,7 +50,7 @@ public class AdminHome extends JFrame implements ActionListener {
         setVisible(true); // Show the frame
 
         // Login "SESSION" for user to allow user to logout, can be further implemented
-        loginController = new LoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
+        loginController = new AdminLoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
         panel.setPreferredSize(new Dimension(1035, 50));
 

@@ -7,11 +7,11 @@ import javax.swing.*;
 import java.util.*;
 
 import Main.Boundary.Init;
-import Main.Controller.*;
+import Main.Controller.Owner.*;
 
 
 public class OwnerLogin extends JFrame implements ActionListener {
-    private final JLabel welcomeLabel = new JLabel("Welcome to CSIT 314 Cinema Booking System");
+    private final JLabel welcomeLabel = new JLabel("Welcome OWNER");
     private final ArrayList<String> labelList = new ArrayList<>(Arrays.asList("Email:", "Password:"));
     private final ArrayList<JTextField> textfieldList = new ArrayList<>();
 
@@ -26,7 +26,7 @@ public class OwnerLogin extends JFrame implements ActionListener {
     private final JPanel overviewList = new JPanel(new BorderLayout());
 
     public OwnerLogin() {
-        super("Welcome to CSIT 314 Cinema Booking System - Login");
+        super("Welcome OWNER");
         setLayout(new FlowLayout());
         setSize(1035, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,7 +90,7 @@ public class OwnerLogin extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            LoginController loginController = new LoginController(textfieldList.get(0).getText(), textfieldList.get(1).getText());
+            OwnerLoginController loginController = new OwnerLoginController(textfieldList.get(0).getText(), textfieldList.get(1).getText());
             ArrayList<String> loginResult = loginController.login();
 
             
