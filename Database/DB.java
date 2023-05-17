@@ -87,8 +87,8 @@ public class DB {
                 + "rate VARCHAR(255) NOT NULL,"
                 + "review VARCHAR(255) NOT NULL,"
                 + "PRIMARY KEY (email, movieName),"
-                + "FOREIGN KEY (email) REFERENCES users(email),"
-                + "FOREIGN KEY (movieName) REFERENCES movies(name))"));
+                + "FOREIGN KEY (email) REFERENCES users(email) ON UPDATE CASCADE,"
+                + "FOREIGN KEY (movieName) REFERENCES movies(name) ON UPDATE CASCADE)"));
 
             // create reviews table (reviews of movies)
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS reviews ("
@@ -96,8 +96,8 @@ public class DB {
                 + "email VARCHAR(255) NOT NULL,"
                 + "movieName VARCHAR(255) NOT NULL,"
                 + "review VARCHAR(255) NOT NULL," 
-                + "FOREIGN KEY (email) REFERENCES users(email),"
-                + "FOREIGN KEY (movieName) REFERENCES movies(name))"));
+                + "FOREIGN KEY (email) REFERENCES users(email) ON UPDATE CASCADE,"
+                + "FOREIGN KEY (movieName) REFERENCES movies(name) ON UPDATE CASCADE)"));
 
             // create ticket_arrangement table (types of tickets and their prices)
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS ticket_arrangement ("
@@ -130,7 +130,7 @@ public class DB {
                     + "endTime VARCHAR(255) NOT NULL,"
                     + "duration VARCHAR(255) NOT NULL,"
                     + "screeningStatus VARCHAR(15) NOT NULL,"
-                    + "FOREIGN KEY (movieName) REFERENCES movies(name),"
+                    + "FOREIGN KEY (movieName) REFERENCES movies(name) ON UPDATE CASCADE,"
                     + "FOREIGN KEY (Hall) REFERENCES cinema_halls(Hall))"));
 
             // create seat_reserved table (reserved seats, which movie, which hall, which screening session)
@@ -142,8 +142,8 @@ public class DB {
                 + "movieName VARCHAR(255) NOT NULL,"
                 + "screeningID INT NOT NULL,"
                 + "date VARCHAR(255) NOT NULL,"
-                + "FOREIGN KEY (userEmail) REFERENCES users(email),"
-                + "FOREIGN KEY (movieName) REFERENCES movies(name),"
+                + "FOREIGN KEY (userEmail) REFERENCES users(email) ON UPDATE CASCADE,"
+                + "FOREIGN KEY (movieName) REFERENCES movies(name) ON UPDATE CASCADE,"
                 + "FOREIGN KEY (screeningID) REFERENCES movie_screening(screeningID),"
                 + "FOREIGN KEY (seatID) REFERENCES seats(seatID))"));
             
@@ -151,15 +151,15 @@ public class DB {
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS loyal_points ("
                 + "email VARCHAR(255) PRIMARY KEY,"
                 + "points VARCHAR(255) DEFAULT 0,"
-                + "FOREIGN KEY (email) REFERENCES users(email))"));
+                + "FOREIGN KEY (email) REFERENCES users(email) ON UPDATE CASCADE)"));
 
             // Create table for payments
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS payments ("
             + "paymentID INT AUTO_INCREMENT PRIMARY KEY,"
             + "email VARCHAR(255) NOT NULL,"
             + "date VARCHAR(255) NOT NULL,"
-            + "amount VARCHAR(255) DEFAULT 0,"
-            + "FOREIGN KEY (email) REFERENCES users(email))"));
+            + "amount VARCHAR(255) NOT NULL,"
+            + "FOREIGN KEY (email) REFERENCES users(email) ON UPDATE CASCADE)"));
 
             stmts.add(conn.prepareStatement( "INSERT INTO users (fname, lname, email, dob, password, role) SELECT 'user', 'admin', 'ua', 'ua', 'ua', 'User Admin' FROM dual WHERE NOT EXISTS (SELECT * FROM users WHERE email = 'ua');"));
 

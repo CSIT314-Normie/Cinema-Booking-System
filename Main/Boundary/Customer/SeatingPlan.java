@@ -30,7 +30,7 @@ public class SeatingPlan extends JFrame implements ActionListener {
     private final JButton confirmButton = new JButton("Confirm");
     JPanel ticketTypePanel = new JPanel(new FlowLayout());
 
-    private final SeatingPlanController bookMovieController = new SeatingPlanController();
+    private final SeatingPlanController seatingPlanController = new SeatingPlanController();
     private final ConfirmSeatingController confirmSeatingController = new ConfirmSeatingController();
 
     private  JPanel selectedSeatsPanel = new JPanel(new FlowLayout());
@@ -48,10 +48,11 @@ public class SeatingPlan extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        screeningInfo = bookMovieController.getScreeningInfo(selectedScreeningID);
+        // get screening session info, and then get seats and reserved seats for the hall
+        screeningInfo = seatingPlanController.getScreeningInfo(selectedScreeningID);
         hall = screeningInfo.get(2);
-        seats = bookMovieController.getSeats(hall);
-        reservedSeats = bookMovieController.getReservedSeats(hall, selectedScreeningID); 
+        seats = seatingPlanController.getSeats(hall);
+        reservedSeats = seatingPlanController.getReservedSeats(hall, selectedScreeningID); 
 
         JPanel topPanel = new JPanel(new FlowLayout());
         topPanel.add(homeButton);
@@ -158,27 +159,32 @@ public class SeatingPlan extends JFrame implements ActionListener {
                 new MovieScreenings(userInfo, movieInfo);
                 break;
             case "Confirm":
-                System.out.println("Selected seats: " + selectedSeats.toString());
-
+                // confirm selected seats
                 if (selectedSeats.size() == 0) {
                     JOptionPane.showMessageDialog(null, "Please select at least one seat.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 } else {
-                    if (confirmSeatingController.confirmSeats(selectedSeats, selectedScreeningID, hall, userInfo.get(2), movieInfo.get(0), date)) {
+                    if (confirmSeatingController.confirmSeats(selectedSeats, selectedScreeningID, hall, userInfo.get(2), movieInfo.get(0), date)) { 
+                        // show success message
                         JOptionPane.showMessageDialog(null, "Seats confirmed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                         
+                        
+                        // redirect to purchase ticket page
+                        dispose();
+                        new PurchaseTicket(userInfo, screeningInfo, movieInfo, selectedSeats, date);
                     } else {
+                        // show error message
                         JOptionPane.showMessageDialog(null, "Error confirming seats.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
 
-                dispose();
-                new PurchaseTicket(userInfo, selectedScreeningID, movieInfo, selectedSeats);
                 break;
         }
     } 
 
-    // confirm selected seats
+    /* 
+    * displays the selected seats
+    * called when a seat is selected/deselected
+    */
     public void confirmSeats() { 
         selectedSeatsPanel.removeAll();
 

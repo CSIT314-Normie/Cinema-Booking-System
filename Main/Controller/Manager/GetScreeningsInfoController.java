@@ -22,7 +22,7 @@ public class GetScreeningsInfoController {
             String hall = screenings.get(i + 2);
 
             ArrayList<String> seatsReserved = movieScreening.getSeatsReservedForScreening(hall, screeningID);
-            int seatsReservedCount = seatsReserved.size();
+            int seatsReservedCount = seatsReserved.size() / 2;
 
             screenings.add(i + 8, Integer.toString(seatsReservedCount));
         }

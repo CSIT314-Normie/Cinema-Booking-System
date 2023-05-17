@@ -25,7 +25,7 @@ public class Payment {
      */
     public boolean makePayment(String userEmail, String amount, String date) {
         try {
-            stmt = conn.prepareStatement("INSERT INTO payment (userEmail, amount, date) VALUES (?, ?, ?)");
+            stmt = conn.prepareStatement("INSERT INTO payments (email, date, amount) VALUES (?, ?, ?)");
             stmt.setString(1, userEmail);
             stmt.setString(2, date);
             stmt.setString(3, amount);
@@ -37,5 +37,5 @@ public class Payment {
         }
 
         return false;
-    }
+    } 
 }

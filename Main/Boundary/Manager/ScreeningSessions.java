@@ -97,17 +97,18 @@ public class ScreeningSessions extends JFrame implements ActionListener {
                 
                 break; 
 
-            case "Update Screening Status":
+            case "Update Status":
                 // TODO: test after booking has been implemented!
                 if (selectedScreening == null) {
                     JOptionPane.showMessageDialog(null, "Please select a screening session.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     UpdateScreeningStatusController updateScreeningStatusController = new UpdateScreeningStatusController();
-                    if (selectedScreening[7].equals("Available") && selectedScreening[8].equals("12")) {
+                    if (selectedScreening[7].equals("Available") && selectedScreening[8].equals("16")) {
                         newScreeningStatus = "Fully Booked";
                     } else {
                         newScreeningStatus = "Available";
                     }
+
                     // update screening status
                    if (updateScreeningStatusController.updateScreeningStatus(selectedScreening[0], newScreeningStatus)) {
                           JOptionPane.showMessageDialog(null, "Screening status updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
