@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.util.*;
  
 import Main.Controller.Manager.*;
-import Main.Boundary.*;
+
 
 public class AddMovie extends JFrame implements ActionListener {
     private final ArrayList<String> userInfo;
@@ -116,11 +116,11 @@ public class AddMovie extends JFrame implements ActionListener {
         switch (e.getActionCommand()) {
             case "Home":
                 dispose();
-                new Home(userInfo);
+                new ManagerHome(userInfo);
                 break;
             case "Logout":
                 dispose();
-                new Login();
+                new ManagerLogin();
                 break;
             case "Upload image": 
                 // Create a new file chooser dialog

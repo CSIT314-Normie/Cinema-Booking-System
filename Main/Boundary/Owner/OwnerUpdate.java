@@ -1,6 +1,5 @@
-package Main.Boundary;
+package Main.Boundary.Owner;
 
-import Main.Controller.UpdateAccountController;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -8,7 +7,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.util.*;
 
-public class Update extends JFrame implements ActionListener {
+
+import Main.Controller.Owner.*;
+
+public class OwnerUpdate extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
     private final ArrayList<JTextField> textfieldList = new ArrayList<>();
 
@@ -26,7 +28,7 @@ public class Update extends JFrame implements ActionListener {
     private final ArrayList<String> userInfo;
     private final String email;
 
-    public Update(ArrayList<String> userInfo) {
+    public OwnerUpdate(ArrayList<String> userInfo) {
         super("Update Account");
         this.userInfo = userInfo;   
         this.email = userInfo.get(2);
@@ -101,7 +103,7 @@ public class Update extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {          
             case "Update":
-            UpdateAccountController updateController = new UpdateAccountController();
+            OwnerUpdateAccountController updateController = new OwnerUpdateAccountController();
                 ArrayList<String> updatedUserInfo = new ArrayList<>();
                 textfieldList.forEach(textField -> updatedUserInfo.add(textField.getText()));
 
@@ -116,7 +118,7 @@ public class Update extends JFrame implements ActionListener {
                     // change the userInfo email to the updated email
                     userInfo.set(2, updatedUserInfo.get(2));
                     dispose();
-                    new Home(userInfo);
+                    new OwnerHome(userInfo);
                 } else {
                     JOptionPane.showMessageDialog(null, "Account update failed");
                 }
@@ -126,7 +128,7 @@ public class Update extends JFrame implements ActionListener {
             case "Home":
                 System.out.println("[+] Move to Home page");
                 dispose();
-                new Home(userInfo);
+                new OwnerHome(userInfo);
                 break;
         }
     }   

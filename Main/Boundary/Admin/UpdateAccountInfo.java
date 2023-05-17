@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.util.*;
 
 import Main.Controller.Admin.UpdateUserAccountInfoController;
-import Main.Boundary.*; 
+
 
 public class UpdateAccountInfo extends JFrame implements ActionListener, MouseListener {
     private final ArrayList<String> userInfo;
@@ -127,11 +127,11 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
                 break;
             case "Admin Home":
                 dispose();
-                new Home(userInfo);
+                new AdminHome(userInfo);
                 break;
             case "Logout":
                 dispose();
-                new Login();
+                new AdminLogin();
                 break;
         } 
     }
