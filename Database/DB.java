@@ -49,6 +49,7 @@ public class DB {
                 "movie_screening", 
                 "seat_reserved",
                 "loyal_points",
+                "payments",
                 "add Admin", 
                 "add Cinema Hall A", 
                 "add Cinema Hall B",
@@ -134,12 +135,13 @@ public class DB {
 
             // create seat_reserved table (reserved seats, which movie, which hall, which screening session)
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS seat_reserved ("
-                + "reservationID VARCHAR(10) PRIMARY KEY,"
+                + "reservationID INT AUTO_INCREMENT PRIMARY KEY,"
                 + "Hall VARCHAR(10) NOT NULL,"
                 + "seatID VARCHAR(10) NOT NULL,"
                 + "userEmail VARCHAR(255) NOT NULL,"
                 + "movieName VARCHAR(255) NOT NULL,"
                 + "screeningID INT NOT NULL,"
+                + "date VARCHAR(255) NOT NULL,"
                 + "FOREIGN KEY (userEmail) REFERENCES users(email),"
                 + "FOREIGN KEY (movieName) REFERENCES movies(name),"
                 + "FOREIGN KEY (screeningID) REFERENCES movie_screening(screeningID),"
@@ -151,7 +153,14 @@ public class DB {
                 + "points VARCHAR(255) DEFAULT 0,"
                 + "FOREIGN KEY (email) REFERENCES users(email))"));
 
-            
+            // Create table for payments
+            stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS payments ("
+            + "paymentID INT AUTO_INCREMENT PRIMARY KEY,"
+            + "email VARCHAR(255) NOT NULL,"
+            + "date VARCHAR(255) NOT NULL,"
+            + "amount VARCHAR(255) DEFAULT 0,"
+            + "FOREIGN KEY (email) REFERENCES users(email))"));
+
             stmts.add(conn.prepareStatement( "INSERT INTO users (fname, lname, email, dob, password, role) SELECT 'user', 'admin', 'ua', 'ua', 'ua', 'User Admin' FROM dual WHERE NOT EXISTS (SELECT * FROM users WHERE email = 'ua');"));
 
             // 2 cinemas, 2 halls in each cinema, 12 seats in each hall

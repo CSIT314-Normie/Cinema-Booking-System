@@ -331,5 +331,42 @@ public class MovieScreening {
         return screening;
     }
 
-    
+ 
+    /**
+     * confirm seat reservation 
+     * @param ArrayList<String> selectedSeats: arraylist of seatID of selected seats
+     * @param String screeningID
+     * @param String Hall
+     * @param String userEmail
+     * @param String movieName
+     * @param String date
+     * @return boolean 
+     */
+    public boolean confirmSeatReservation(ArrayList<String> selectedSeats, String screeningID, String hall, String userEmail, String movieName, String date) {
+        PreparedStatement stmt;
+        String seatID; 
+
+        try {
+            for (int i = 0; i < selectedSeats.size(); i++) {
+                seatID = selectedSeats.get(i); 
+
+                stmt = conn.prepareStatement("INSERT INTO seat_reserved (Hall, seatID, userEmail, movieName, screeningID, date) VALUES (?, ?, ?, ?, ?, ?)");  
+                stmt.setString(1, hall);
+                stmt.setString(2, seatID);
+                stmt.setString(3, userEmail);
+                stmt.setString(4, movieName);
+                stmt.setString(5, screeningID);
+                stmt.setString(6, date);
+                
+                stmt.executeUpdate(); 
+
+                System.out.println("seat " + seatID + " has been reserved");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return true;
+    }
 }
+

@@ -1,6 +1,5 @@
 package Main.Boundary.Manager;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -162,8 +161,6 @@ public class AddMovie extends JFrame implements ActionListener {
                 displayUploadedImage();
                 break;
             case "Delete image":
-                // TODO handle deleting of movie image uploaded
-
                 // if image has already been copied to /Boundary/assets, then delete it
                 File dest = new File("./Main/Boundary/assets/" + movieImgFileName);
                 if (dest.exists()) {
