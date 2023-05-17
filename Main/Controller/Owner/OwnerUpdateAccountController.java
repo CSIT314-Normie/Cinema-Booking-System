@@ -1,4 +1,4 @@
-package Main.Controller;
+package Main.Controller.Owner;
 
 
 import Main.Entity.*;
@@ -11,7 +11,7 @@ import java.util.*;
  * - update of own account info - all USERS
  */
 
-public class UpdateAccountController {
+public class OwnerUpdateAccountController {
     private final User user = new User();
 
     /**

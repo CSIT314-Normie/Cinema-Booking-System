@@ -3,9 +3,9 @@ package Main.Boundary.Manager;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-
 import javax.swing.*;
-import Main.Boundary.Home;
+
+
 import Main.Controller.Manager.*;
 
 public class UpdateTicket extends JFrame implements ActionListener{
@@ -145,7 +145,7 @@ public class UpdateTicket extends JFrame implements ActionListener{
             
             case "Home":
                 dispose();
-                new Home(userInfo);
+                new ManagerHome(userInfo);
                 break;
             case "Back":
                 dispose();

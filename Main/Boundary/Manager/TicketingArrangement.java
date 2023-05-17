@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 
 
-import Main.Boundary.Home;
 import Main.Controller.*;
 import Main.Controller.Manager.*;
 
@@ -126,7 +125,7 @@ public class TicketingArrangement extends JFrame implements ActionListener{
         switch (e.getActionCommand()) {
             case "Home":
                 dispose();
-                new Home(userInfo);
+                new ManagerHome(userInfo);
                 break;
             case "Update Ticket Price":
                 dispose();

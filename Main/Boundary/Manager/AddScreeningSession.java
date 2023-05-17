@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  
 import com.toedter.calendar.JDateChooser;
 
-import Main.Boundary.Home; 
+
 import Main.Controller.Manager.AddScreeningSessionController;
 
 public class AddScreeningSession extends JFrame implements ActionListener {
@@ -180,7 +180,7 @@ public class AddScreeningSession extends JFrame implements ActionListener {
         switch (e.getActionCommand()) {
             case "Home":
                 dispose();
-                new Home(userInfo);
+                new ManagerHome(userInfo);
                 break;
             case "Submit":
                 // Get the selected date

@@ -1,4 +1,4 @@
-package Main.Boundary;
+package Main.Boundary.Admin;
 
 
 import java.awt.*;
@@ -6,18 +6,17 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
+import Main.Boundary.*;
+import Main.Controller.Admin.*;
 
-import Main.Controller.*;
-import Main.Boundary.Customer.*;
 
-
-public class Login extends JFrame implements ActionListener {
-    private final JLabel welcomeLabel = new JLabel("Welcome to CSIT 314 Cinema Booking System");
+public class AdminLogin extends JFrame implements ActionListener {
+    private final JLabel welcomeLabel = new JLabel("Welcome ADMIN");
     private final ArrayList<String> labelList = new ArrayList<>(Arrays.asList("Email:", "Password:"));
     private final ArrayList<JTextField> textfieldList = new ArrayList<>();
 
-    private final JButton createButton = new JButton();
-    private final JButton loginButton = new JButton();
+    private final JButton homeButton = new JButton("Back");
+    private final JButton loginButton = new JButton("Login");
 
     private final JPanel topRow = new JPanel();
     private final JPanel middleRow = new JPanel();
@@ -26,8 +25,8 @@ public class Login extends JFrame implements ActionListener {
     // Frame overview
     private final JPanel overviewList = new JPanel(new BorderLayout());
 
-    public Login() {
-        super("Welcome to CSIT 314 Cinema Booking System - Login");
+    public AdminLogin() {
+        super("Welcome to CSIT 314 Cinema Booking System - ADMIN");
         setLayout(new FlowLayout());
         setSize(1035, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,16 +66,11 @@ public class Login extends JFrame implements ActionListener {
         JPanel buttonRow = new JPanel(new GridLayout(2, 1, 0, 10));
         buttonRow.setPreferredSize(new Dimension(200, 60));
 
-        loginButton.setText("Login");
         loginButton.setPreferredSize(new Dimension(200, 20));
         loginButton.addActionListener(this);
+        homeButton.addActionListener(this);
         buttonRow.add(loginButton);
-
-        createButton.setText("Sign up with us!");
-        createButton.setPreferredSize(new Dimension(200, 20));
-        createButton.addActionListener(this);
-        buttonRow.add(createButton);
-        
+        buttonRow.add(homeButton);
         botRow.add(buttonRow);
 
         // put middle row and bot row in overview list
@@ -91,21 +85,20 @@ public class Login extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            LoginController loginController = new LoginController(textfieldList.get(0).getText(), textfieldList.get(1).getText());
+            AdminLoginController loginController = new AdminLoginController(textfieldList.get(0).getText(), textfieldList.get(1).getText());
             ArrayList<String> loginResult = loginController.login();
 
             
             if (loginResult.get(1).equals("T")) {
                 dispose();
-                new Home(loginResult);
+                new AdminHome(loginResult);
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid email or password", "Error", JOptionPane.ERROR_MESSAGE);
             }
             
-        } else if (e.getSource() == createButton) {
-            System.out.println("[*] Create button clicked from Login.java");
+        } else if (e.getSource() == homeButton) {
             dispose();
-            new Register();
+            new Init();
         }
     }
 }

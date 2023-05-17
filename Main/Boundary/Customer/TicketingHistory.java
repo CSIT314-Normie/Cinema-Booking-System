@@ -5,10 +5,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
-import Main.Boundary.Home;
-import Main.Controller.*;
-import Main.Controller.Admin.*;
 
+import Main.Controller.Customer.TicketingHistoryController;
 
 public class TicketingHistory extends JFrame implements ActionListener{
     private final ArrayList<String> userInfo;
@@ -30,8 +28,6 @@ public class TicketingHistory extends JFrame implements ActionListener{
 
         this.ticketHistory = ticketingHistoryController.getTicketingHistory(this.userInfo.get(2));
 
-        // display the ticketing history (ie, the list of movies the user has booked) 
-        // create a panel to display the ticketing history
         JPanel ticketingHistoryPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
 
         for (String[] strings : ticketHistory) {
@@ -73,9 +69,8 @@ public class TicketingHistory extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO add  action handling code here
         if (e.getSource() == homeButton) {
-            new Home(userInfo);
+            new CustomerHome(userInfo);
             dispose();
         }
     }

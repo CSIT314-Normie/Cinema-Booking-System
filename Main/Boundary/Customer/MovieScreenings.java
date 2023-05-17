@@ -12,7 +12,6 @@ import java.util.*;
 import com.toedter.calendar.JDateChooser;
 
 import Main.Controller.*;
-import Main.Boundary.*; 
 import Main.Controller.Customer.*;
 
 
@@ -29,7 +28,7 @@ public class MovieScreenings extends JFrame implements ActionListener {
     private final JLabel movieNameLabel; 
     private final JLabel selectedScreeningLabel = new JLabel(); 
 
-    private final transient LoginController loginController;
+    private final transient CustomerLoginController loginController;
     private final transient GetMovieScreeningsController getScreeningsController = new GetMovieScreeningsController();
 
     private ArrayList<String> allScreeningsForMovie;
@@ -56,7 +55,7 @@ public class MovieScreenings extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        loginController = new LoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
+        loginController = new CustomerLoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
 
         // GET ALL SCREENINGS FOR A MOVIE (ALL DATES)
@@ -170,27 +169,27 @@ public class MovieScreenings extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Home":
-                new Home(userInfo);
+                new CustomerHome(userInfo);
                 dispose();
                 break;
 
             case "Logout":
                 loginController.logout(userInfo.get(0));
                 dispose();
-                new Login();
+                new CustomerLogin();
                 System.out.println("[+] Successfully logged out");
                 break;
 
             case "Update":
                 System.out.println("[+] Move to Update page");
                 dispose();
-                new Update(userInfo);
+                new CustomerUpdate(userInfo);
                 break;
 
             case "Profile":
                 System.out.println("[+] Move to Profile page");
                 dispose();
-                new Profile(userInfo);
+                new CustomerProfile(userInfo);
                 break;
             
             case "Book": 

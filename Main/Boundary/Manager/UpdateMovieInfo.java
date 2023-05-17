@@ -1,25 +1,12 @@
 package Main.Boundary.Manager;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
-import Main.Boundary.Home;
+
 import Main.Controller.Manager.*;
 
 public class UpdateMovieInfo extends JFrame implements ActionListener {
@@ -29,7 +16,6 @@ public class UpdateMovieInfo extends JFrame implements ActionListener {
     private final String[] labelList = {"Movie Name: ", "Movie Description: ", "Movie Status: ", "Movie Duration: "};
     private final String[] statusList = {"Available", "Unavailable"};
     private final JComboBox<String> statusDropDown = new JComboBox<>(statusList);
-    private ArrayList<String> modifiedMovieInfo;
     private String selectedStatus;
     
     JButton homeButton = new JButton("Home");
@@ -106,10 +92,11 @@ public class UpdateMovieInfo extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        ArrayList<String> modifiedMovieInfo;
         switch (e.getActionCommand()) {
             case "Home":
                 dispose();
-                new Home(userInfo);
+                new ManagerHome(userInfo);
                 break;
 
             case "Update":
@@ -128,7 +115,7 @@ public class UpdateMovieInfo extends JFrame implements ActionListener {
                     if (updateMovieInfoController.updateMovieInfo(modifiedMovieInfo, movieInfo[0])) {
                         JOptionPane.showMessageDialog(null, "Movie info updated successfully");
                         // dispose();
-                        // new Home(userInfo);
+                        // new ManagerHome(userInfo);
                     } else {
                         JOptionPane.showMessageDialog(null, "Movie info update failed");
                     }

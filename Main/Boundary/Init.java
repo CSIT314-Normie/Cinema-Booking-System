@@ -1,19 +1,20 @@
 package Main.Boundary;
 
-import Main.Controller.InitController;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import Main.Boundary.Admin.AdminLogin;
 import Main.Boundary.Customer.*;
+import Main.Boundary.Manager.ManagerLogin;
+import Main.Boundary.Owner.OwnerLogin;
+import Main.Controller.InitController;
 
 
 public class Init extends JFrame implements ActionListener {
-    private final JFrame pageFrame = new JFrame();
     private final JLabel logoLabel;
-    private final JButton registerButton, loginButton;
+    private final JButton registerButton, AdminLoginButton, ManagerLoginButton, OwnerLoginButton, CustomerLoginButton;
 
     private final transient InitController initController = new InitController();
     private final transient Image logo = new ImageIcon("Main/Boundary/assets/logo.png").getImage();
@@ -27,7 +28,7 @@ public class Init extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
-        setVisible(true); // Show the frame
+        setVisible(true);
 
         // grid bag constraints
         GridBagConstraints gbc = new GridBagConstraints();
@@ -40,20 +41,32 @@ public class Init extends JFrame implements ActionListener {
 
         // Set up of the buttons
         registerButton = new JButton("Register");
-        loginButton = new JButton("Login");
+        AdminLoginButton = new JButton("Admin Login");
+        ManagerLoginButton = new JButton("Manager Login");
+        OwnerLoginButton = new JButton("Owner Login");
+        CustomerLoginButton = new JButton("Customer Login");
 
-        // set button middle of the screen
-        registerButton.setBounds(500, 550, 100, 40);
-        loginButton.setBounds(500, 600, 100, 40);
+        // Create a panel for the buttons
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.add(registerButton);
+        buttonPanel.add(AdminLoginButton);
+        buttonPanel.add(ManagerLoginButton);
+        buttonPanel.add(OwnerLoginButton);
+        buttonPanel.add(CustomerLoginButton);
 
-        // add logo and buttons to the frame
+
+        // add logo and button panel to the frame
         add(logoLabel, gbc);
-        add(registerButton, gbc);
-        add(loginButton, gbc);
+        add(buttonPanel, gbc); // Add the panel instead of individual buttons
 
         // add action listener to the buttons
         registerButton.addActionListener(this);
-        loginButton.addActionListener(this);
+        AdminLoginButton.addActionListener(this);
+        ManagerLoginButton.addActionListener(this);
+        OwnerLoginButton.addActionListener(this);
+        CustomerLoginButton.addActionListener(this);
+
 
         // Check if the database is connected
         if (initController.isInit()) {
@@ -68,20 +81,30 @@ public class Init extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Register":
-                // dispose the current frame and open the register page
                 dispose();
-                pageFrame.setVisible(false);
                 new Register();
                 break;
 
-            case "Login":
-                // dispose the current frame and open the login page
+            case "Admin Login":
                 dispose();
-                pageFrame.setVisible(false);
-                new Login();
+                new AdminLogin();
                 break;
-            default:
+
+            case "Manager Login":
+                dispose();
+                new ManagerLogin();
                 break;
+
+            case "Owner Login":
+                dispose();
+                new OwnerLogin();
+                break;
+
+            case "Customer Login":
+                dispose();
+                new CustomerLogin();
+                break;
+
         }
     }
 }

@@ -1,20 +1,23 @@
-package Main.Boundary.Customer;
+package Main.Boundary.Admin;
+
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.util.*;
 
-import Main.Controller.Customer.*;
-import Main.Boundary.*;
 
-public class Register extends JFrame implements ActionListener {
+import Main.Controller.Admin.*;
+
+
+public class AdminUpdate extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
     private final ArrayList<JTextField> textfieldList = new ArrayList<>();
 
-    private final JLabel createAccount = new JLabel("Create Account");
-    private final JButton createButton = new JButton("Create Account");
-    private final JButton backButton = new JButton("Back");
+    private final JLabel updateAccount = new JLabel("Update Account");
+    private final JButton updateButton = new JButton();
+    private final JButton homeButton = new JButton("Home");
 
     // Frame's top, middle and bottom row
     private final JPanel topRow = new JPanel();
@@ -22,10 +25,14 @@ public class Register extends JFrame implements ActionListener {
 
     // Frame overview
     private final JPanel overviewList = new JPanel(new BorderLayout());
+    
+    private final ArrayList<String> userInfo;
+    private final String email;
 
-    public Register() {
-        // Set up of the frame
-        super("Welcome to CSIT 314 Cinema Booking System - Registration");
+    public AdminUpdate(ArrayList<String> userInfo) {
+        super("Update Account");
+        this.userInfo = userInfo;   
+        this.email = userInfo.get(2);
         setLayout(new FlowLayout());
         setSize(1035, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,16 +40,17 @@ public class Register extends JFrame implements ActionListener {
         setResizable(false);
         setLocationRelativeTo(null);
 
+
         // Add the text fields to the textfieldList
         for (int i = 0; i < 5; i++) {
             textfieldList.add(i != 4 ? new JTextField() : new JPasswordField());
         }
 
-        // Put a JLabel called "Create Account" on the top row
-        createAccount.setFont(new Font("Serif", Font.PLAIN, 40));
-        topRow.add(createAccount);
+        // Put a JLabel called "Update Account" on the top row
+        updateAccount.setFont(new Font("Serif", Font.BOLD, 30));
+        topRow.add(updateAccount);
 
-        // Top row "Create Account"
+        // Top row "Update Account"
         overviewList.add(topRow, BorderLayout.NORTH);
 
         // Middle row contains the labels and text fields
@@ -60,10 +68,10 @@ public class Register extends JFrame implements ActionListener {
             // Create a text field next to the label in the panel
             JTextField textField = textfieldList.get(i);
             textField.setFont(new Font("Serif", Font.PLAIN, 25));
-            textField.setPreferredSize(new Dimension(40, 20));
+            textField.setPreferredSize(new Dimension(40, 30));
             textField.setColumns(10);
 
-            // Add the label and text field to the panel e.g First Name: [text field]
+            // Add the label and text field to the panel e.g. First Name: [text field]
             JPanel panel = new JPanel(new BorderLayout());
             panel.add(label, BorderLayout.WEST);
             panel.add(textField, BorderLayout.CENTER);
@@ -72,60 +80,56 @@ public class Register extends JFrame implements ActionListener {
             middleRow.add(panel);
         }
 
-        // Middle row
+        // Add the middle row to the overview
         overviewList.add(middleRow, BorderLayout.CENTER);
 
-        // Add actionlistener to create button
-        backButton.addActionListener(this);
-        createButton.addActionListener(this);
+        updateButton.setText("Update");
+        updateButton.addActionListener(this);
 
-        botRow.add(backButton);
-        botRow.add(createButton);
+        homeButton.setBounds(500, 400, 100, 50);
+        homeButton.addActionListener(this);
 
-        // Bottom row contains the button
+        botRow.add(updateButton);
+        botRow.add(homeButton);
+
+        // Add the bottom row to the overview
         overviewList.add(botRow, BorderLayout.SOUTH);
-
-        // Set the preferred size of the overviewList panel
-        overviewList.setPreferredSize(new Dimension(800, 500));
-
-        // Add the overviewList to the frame
+    
+        // Add the overview to the frame
         add(overviewList);
     }
 
-    /**
-     * Action Listener for the Create Account button
-     * 
-     * @param e ActionEvent
-     */
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-            case "Back":
-                dispose();
-                new Init();
+        switch (e.getActionCommand()) {          
+            case "Update":
+            AdminUpdateAccountController updateController = new AdminUpdateAccountController();
+                ArrayList<String> updatedUserInfo = new ArrayList<>();
+                textfieldList.forEach(textField -> updatedUserInfo.add(textField.getText()));
+
+                // Check if the user has entered any empty fields
+                if (updatedUserInfo.contains("")) {
+                    JOptionPane.showMessageDialog(null, "Please fill in all the fields");
+                    break;
+                }
+
+                if (updateController.updateAccount(updatedUserInfo, this.email)) {
+                    JOptionPane.showMessageDialog(null, "Account updated successfully");
+                    // change the userInfo email to the updated email
+                    userInfo.set(2, updatedUserInfo.get(2));
+                    dispose();
+                    new AdminHome(userInfo);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Account update failed");
+                }
+
                 break;
 
-            case "Create Account":
-                ArrayList<String> fieldValueList = new ArrayList<>();
-                textfieldList.forEach(textField -> fieldValueList.add(textField.getText()));
-
-                if (fieldValueList.contains("")) {
-                    JOptionPane.showMessageDialog(null, "Please fill in all the fields");
-                    return;
-                }
-
-                RegisterAccountController registerController = new RegisterAccountController(fieldValueList, "Customer");
-
-                if (registerController.createUser(fieldValueList, "Customer")) {
-                    JOptionPane.showMessageDialog(null, "Account created successfully");
-                    dispose();
-                    new CustomerLogin();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Account failed to create!");
-                    dispose();
-                    new Init();
-                }
+            case "Home":
+                dispose();
+                new AdminHome(userInfo);
                 break;
         }
-    }
+    }   
 }

@@ -1,14 +1,14 @@
-package Main.Boundary;
+package Main.Boundary.Owner;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-import Main.Boundary.Customer.Review;
-import Main.Controller.ProfileController;
 
-public class Profile extends JFrame implements ActionListener {
+import Main.Controller.Owner.*;
+
+public class OwnerProfile extends JFrame implements ActionListener {
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
     private final ArrayList<String> userInfo;
     private final ArrayList<String> DBUserInfo;
@@ -17,9 +17,8 @@ public class Profile extends JFrame implements ActionListener {
 
     private final JButton updateButton = new JButton("Edit Profile");
     private final JButton homeButton = new JButton("Home");
-    private final JButton reviewButton = new JButton("Review");
-
-    private final transient ProfileController profileController = new ProfileController();
+    
+    private final transient OwnerProfileController profileController = new OwnerProfileController();
 
     // Frame's top, middle and bottom row
     private final JPanel topRow = new JPanel();
@@ -28,7 +27,7 @@ public class Profile extends JFrame implements ActionListener {
     // Frame overview
     private final JPanel overviewList = new JPanel(new BorderLayout());
 
-    public Profile(ArrayList<String> userInfo) {
+    public OwnerProfile(ArrayList<String> userInfo) {
         super("Profile");
         this.userInfo = userInfo;
         setLayout(new FlowLayout());
@@ -81,12 +80,6 @@ public class Profile extends JFrame implements ActionListener {
         // Add actionlistener to create button
         updateButton.addActionListener(this);
         homeButton.addActionListener(this);
-
-        if (userInfo.get(0).equals("Customer")) {
-            botRow.add(reviewButton);
-            reviewButton.addActionListener(this);
-        }
-
         botRow.add(updateButton);
         botRow.add(homeButton);
         
@@ -106,17 +99,12 @@ public class Profile extends JFrame implements ActionListener {
         switch (e.getActionCommand()) {
             case "Edit Profile":
                 dispose();
-                new Update(userInfo);
+                new OwnerUpdate(userInfo);
                 break;
 
             case "Home":
                 dispose();
-                new Home(userInfo);
-                break;
-            
-            case "Review":
-                dispose();
-                new Review(userInfo);
+                new OwnerHome(userInfo);
                 break;
         }
     }

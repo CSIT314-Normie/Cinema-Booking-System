@@ -4,10 +4,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList; 
-
 import javax.swing.*;
 
-import Main.Boundary.Home;  
 
 import Main.Controller.Customer.SeatingPlanController;
 import Main.Controller.Customer.ConfirmSeatingController;
@@ -152,7 +150,7 @@ public class SeatingPlan extends JFrame implements ActionListener {
         switch (e.getActionCommand()) {
             case "Home":
                 dispose();
-                new Home(userInfo);
+                new CustomerHome(userInfo);
                 break;
             case "Back":
                 dispose();

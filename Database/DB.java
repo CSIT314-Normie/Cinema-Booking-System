@@ -12,17 +12,14 @@ import java.util.*;
  */
 
 public class DB {
-    private static final ArrayList<String> whitelist = new ArrayList<>(
-            Arrays.asList("fname", "lname", "email", "dob", "password", "role", "*"));
+    private static final ArrayList<String> whitelist = new ArrayList<>(Arrays.asList("fname", "lname", "email", "dob", "password", "role", "*"));
 
-    private static final String pw = new String(Base64.getDecoder().decode("akc5R2ZFNlhrTkY1QllLSkpmZTg="),
-            StandardCharsets.UTF_8);
-    private static final String url = "jdbc:mysql://booking:" + pw
-            + "@csit314-project-do-user-13025854-0.b.db.ondigitalocean.com:25060/defaultdb?ssl-mode=REQUIRED";
-    private static final String TestDB = "jdbc:mysql://booking:" + pw
-            + "@csit314-project-do-user-13025854-0.b.db.ondigitalocean.com:25060/Test?ssl-mode=REQUIRED";
+    private static final String pw = new String(Base64.getDecoder().decode("akc5R2ZFNlhrTkY1QllLSkpmZTg="), StandardCharsets.UTF_8);
+    private static final String url = "jdbc:mysql://booking:" + pw + "@csit314-project-do-user-13025854-0.b.db.ondigitalocean.com:25060/defaultdb?ssl-mode=REQUIRED";
+    private static final String TestDB = "jdbc:mysql://booking:" + pw + "@csit314-project-do-user-13025854-0.b.db.ondigitalocean.com:25060/Test?ssl-mode=REQUIRED";
 
     private Connection conn;
+
 
     /**
      * Default constructor
@@ -38,6 +35,8 @@ public class DB {
             System.out.println("[+] Connected to the database on initialisation");
 
             ArrayList<PreparedStatement> stmts = new ArrayList<>();
+            ArrayList<PreparedStatement> insertion = new ArrayList<>();
+
             String[] tables = { 
                 "users", 
                 "movies", 
@@ -50,13 +49,17 @@ public class DB {
                 "seat_reserved",
                 "loyal_points",
                 "payments",
-                "add Admin", 
-                "add Cinema Hall A", 
-                "add Cinema Hall B",
-                "add Cinema Hall C", 
-                "add Cinema Hall D", 
-                "add screening",
-                "add loyal_points",
+            };
+
+            String[] insert = {
+                "Add Admin",
+                "Add Cine Hall A",
+                "Add Cine Hall B",
+                "Add Cine Hall C",
+                "Add Cine Hall D",
+                "Add Screening",
+                "Add Loyal Points",
+                "Add Trigger",
             };
 
             // Create users table
@@ -132,6 +135,7 @@ public class DB {
                     + "screeningStatus VARCHAR(15) NOT NULL,"
                     + "FOREIGN KEY (movieName) REFERENCES movies(name) ON UPDATE CASCADE,"
                     + "FOREIGN KEY (Hall) REFERENCES cinema_halls(Hall))"));
+           
 
             // create seat_reserved table (reserved seats, which movie, which hall, which screening session)
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS seat_reserved ("
@@ -161,22 +165,22 @@ public class DB {
             + "amount VARCHAR(255) NOT NULL,"
             + "FOREIGN KEY (email) REFERENCES users(email) ON UPDATE CASCADE)"));
 
-            stmts.add(conn.prepareStatement( "INSERT INTO users (fname, lname, email, dob, password, role) SELECT 'user', 'admin', 'ua', 'ua', 'ua', 'User Admin' FROM dual WHERE NOT EXISTS (SELECT * FROM users WHERE email = 'ua');"));
+            insertion.add(conn.prepareStatement( "INSERT INTO users (fname, lname, email, dob, password, role) SELECT 'user', 'admin', 'ua', 'ua', 'ua', 'User Admin' FROM dual WHERE NOT EXISTS (SELECT * FROM users WHERE email = 'ua');"));
 
             // 2 cinemas, 2 halls in each cinema, 12 seats in each hall
-            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'A', 'Greenville cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'A');"));
+            insertion.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'A', 'Greenville cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'A');"));
 
-            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'B', 'Greenville Cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'B');"));
+            insertion.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'B', 'Greenville Cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'B');"));
 
-            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'C', 'Townsville Cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'C');"));
+            insertion.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'C', 'Townsville Cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'C');"));
 
-            stmts.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'D', 'Townsville Cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'D');"));
+            insertion.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'D', 'Townsville Cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'D');"));
 
-            stmts.add(conn.prepareStatement("INSERT INTO movie_screening (movieName, Hall, date, timeSlot, startTime, endTime, duration, screeningStatus) SELECT 'Barbie Movie', 'A', '12/06/2023', 'Afternoon 1', '12:15pm', '15:15pm', '3 hours', 'Available' FROM dual WHERE NOT EXISTS (SELECT * FROM movie_screening WHERE screeningID = '1');"));
+            insertion.add(conn.prepareStatement("INSERT INTO movie_screening (movieName, Hall, date, timeSlot, startTime, endTime, duration, screeningStatus) SELECT 'Barbie Movie', 'A', '12/06/2023', 'Afternoon 1', '12:15pm', '15:15pm', '3 hours', 'Available' FROM dual WHERE NOT EXISTS (SELECT * FROM movie_screening WHERE screeningID = '1');"));
             
-           
+            
             // insert customers into loyal_points so that they can keep track of their points
-            stmts.add(conn.prepareStatement("INSERT IGNORE INTO loyal_points(email) SELECT email FROM users WHERE role = 'customer';"));
+            insertion.add(conn.prepareStatement("INSERT IGNORE INTO loyal_points(email) SELECT email FROM users WHERE role = 'customer';"));
 
             stmts.add(conn.prepareStatement(
                 "CREATE TRIGGER update_movies_rate_review " +
@@ -194,6 +198,18 @@ public class DB {
                     stmt.execute();
                     if (stmt.getUpdateCount() == 0) {
                         System.out.println("[+] Table " + tables[stmts.indexOf(stmt)] + " create");
+                    }
+                } catch (SQLException e) {
+                    System.err.println("[!!]" + e.getMessage());
+                }
+            });
+
+
+            insertion.forEach(inserts -> {
+                try {
+                    inserts.execute();
+                    if (inserts.getUpdateCount() == 0) {
+                        System.out.println("[+] Data inserted into " + insert[insertion.indexOf(inserts)]);
                     }
                 } catch (SQLException e) {
                     System.err.println("[!!]" + e.getMessage());

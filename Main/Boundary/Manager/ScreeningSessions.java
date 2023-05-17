@@ -10,7 +10,6 @@ import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import Main.Boundary.Home;
 
 import Main.Controller.Manager.*;
 /*
@@ -93,7 +92,7 @@ public class ScreeningSessions extends JFrame implements ActionListener {
         switch (e.getActionCommand()) {
             case "Home":
                 dispose();
-                new Home(userInfo);
+                new ManagerHome(userInfo);
                 
                 break; 
 
