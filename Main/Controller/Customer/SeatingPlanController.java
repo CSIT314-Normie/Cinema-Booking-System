@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import Main.Entity.MovieScreening;
 
-public class BookMovieController {
+public class SeatingPlanController {
 
     MovieScreening movieScreening = new MovieScreening();
 
-    public BookMovieController() {}
+    public SeatingPlanController() {}
 
     /**
      * To get movie screening information
@@ -34,5 +34,5 @@ public class BookMovieController {
      */
     public ArrayList<String> getReservedSeats(String Hall, String screeningID) {
         return movieScreening.getSeatsReservedForScreening(Hall, screeningID);
-    }
+    } 
 }

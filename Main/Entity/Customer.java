@@ -20,7 +20,6 @@ public class Customer extends User {
         super();
     }
 
-
     /**
      * Constructor for Customer with full information
      * @param fname first name
@@ -85,4 +84,34 @@ public class Customer extends User {
 
         return "0";
     }
+
+    /** 
+     * Book movie
+     * @param userEmail of customer
+     * @param screeningID of movie
+     * @param Hall of movie
+     * @param seatID
+     * @param movieName
+     * @param ticketType of seat
+     * @return boolean true if success, false if fail
+     */
+    public boolean bookMovie(String Hall, String seatID, String userEmail, String movieName, String screeningID) {
+        try {
+            stmt = conn.prepareStatement("INSERT INTO seat_reserved (Hall, seatID, userEmail, movieName, screeningID) VALUES (?, ?, ?, ?, ?)");
+            stmt.setString(1, Hall);
+            stmt.setString(2, seatID);
+            stmt.setString(3, userEmail);
+            stmt.setString(4, movieName);
+            stmt.setString(5, screeningID);
+
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return false;
+    }
+
+    
 }

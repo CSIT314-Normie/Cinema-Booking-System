@@ -8,8 +8,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 
 import javax.swing.*;
-import java.util.*;
-import java.util.List; 
+import java.util.*; 
 import com.toedter.calendar.JDateChooser;
 
 import Main.Controller.*;
@@ -19,7 +18,7 @@ import Main.Controller.Customer.*;
 
 public class MovieScreenings extends JFrame implements ActionListener {
     private final ArrayList<String> userInfo;
-    private final List<String> movieInfo;  
+    private final ArrayList<String> movieInfo;  
     private final String movieName;
 
     private final JLabel userRoleLabel = new JLabel();
@@ -45,7 +44,7 @@ public class MovieScreenings extends JFrame implements ActionListener {
     private final JPanel movieBookingPanel = new JPanel(new BorderLayout());
     private final JPanel screeningPanel = new JPanel(new FlowLayout());
 
-    public MovieScreenings(ArrayList<String> userInfo, List<String> movieInfo) {
+    public MovieScreenings(ArrayList<String> userInfo, ArrayList<String> movieInfo) {
         super("CSIT 314 Cinema Booking System - Book movie: " + movieInfo.get(0));
         this.userInfo = userInfo;
         this.movieInfo = movieInfo;
@@ -196,8 +195,9 @@ public class MovieScreenings extends JFrame implements ActionListener {
             
             case "Book": 
                 System.out.println("[+] Move to Booking page");
+                System.out.println("selected screening's date: " + dateString);
                 dispose();
-                new BookMovie(userInfo, selectedScreeningID, movieName);
+                new SeatingPlan(userInfo, selectedScreeningID, movieInfo, dateString);
                 break;
         }
     }
@@ -231,11 +231,11 @@ public class MovieScreenings extends JFrame implements ActionListener {
             if (allScreeningsForMovie.get(i + 2).equals("A") || allScreeningsForMovie.get(i + 2).equals("B")) {
                 sessionButton = new JButton(date  + " " + time);
                 cinemaOnePanel.add(sessionButton);
-                
-
+            
                 // add action listener to the session button
                 sessionButton.addActionListener(e -> {
                     selectedScreeningID = screeningID; 
+                    dateString = date;
                     selectedScreeningLabel.setText("Selected screening: " + movieName + " " + date + " " + time);
                 }); 
             }   
@@ -248,6 +248,7 @@ public class MovieScreenings extends JFrame implements ActionListener {
                 // add action listener to the session button
                 sessionButton.addActionListener(e -> {
                     selectedScreeningID = screeningID;
+                    dateString = date;
                     selectedScreeningLabel.setText("Selected screening: " + movieName + " " + date + " " + time);
                 });
             }

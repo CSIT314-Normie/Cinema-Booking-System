@@ -318,7 +318,13 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         JLabel movieTitle = (JLabel) clickedMoviePanel.getComponent(0);
         System.out.println("Movie panel clicked: " + movieTitle.getText());
 
-        List<String> movieInfo = searchedMovieList.subList(searchedMovieList.indexOf(movieTitle.getText()), searchedMovieList.indexOf(movieTitle.getText()) + 7);
+        ArrayList<String> movieInfo = new ArrayList<>();
+        int index = searchedMovieList.indexOf(movieTitle.getText());
+
+        for (int i = index; i < index + 6 ; i++) {
+            movieInfo.add(searchedMovieList.get(i));
+        }
+
         System.out.println(movieInfo);
 
         // open Book.java with the movie title

@@ -7,41 +7,49 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.concurrent.Flow;
+import java.util.ArrayList; 
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+import Main.Boundary.Home;  
 
-import Main.Controller.Customer.BookMovieController;
+import Main.Controller.Customer.SeatingPlanController;
+import Main.Controller.Customer.ConfirmSeatingController;
 
-public class BookMovie extends JFrame implements ActionListener {
+public class SeatingPlan extends JFrame implements ActionListener {
     private ArrayList<String> userInfo;
     private String selectedScreeningID;
-    private String movieName;
+    private ArrayList<String> movieInfo;
+    private String date;
 
     private ArrayList<String> screeningInfo;
     private ArrayList<String> seats;
-    private ArrayList<String> reservedSeats;
+    private ArrayList<String> reservedSeats; 
 
     private ArrayList<String> selectedSeats = new ArrayList<String>();
     private String hall;   
 
     private final JButton homeButton = new JButton("Home");
+    private final JButton backButton = new JButton("Back");
     private final JButton confirmButton = new JButton("Confirm");
+    JPanel ticketTypePanel = new JPanel(new FlowLayout());
 
-    private final BookMovieController bookMovieController = new BookMovieController();
+    private final SeatingPlanController bookMovieController = new SeatingPlanController();
+    private final ConfirmSeatingController confirmSeatingController = new ConfirmSeatingController();
 
-    public BookMovie(ArrayList<String> userInfo, String selectedScreeningID, String movieName) {
-        super("CSIT 314 Cinema Booking System - Book movie: " + movieName);
+    private  JPanel selectedSeatsPanel = new JPanel(new FlowLayout());
+
+    public SeatingPlan(ArrayList<String> userInfo, String selectedScreeningID, ArrayList<String> movieInfo, String date) {
+        super("CSIT 314 Cinema Booking System - Book movie: " + movieInfo.get(0));
         this.userInfo = userInfo; 
         this.selectedScreeningID = selectedScreeningID;
-        this.movieName = movieName;
+        this.movieInfo = movieInfo;
+        this.date = date;
         setLayout(new BorderLayout());
         setSize(1035, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,13 +64,14 @@ public class BookMovie extends JFrame implements ActionListener {
 
         JPanel topPanel = new JPanel(new FlowLayout());
         topPanel.add(homeButton);
+        topPanel.add(backButton);
 
         JPanel bookingPanel = new JPanel(new FlowLayout());
         bookingPanel.setPreferredSize(new Dimension(1035, 500));
 
         JPanel movieInfoPanel = new JPanel(new FlowLayout());
         movieInfoPanel.setPreferredSize(new Dimension(1035, 100));
-        JLabel movieinfoLabel = new JLabel("Movie: " + movieName + " | Hall: " + hall + " | Time: " + screeningInfo.get(5));
+        JLabel movieinfoLabel = new JLabel("Movie: " + movieInfo.get(0) + " | Hall: " + hall + " | Time: " + screeningInfo.get(5));
         movieInfoPanel.add(movieinfoLabel);
         
         // legend panel shows what the different colors mean
@@ -90,6 +99,9 @@ public class BookMovie extends JFrame implements ActionListener {
             legendPanel.add(legendButton); 
         }
 
+        // Panel to show the selected seats
+        selectedSeatsPanel.setPreferredSize(new Dimension(1030, 200));
+
         // seats panel shows the seats in the hall for the selected screening
         JPanel seatsPanel = new JPanel(new GridLayout(4, 4, 10, 10));
         seatsPanel.setPreferredSize(new Dimension(400, 300));
@@ -115,11 +127,13 @@ public class BookMovie extends JFrame implements ActionListener {
                         // remove seat from selected seats if already selected
                         selectedSeats.remove(seatID);
                         seatButton.setBackground(Color.blue);
+
                     } else {
                         // add seat to selected seats if not already selected
                         selectedSeats.add(seatID);
                         seatButton.setBackground(Color.green);
                     } 
+                    confirmSeats();
                 }); 
             }
             seatsPanel.add(seatButton);
@@ -129,16 +143,62 @@ public class BookMovie extends JFrame implements ActionListener {
         bookingPanel.add(legendPanel); 
         bookingPanel.add(seatsPanel);
 
+        
+
         add(topPanel, BorderLayout.NORTH);
         add(bookingPanel, BorderLayout.CENTER);
+        add(selectedSeatsPanel, BorderLayout.SOUTH);
 
         // listeners for buttons
+        homeButton.addActionListener(this);
+        backButton.addActionListener(this);
+        confirmButton.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        switch (e.getActionCommand()) {
+            case "Home":
+                dispose();
+                new Home(userInfo);
+                break;
+            case "Back":
+                dispose();
+                new MovieScreenings(userInfo, movieInfo);
+                break;
+            case "Confirm":
+                System.out.println("Selected seats: " + selectedSeats.toString());
+
+                if (selectedSeats.size() == 0) {
+                    JOptionPane.showMessageDialog(null, "Please select at least one seat.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else {
+                    if (confirmSeatingController.confirmSeats(selectedSeats, selectedScreeningID, hall, userInfo.get(2), movieInfo.get(0), date)) {
+                        JOptionPane.showMessageDialog(null, "Seats confirmed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                         
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error confirming seats.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+                dispose();
+                new PurchaseTicket(userInfo, selectedScreeningID, movieInfo, selectedSeats);
+                break;
+        }
+    } 
+
+    // confirm selected seats
+    public void confirmSeats() { 
+        selectedSeatsPanel.removeAll();
+
+        JLabel selectedSeatsLabel = new JLabel("Selected seats: ");
+        JLabel selectedSeatsInfoLabel = new JLabel(selectedSeats.toString());
+
+        selectedSeatsPanel.add(selectedSeatsLabel);
+        selectedSeatsPanel.add(selectedSeatsInfoLabel);
+        selectedSeatsPanel.add(confirmButton);
+
+        selectedSeatsPanel.revalidate();
+        selectedSeatsPanel.repaint(); 
     }
-    
 }
