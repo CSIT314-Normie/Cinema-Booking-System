@@ -237,10 +237,8 @@ public class MovieScreening {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()){
+                allSeats.add(rs.getString("Hall")); 
                 allSeats.add(rs.getString("seatId")); 
-                allSeats.add(rs.getString("Hall"));
-                allSeats.add(rs.getString("seatRow"));
-                allSeats.add(rs.getString("seatNumber"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

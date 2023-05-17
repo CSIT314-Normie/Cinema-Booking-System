@@ -73,6 +73,7 @@ public class UserAdmin extends User {
      */
     public boolean updateUserAccInfo(ArrayList<String> modifiedAcc, String userEmail) {
         try {
+            // update users table
             stmt = conn.prepareStatement("UPDATE users SET fname = ?, lname = ?, email= ?, dob = ?, role = ? WHERE email = ?");
             stmt.setString(1, modifiedAcc.get(0));
             stmt.setString(2, modifiedAcc.get(1));
@@ -81,6 +82,32 @@ public class UserAdmin extends User {
             stmt.setString(5, modifiedAcc.get(4));
             stmt.setString(6, userEmail);
             stmt.executeUpdate();
+
+            // // update payments table
+            // stmt = conn.prepareStatement("UPDATE payments SET email = ? WHERE email = ?");
+            // stmt.setString(1, modifiedAcc.get(2));
+            // stmt.executeUpdate();
+
+            // // update user_movies table
+            // stmt = conn.prepareStatement("UPDATE user_movies SET email = ? WHERE email = ?");
+            // stmt.setString(1, modifiedAcc.get(2));
+            // stmt.executeUpdate();
+
+            // // update seat_reserved table
+            // stmt = conn.prepareStatement("UPDATE seat_reserved SET email = ? WHERE email = ?");
+            // stmt.setString(1, modifiedAcc.get(2));
+            // stmt.executeUpdate();
+
+            // // update loyal_points table
+            // stmt = conn.prepareStatement("UPDATE loyal_points SET email = ? WHERE email = ?");
+            // stmt.setString(1, modifiedAcc.get(2));
+            // stmt.executeUpdate();
+
+            // // update review table
+            // stmt = conn.prepareStatement("UPDATE review SET email = ? WHERE email = ?");
+            // stmt.setString(1, modifiedAcc.get(2));
+            // stmt.executeUpdate();
+
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
