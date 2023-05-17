@@ -84,34 +84,39 @@ public class Customer extends User {
 
         return "0";
     }
-
-    /** 
-     * Book movie
-     * @param userEmail of customer
-     * @param screeningID of movie
-     * @param Hall of movie
-     * @param seatID
-     * @param movieName
-     * @param ticketType of seat
+    
+    /**
+     * Update loyalty points of a customer after ticketing
+     * @param String email of customer
      * @return boolean true if success, false if fail
      */
-    public boolean bookMovie(String Hall, String seatID, String userEmail, String movieName, String screeningID) {
+    public boolean updateLoyaltyPoints(String email) {
         try {
-            stmt = conn.prepareStatement("INSERT INTO seat_reserved (Hall, seatID, userEmail, movieName, screeningID) VALUES (?, ?, ?, ?, ?)");
-            stmt.setString(1, Hall);
-            stmt.setString(2, seatID);
-            stmt.setString(3, userEmail);
-            stmt.setString(4, movieName);
-            stmt.setString(5, screeningID);
-
+            stmt = conn.prepareStatement("UPDATE loyal_points SET points = 1 WHERE email = ?"); 
+            stmt.setString(1, email);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-
         return false;
     }
-
     
+    /** 
+     * update user_movie table after ticketing
+     * @param email of customer
+     * @param movieID of movie
+     */
+    public boolean updateUserMovie(String email, String movieID) {
+        try {
+            stmt = conn.prepareStatement("INSERT INTO user_movie (email, movieID) VALUES (?, ?)");
+            stmt.setString(1, email);
+            stmt.setString(2, movieID);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return false;
+    }
 }

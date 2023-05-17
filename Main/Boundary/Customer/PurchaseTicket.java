@@ -9,9 +9,10 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import Main.Boundary.Home;
+import Main.Boundary.Customer.CustomerHome;
 import Main.Controller.Customer.GetTicketTypesController;
 import Main.Controller.Customer.PurchaseTicketController;
+import Main.Controller.Customer.UpdateLoyaltyPointsController;
 
 public class PurchaseTicket extends JFrame implements ActionListener{
     private ArrayList<String> userInfo;
@@ -169,7 +170,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
         switch (e.getActionCommand()) {
             case "Home":
                 dispose();
-                new Home(userInfo);
+                new CustomerHome(userInfo);
                 
                 break;
             case "Make Payment": 
@@ -196,16 +197,21 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                 
                 if (purchaseTicketController.makePayment(userInfo.get(2), String.valueOf(totalPrice), date)) {
                     JOptionPane.showMessageDialog(null, "Payment successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
-                    new Home(userInfo);
+
+                    // AND update loyalty points
+                    UpdateLoyaltyPointsController updateLoyaltyPointsController = new UpdateLoyaltyPointsController();
+                    if (updateLoyaltyPointsController.updateLoyaltyPoints(userInfo.get(2))) {
+                        JOptionPane.showMessageDialog(null, "Loyalty points updated.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
+                        new CustomerHome(userInfo);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Loyalty points not updated.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    
                 } else {
                     JOptionPane.showMessageDialog(null, "Payment failed.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                
-                // update loyalty points
-                
-
-            
+                } 
                 break;
         }
     }
