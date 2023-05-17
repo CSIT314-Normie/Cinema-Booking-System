@@ -4,11 +4,10 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
-
-import Main.Boundary.Home;
-import Main.Controller.Admin.MovieReviewController;
-
 import java.util.*;
+
+
+import Main.Controller.Admin.MovieReviewController;
 
 public class Review extends JFrame implements ActionListener {
     // Create header labels
@@ -105,7 +104,7 @@ public class Review extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == homeButton) {
             dispose();
-            new Home(userInfo);
+            new CustomerHome(userInfo);
         } else {
             int index = updateButtons.indexOf(e.getSource());
             String movieName = movieNameLabels.get(index).getText();

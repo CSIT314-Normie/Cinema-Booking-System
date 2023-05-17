@@ -1,4 +1,4 @@
-package Main.Boundary;
+package Main.Boundary.Customer;
 
 
 import java.awt.*;
@@ -8,10 +8,9 @@ import java.util.*;
 
 
 import Main.Controller.*;
-import Main.Boundary.Customer.*;
 
 
-public class Login extends JFrame implements ActionListener {
+public class CustomerLogin extends JFrame implements ActionListener {
     private final JLabel welcomeLabel = new JLabel("Welcome to CSIT 314 Cinema Booking System");
     private final ArrayList<String> labelList = new ArrayList<>(Arrays.asList("Email:", "Password:"));
     private final ArrayList<JTextField> textfieldList = new ArrayList<>();
@@ -26,7 +25,7 @@ public class Login extends JFrame implements ActionListener {
     // Frame overview
     private final JPanel overviewList = new JPanel(new BorderLayout());
 
-    public Login() {
+    public CustomerLogin() {
         super("Welcome to CSIT 314 Cinema Booking System - Login");
         setLayout(new FlowLayout());
         setSize(1035, 750);
@@ -97,7 +96,7 @@ public class Login extends JFrame implements ActionListener {
             
             if (loginResult.get(1).equals("T")) {
                 dispose();
-                new Home(loginResult);
+                new CustomerHome(loginResult);
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid email or password", "Error", JOptionPane.ERROR_MESSAGE);
             }

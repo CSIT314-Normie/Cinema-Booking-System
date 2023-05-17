@@ -12,7 +12,6 @@ import java.util.*;
 import com.toedter.calendar.JDateChooser;
 
 import Main.Controller.*;
-import Main.Boundary.*; 
 import Main.Controller.Customer.*;
 
 
@@ -170,27 +169,27 @@ public class MovieScreenings extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Home":
-                new Home(userInfo);
+                new CustomerHome(userInfo);
                 dispose();
                 break;
 
             case "Logout":
                 loginController.logout(userInfo.get(0));
                 dispose();
-                new Login();
+                new CustomerLogin();
                 System.out.println("[+] Successfully logged out");
                 break;
 
             case "Update":
                 System.out.println("[+] Move to Update page");
                 dispose();
-                new Update(userInfo);
+                new CustomerUpdate(userInfo);
                 break;
 
             case "Profile":
                 System.out.println("[+] Move to Profile page");
                 dispose();
-                new Profile(userInfo);
+                new CustomerProfile(userInfo);
                 break;
             
             case "Book": 

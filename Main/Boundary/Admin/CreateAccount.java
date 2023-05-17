@@ -5,10 +5,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-import Main.Boundary.Home;
+
 import Main.Controller.*;
 import Main.Controller.Admin.*;
-
 
 public class CreateAccount extends JFrame implements ActionListener {
     private final ArrayList<String> userInfo;
@@ -135,7 +134,7 @@ public class CreateAccount extends JFrame implements ActionListener {
         switch (e.getActionCommand()) {
             case "Back":
                 dispose();
-                new Home(userInfo);
+                new AdminHome(userInfo);
                 break;
 
             case "Create Account":
