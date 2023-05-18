@@ -15,8 +15,8 @@ import Main.Controller.Customer.UpdateLoyaltyPointsController;
 
 public class PurchaseTicket extends JFrame implements ActionListener{
     private ArrayList<String> userInfo;
-    private ArrayList<String> screeningInfo = new ArrayList<String>();
-    private ArrayList<String> movieInfo = new ArrayList<String>();
+    private ArrayList<String> screeningInfo;
+    private ArrayList<String> movieInfo;
     private String date;
 
     private ArrayList<String[]> ticketTypes = new ArrayList<String[]>();
@@ -185,7 +185,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                     break;
                 }
 
-                // check whether card holder name is entered
+                // check whether cardholder name is entered
                 if (cardNameTextField.getText().isEmpty() || cardNameTextField.getText().equals("") || cardNameTextField.getText().equals(null)) {
                     JOptionPane.showMessageDialog(null, "Please enter card holder's name.", "Error", JOptionPane.ERROR_MESSAGE); 
                     break;

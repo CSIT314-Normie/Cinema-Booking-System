@@ -80,13 +80,10 @@ public class TicketingHistory extends JFrame implements ActionListener{
             singleHistoryPanel.add(reviewButton); 
             
             reviewButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            reviewButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) { 
 
-                    new AddMovieRatingAndReview(userInfo, movieName);
-                    dispose();
-                }
+            reviewButton.addActionListener(e -> {
+                new AddMovieRatingAndReview(userInfo, movieName);
+                dispose();
             });
 
             ticketingHistoryPanel.add(singleHistoryPanel);

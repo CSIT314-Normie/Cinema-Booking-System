@@ -3,7 +3,6 @@ package Main.Boundary.Owner;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.table.*;
 import java.util.*;
 
 
@@ -89,23 +88,6 @@ public class OwnerHome extends JFrame implements ActionListener{
                 dispose();
                 //new ReportB();
                 break;
-        }
-    }
-}
-
-class ImageRenderer extends DefaultTableCellRenderer {
-
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-            int row, int column) {
-        if (value instanceof ImageIcon) {
-            ImageIcon imageIcon = (ImageIcon) value;
-            JLabel label = new JLabel(imageIcon);
-            label.setOpaque(true);
-            label.setBackground(Color.WHITE);
-            return label;
-        } else {
-            return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         }
     }
 }
