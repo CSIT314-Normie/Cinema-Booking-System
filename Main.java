@@ -65,14 +65,6 @@ public class Main {
         runBuilder.redirectErrorStream(true);
         Process runProcess = runBuilder.start();
 
-        // FOR DEBUGGING PURPOSE: captures the output from the program
-        // try (BufferedReader outputReader = new BufferedReader(new InputStreamReader(runProcess.getInputStream()))) {
-        //     String outputLine;
-        //     while ((outputLine = outputReader.readLine()) != null) {
-        //         System.out.println(outputLine);
-        //     }
-        // }
-
         runProcess.waitFor();
         if (runProcess.exitValue() != 0) {
             System.err.println("Program exited with non-zero exit code " + runProcess.exitValue());
