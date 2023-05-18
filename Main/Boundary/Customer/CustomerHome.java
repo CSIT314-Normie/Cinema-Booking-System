@@ -141,8 +141,7 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
     public void mouseClicked(MouseEvent e) {
         // get the clicked movie panel
         JPanel clickedMoviePanel = (JPanel) e.getSource();
-        JLabel movieTitle = (JLabel) clickedMoviePanel.getComponent(0);
-        System.out.println("[+] Customer Movie panel clicked: " + movieTitle.getText());
+        JLabel movieTitle = (JLabel) clickedMoviePanel.getComponent(0); 
 
         ArrayList<String> movieInfo = new ArrayList<>();
         int index = searchedMovieList.indexOf(movieTitle.getText());

@@ -92,12 +92,12 @@ public class TicketingHistory extends JFrame implements ActionListener{
             ticketingHistoryPanel.add(singleHistoryPanel);
         }
 
-        JScrollPane scrollPane = new JScrollPane(ticketingHistoryPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane scrollPane = new JScrollPane(ticketingHistoryPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(500, 400));
 
         topRow.add(homeButton, BorderLayout.WEST);
         add(topRow, BorderLayout.NORTH);
-        add(ticketingHistoryPanel, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
 
         homeButton.addActionListener(this);
     }
