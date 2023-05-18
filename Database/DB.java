@@ -39,8 +39,7 @@ public class DB {
 
             String[] tables = { 
                 "users", 
-                "movies", 
-                "user_movies", 
+                "movies",  
                 "reviews", 
                 "ticket_arrangement", 
                 "cinema_halls", 
@@ -81,24 +80,14 @@ public class DB {
                 + "description VARCHAR(500) NOT NULL,"
                 + "status VARCHAR(15) NOT NULL,"
                 + "duration VARCHAR(255) NOT NULL)"));
-
-
-            // create user_movies table (movies that users have watched)
-            stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS user_movies ("
-                + "email VARCHAR(255) NOT NULL,"
-                + "movieName VARCHAR(255) NOT NULL,"
-                + "rate VARCHAR(255) NOT NULL,"
-                + "review VARCHAR(255) NOT NULL,"
-                + "PRIMARY KEY (email, movieName),"
-                + "FOREIGN KEY (email) REFERENCES users(email) ON UPDATE CASCADE,"
-                + "FOREIGN KEY (movieName) REFERENCES movies(name) ON UPDATE CASCADE)"));
-
+ 
             // create reviews table (reviews of movies)
             stmts.add(conn.prepareStatement("CREATE TABLE IF NOT EXISTS reviews ("
-                + "reviewID VARCHAR(10) PRIMARY KEY,"
+                + "reviewID INT AUTO_INCREMENT PRIMARY KEY,"
                 + "email VARCHAR(255) NOT NULL,"
                 + "movieName VARCHAR(255) NOT NULL,"
                 + "review VARCHAR(255) NOT NULL," 
+                + "rating VARCHAR(255) NOT NULL,"
                 + "FOREIGN KEY (email) REFERENCES users(email) ON UPDATE CASCADE,"
                 + "FOREIGN KEY (movieName) REFERENCES movies(name) ON UPDATE CASCADE)"));
 
@@ -177,21 +166,22 @@ public class DB {
             insertion.add(conn.prepareStatement("INSERT INTO cinema_halls (Hall, cinemaName, noOfSeats) SELECT 'D', 'Townsville Cinema', 12 FROM dual WHERE NOT EXISTS (SELECT * FROM cinema_halls WHERE Hall = 'D');"));
 
             insertion.add(conn.prepareStatement("INSERT INTO movie_screening (movieName, Hall, date, timeSlot, startTime, endTime, duration, screeningStatus) SELECT 'Barbie Movie', 'A', '12/06/2023', 'Afternoon 1', '12:15pm', '15:15pm', '3 hours', 'Available' FROM dual WHERE NOT EXISTS (SELECT * FROM movie_screening WHERE screeningID = '1');"));
-            
+
             
             // insert customers into loyal_points so that they can keep track of their points
             insertion.add(conn.prepareStatement("INSERT IGNORE INTO loyal_points(email) SELECT email FROM users WHERE role = 'customer';"));
 
-            stmts.add(conn.prepareStatement(
+            insertion.add(conn.prepareStatement(
                 "CREATE TRIGGER update_movies_rate_review " +
-                        "AFTER UPDATE ON user_movies " +
-                        "FOR EACH ROW " +
-                        "BEGIN " +
-                        "    UPDATE movies SET " +
-                        "        rate = (SELECT AVG(rate) FROM user_movies WHERE movieName = NEW.movieName), " +
-                        "        review = (SELECT COUNT(*) FROM user_movies WHERE movieName = NEW.movieName) " +
-                        "    WHERE name = NEW.movieName; " +
-                        "END"));
+                "   AFTER INSERT " +
+                "   ON reviews " + 
+                "   FOR EACH ROW " +
+                "   BEGIN " +
+                "       UPDATE movies " +
+                "           SET rate = (SELECT AVG(rating) FROM reviews WHERE movieName = NEW.movieName), " +
+                "               review = (SELECT COUNT(*) FROM reviews WHERE movieName = NEW.movieName) " +
+                "       WHERE name = NEW.movieName; " +
+                "   END"));
 
             stmts.forEach(stmt -> {
                 try {
@@ -360,31 +350,7 @@ public class DB {
 
         return values;
     }
-
-
-    public ArrayList<String[]> selectAllTicketingHistory(String key) {
-        PreparedStatement stmt;
-
-        ArrayList<String[]> values = new ArrayList<>();
-
-        try {
-            stmt = conn.prepareStatement("SELECT * FROM user_movies WHERE email = ?");
-            stmt.setString(1, key);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String[] temp = new String[4];
-                temp[0] = rs.getString("movieName");
-                temp[1] = rs.getString("rate");
-                temp[2] = rs.getString("review");
-
-                values.add(temp);
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        return values;
-    }
+ 
 
     /**
      * Test Driven Development

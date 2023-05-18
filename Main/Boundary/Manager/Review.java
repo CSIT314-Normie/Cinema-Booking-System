@@ -1,4 +1,4 @@
-package Main.Boundary.Customer;
+package Main.Boundary.Manager;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.util.*;
 
-
+import Main.Boundary.Customer.CustomerHome;
 import Main.Controller.Admin.MovieReviewController;
 
 public class Review extends JFrame implements ActionListener {

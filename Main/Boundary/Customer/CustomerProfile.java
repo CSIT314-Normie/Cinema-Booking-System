@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-
+import Main.Boundary.Manager.Review;
 import Main.Controller.Customer.*;
 
 public class CustomerProfile extends JFrame implements ActionListener {
@@ -16,8 +16,7 @@ public class CustomerProfile extends JFrame implements ActionListener {
     private final JLabel myProfileLabel = new JLabel("My Profile");
 
     private final JButton updateButton = new JButton("Edit Profile");
-    private final JButton homeButton = new JButton("Home");
-    private final JButton reviewButton = new JButton("Review");
+    private final JButton homeButton = new JButton("Home"); 
 
     private final transient CustomerProfileController profileController = new CustomerProfileController();
 
@@ -80,10 +79,8 @@ public class CustomerProfile extends JFrame implements ActionListener {
 
         // Add actionlistener to create button
         updateButton.addActionListener(this);
-        homeButton.addActionListener(this);
-        reviewButton.addActionListener(this);
-        
-        botRow.add(reviewButton);
+        homeButton.addActionListener(this); 
+         
         botRow.add(updateButton);
         botRow.add(homeButton);
         
@@ -110,11 +107,7 @@ public class CustomerProfile extends JFrame implements ActionListener {
                 dispose();
                 new CustomerHome(userInfo);
                 break;
-            
-            case "Review":
-                dispose();
-                new Review(userInfo);
-                break;
+             
         }
     }
 }

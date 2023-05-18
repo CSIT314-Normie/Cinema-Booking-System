@@ -59,10 +59,40 @@ public class Customer extends User {
     /** 
      * Get ticketing history of a customer
      * @param email of customer
-     * @return ArrayList<String[]> ticketing history
+     * @return ArrayList<String> ticketing history
      */
-    public ArrayList<String[]> getTicketingHistory(String email) {
-        return super.getDB().selectAllTicketingHistory(email);
+    public ArrayList<String> getTicketingHistory(String email) {
+        ArrayList<String> movieNames = new ArrayList<>();
+        ArrayList<String> values = new ArrayList<>();
+
+        try {
+            stmt = conn.prepareStatement("SELECT DISTINCT movieName FROM seat_reserved WHERE userEmail = ?");
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) { 
+                movieNames.add(rs.getString("movieName"));
+            }
+
+            // get basic information of movies
+            for (String movieName : movieNames) {
+                stmt = conn.prepareStatement("SELECT * FROM movies WHERE name = ?");
+                stmt.setString(1, movieName); 
+                rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    values.add(rs.getString("name"));
+                    values.add(rs.getString("image"));
+                    values.add(rs.getString("rate"));
+                    values.add(rs.getString("review"));
+                    values.add(rs.getString("description"));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return values;
     }
 
     /**

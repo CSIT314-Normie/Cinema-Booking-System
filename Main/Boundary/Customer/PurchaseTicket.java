@@ -207,7 +207,6 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                     } else {
                         JOptionPane.showMessageDialog(null, "Loyalty points not updated.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-
                     
                 } else {
                     JOptionPane.showMessageDialog(null, "Payment failed.", "Error", JOptionPane.ERROR_MESSAGE);
