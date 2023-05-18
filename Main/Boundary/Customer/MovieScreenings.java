@@ -195,8 +195,13 @@ public class MovieScreenings extends JFrame implements ActionListener {
             case "Book": 
                 System.out.println("[+] Move to Booking page");
                 System.out.println("selected screening's date: " + dateString);
-                dispose();
-                new SeatingPlan(userInfo, selectedScreeningID, movieInfo, dateString);
+                if (selectedScreeningID == null) {
+                    JOptionPane.showMessageDialog(null, "Please select a screening", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    dispose();
+                    new SeatingPlan(userInfo, selectedScreeningID, movieInfo, dateString);
+                }
+                
                 break;
         }
     }

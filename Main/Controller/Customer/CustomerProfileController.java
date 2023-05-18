@@ -7,10 +7,10 @@ import Main.Entity.*;
 import java.util.*;
 
 public class CustomerProfileController {
-    User user = new User();
+    Customer customer = new Customer();
 
     public ArrayList<String> getUserInfo(String email) {
-        return user.getDB().select("*", email);
+        return customer.retrieveCustomerInfo(email);
     }
     
 }

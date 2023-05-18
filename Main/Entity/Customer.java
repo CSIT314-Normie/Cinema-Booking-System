@@ -44,6 +44,33 @@ public class Customer extends User {
         return super.insertUser(information, role);
     }
 
+    /**
+     * Retrieve customer information (for profile) from database - fname, lname, email, dob, password
+     * @param String email
+     * @return ArrayList<String> values
+     */
+    public ArrayList<String> retrieveCustomerInfo(String email) {
+        ArrayList<String> values = new ArrayList<>();
+
+        try {
+            stmt = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                values.add(rs.getString("fname"));
+                values.add(rs.getString("lname"));
+                values.add(rs.getString("email"));
+                values.add(rs.getString("dob"));
+                values.add(rs.getString("password"));
+            }
+            
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return values;
+    }
 
     /**
      * Update user with arraylist information and role
@@ -131,17 +158,19 @@ public class Customer extends User {
         }
         return false;
     }
-    
-    /** 
-     * update user_movie table after ticketing
-     * @param email of customer
-     * @param movieID of movie
+
+
+    /**
+     * Redeem loyalty points of a customer - 10 points for 1 ticket
+     * @param String email of customer
+     * @param String points to deduct
+     * @return boolean true if success, false if fail
      */
-    public boolean updateUserMovie(String email, String movieID) {
+    public boolean redeemLoyaltyPoints(String email, String deductPts) {
         try {
-            stmt = conn.prepareStatement("INSERT INTO user_movie (email, movieID) VALUES (?, ?)");
-            stmt.setString(1, email);
-            stmt.setString(2, movieID);
+            stmt = conn.prepareStatement("UPDATE loyal_points SET points = points - ? WHERE email = ?"); 
+            stmt.setString(1, deductPts);
+            stmt.setString(2, email);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
