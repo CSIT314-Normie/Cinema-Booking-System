@@ -5,20 +5,20 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-
 import Main.Controller.Customer.*;
 
 public class CustomerProfile extends JFrame implements ActionListener {
-    private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:"));
+    private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("First Name:", "Last Name:", "Email:", "Date of Birth:", "Password:", "Loyalty Points:"));
     private final ArrayList<String> userInfo;
-    private final ArrayList<String> DBUserInfo;
+    private final ArrayList<String> DBUserInfo; 
 
     private final JLabel myProfileLabel = new JLabel("My Profile");
 
     private final JButton updateButton = new JButton("Edit Profile");
-    private final JButton homeButton = new JButton("Home"); 
+    private final JButton homeButton = new JButton("Home");  
 
-    private final transient CustomerProfileController profileController = new CustomerProfileController();
+    private final CustomerProfileController profileController = new CustomerProfileController();
+    private final loyaltyPointController loyaltyPointController = new loyaltyPointController();
 
     // Frame's top, middle and bottom row
     private final JPanel topRow = new JPanel();
@@ -40,6 +40,9 @@ public class CustomerProfile extends JFrame implements ActionListener {
         // Get the user info from the database
         DBUserInfo = profileController.getUserInfo(this.userInfo.get(2));
 
+        // Get the loyalty points from the database
+        DBUserInfo.add(loyaltyPointController.getLoyaltyPoint(this.userInfo.get(2)));
+
         // Put a JLabel called "My Profile" on the top row
         myProfileLabel.setFont(new Font("Serif", Font.PLAIN, 40));
         topRow.add(myProfileLabel);
@@ -51,7 +54,10 @@ public class CustomerProfile extends JFrame implements ActionListener {
         JPanel middleRow = new JPanel();
         middleRow.setLayout(new BoxLayout(middleRow, BoxLayout.Y_AXIS));
 
-        for (int i = 0; i < 4; i++) {
+        System.out.println(DBUserInfo);
+        System.out.println(labelNameList);
+
+        for (int i = 0; i < labelNameList.size(); i++) {
             // Create a label with the label name E.g "First Name", "Last Name", etc
             JLabel label = new JLabel(labelNameList.get(i));
             label.setFont(new Font("Serif", Font.PLAIN, 25));
@@ -84,12 +90,11 @@ public class CustomerProfile extends JFrame implements ActionListener {
         botRow.add(updateButton);
         botRow.add(homeButton);
         
-
         // Bottom row contains the button
         overviewList.add(botRow, BorderLayout.SOUTH);
 
         // Set the preferred size of the overviewList panel
-        overviewList.setPreferredSize(new Dimension(800, 500));
+        overviewList.setPreferredSize(new Dimension(800, 550));
 
         // Add the overviewList to the frame
         add(overviewList);
