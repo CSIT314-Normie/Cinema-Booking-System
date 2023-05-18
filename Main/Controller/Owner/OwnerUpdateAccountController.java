@@ -7,7 +7,7 @@ import Main.Entity.*;
 import java.util.*;
 
 /*
- * This controller handles updating of accounttinfo
+ * This controller handles updating of account info
  * - update of own account info - all USERS
  */
 
