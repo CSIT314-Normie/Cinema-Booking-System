@@ -14,7 +14,7 @@ public class TicketingHistoryController {
         this.email = email;
     }
     
-    public ArrayList<String[]> getTicketingHistory(String email) { 
+    public ArrayList<String> getTicketingHistory(String email) { 
         return this.customer.getTicketingHistory(email); 
     }
     
