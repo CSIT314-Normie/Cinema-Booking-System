@@ -6,18 +6,17 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.*;
 
-import Main.Boundary.Customer.CustomerHome;
+
 import Main.Controller.Customer.GetTicketTypesController;
 import Main.Controller.Customer.PurchaseTicketController;
 import Main.Controller.Customer.UpdateLoyaltyPointsController;
 
 public class PurchaseTicket extends JFrame implements ActionListener{
     private ArrayList<String> userInfo;
-    private ArrayList<String> screeningInfo;
-    private ArrayList<String> movieInfo;
+    private ArrayList<String> screeningInfo = new ArrayList<String>();
+    private ArrayList<String> movieInfo = new ArrayList<String>();
     private String date;
 
     private ArrayList<String[]> ticketTypes = new ArrayList<String[]>();
@@ -36,7 +35,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
     private double totalPrice = 0.0;
 
     // controllers
-    private final GetTicketTypesController getTicketTypesController = new GetTicketTypesController();
+    private final transient GetTicketTypesController getTicketTypesController = new GetTicketTypesController();
     
     public PurchaseTicket(ArrayList<String> userInfo, ArrayList<String> screeningInfo, ArrayList<String> movieInfo, ArrayList<String> selectedSeats, String date) {
         super("CSIT 314 Cinema Booking System - Book movie");
