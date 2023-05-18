@@ -27,7 +27,7 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
     private final JButton submitButton = new JButton("Submit");
 
     private String[] labelList = {"Movie Title: ", "Movie Review: ", "Movie Rating: "};
-    private JTextArea movieReview = new JTextArea(5, 18);
+    private JTextArea movieReview = new JTextArea(5, 40);
     private String rating;
     private ArrayList<String> reviewInfo = new ArrayList<String>();
 
@@ -46,10 +46,8 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
         topPanel.setPreferredSize(new Dimension(1035, 50));
         topPanel.add(homeButton);
 
-
         JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        centerPanel.setPreferredSize(new Dimension(1035, 400));
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS)); 
 
         ButtonGroup ratingGroup = new ButtonGroup();
         JRadioButton oneStar = new JRadioButton("1");
@@ -67,7 +65,7 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
         
         for (int i = 0; i < labelList.length; i++) {
             JPanel rowPanel = new JPanel(new FlowLayout());
-            rowPanel.setPreferredSize(new Dimension(1035, 40));
+            rowPanel.setPreferredSize(new Dimension(700, 40));
 
             JLabel label = new JLabel(labelList[i]);
             rowPanel.add(label);
@@ -100,6 +98,8 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
         JPanel submitPanel = new JPanel(new FlowLayout());
         submitPanel.setPreferredSize(new Dimension(1035, 50));
         submitPanel.add(submitButton);
+
+        
 
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);

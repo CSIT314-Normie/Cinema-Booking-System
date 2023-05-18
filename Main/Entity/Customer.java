@@ -122,7 +122,7 @@ public class Customer extends User {
      */
     public boolean updateLoyaltyPoints(String email) {
         try {
-            stmt = conn.prepareStatement("UPDATE loyal_points SET points = 1 WHERE email = ?"); 
+            stmt = conn.prepareStatement("UPDATE loyal_points SET points = points + 1 WHERE email = ?"); 
             stmt.setString(1, email);
             stmt.executeUpdate();
             return true;
