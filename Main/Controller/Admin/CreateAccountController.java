@@ -22,7 +22,10 @@ public class CreateAccountController {
      * @return boolean of whether the account was created or not
      */
     public boolean createAccount(ArrayList<String> accountInfo, String role) {
-        return this.user.createUser(accountInfo, role);
+        if (validateEmail(accountInfo.get(2))) 
+            return this.user.createUser(accountInfo, role);
+
+        return false;
     }
 
     /**

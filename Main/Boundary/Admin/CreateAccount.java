@@ -147,20 +147,15 @@ public class CreateAccount extends JFrame implements ActionListener {
 
                 CreateAccountController CreateAccountController = new CreateAccountController();
 
-                // validate email address
-                if (!CreateAccountController.validateEmail(fieldValueList.get(2))) {
-                    JOptionPane.showMessageDialog(null, "Invalid email address", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
+                // create new user account
+                if (CreateAccountController.createAccount(fieldValueList, role)) {
+                    JOptionPane.showMessageDialog(null, "Account created successfully"); 
                 } else {
-                    // create new user account
-                    if (CreateAccountController.createAccount(fieldValueList, role)) {
-                        JOptionPane.showMessageDialog(null, "Account created successfully"); 
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Account failed to create!", "Error", JOptionPane.ERROR_MESSAGE);
-                        dispose();
-                        new CreateAccount(userInfo);
-                    }
+                    JOptionPane.showMessageDialog(null, "Account failed to create!", "Error", JOptionPane.ERROR_MESSAGE);
+                    dispose();
+                    new CreateAccount(userInfo);
                 } 
+
                 break;
         }
     } 
