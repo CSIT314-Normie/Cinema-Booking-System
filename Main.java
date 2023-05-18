@@ -8,9 +8,9 @@ public class Main {
         String[] cmd = {
             "javac",
             "-classpath",
-            "./Out/;./lib/mysql-connector-j-8.0.32.jar;./lib/jcalendar-1.4.jar;",
+            "./Out/;./lib/mysql-connector-j-8.0.32.jar;./lib/jcalendar-1.4.jar",
             "-d",
-            "out",
+            "Out",
 
             // Core files
             "Database/DB.java",
@@ -48,6 +48,14 @@ public class Main {
         compileProcess.waitFor();
         if (compileProcess.exitValue() != 0) {
             System.err.println("Compilation failed with exit code " + compileProcess.exitValue());
+            // tell me where the error is
+            try (BufferedReader outputReader = new BufferedReader(new InputStreamReader(compileProcess.getInputStream()))) {
+                String outputLine;
+                while ((outputLine = outputReader.readLine()) != null) {
+                    System.out.println(outputLine);
+                }
+            }
+
             System.exit(1);
         }
 
@@ -73,5 +81,5 @@ public class Main {
 }
 
 // Manual compilation and running
-// javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar" -d out Database/DB.java Main/Driver.java Main/Boundary/*.java Main/Boundary/Admin/*.java Main/Boundary/CinemaOwner/*.java Main/Boundary/Customer/*.java Main/Boundary/Manager/*.java Main/Controller/*.java Main/Controller/Admin/*.java Main/Controller/Customer/*.java Main/Controller/Manager/*.java Main/Entity/*.java 
+// javac -classpath "./Out/;./lib/mysql-connector-j-8.0.32.jar;./lib/jcalendar-1.4.jar" -d out Database/DB.java Main/Driver.java Main/Boundary/*.java Main/Boundary/Admin/*.java Main/Boundary/Owner/*.java Main/Boundary/Customer/*.java Main/Boundary/Manager/*.java Main/Controller/*.java Main/Controller/Admin/*.java Main/Controller/Customer/*.java Main/Controller/Manager/*.java Main/Entity/*.java 
 //  java -classpath "./Out;./lib/mysql-connector-j-8.0.32.jar" Main.Driver 
