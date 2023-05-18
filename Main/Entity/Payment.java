@@ -1,9 +1,10 @@
 package Main.Entity;
 
-import Database.DB;
 
-import java.util.*;
 import java.sql.*;
+
+
+import Database.DB;
 
 public class Payment {
     private final DB db = new DB();

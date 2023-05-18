@@ -6,12 +6,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
-
 import javax.swing.*;
 import java.util.*; 
 import com.toedter.calendar.JDateChooser;
 
-import Main.Controller.*;
+
 import Main.Controller.Customer.*;
 
 
@@ -86,19 +85,17 @@ public class MovieScreenings extends JFrame implements ActionListener {
         selectionPanel.add(dateChooser);
  
         // Add a PropertyChangeListener to listen for changes to the selected date
-        dateChooser.addPropertyChangeListener(new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent e) {
-                if (e.getPropertyName().equals("date")) {
-                    Date selectedDate = dateChooser.getDate();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    dateString = dateFormat.format(selectedDate);
+        dateChooser.addPropertyChangeListener(e -> {
+            if (e.getPropertyName().equals("date")) {
+                Date selectedDate = dateChooser.getDate();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                dateString = dateFormat.format(selectedDate);
 
-                    System.out.println("Selected date: " + dateString);
+                System.out.println("Selected date: " + dateString);
 
-                    // update the screening panel
-                    displayMovieScreenings();
-                }
-            } 
+                // update the screening panel
+                displayMovieScreenings();
+            }
         });
 
         // add selection panel to the movie booking panel

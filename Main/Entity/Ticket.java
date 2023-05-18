@@ -1,8 +1,12 @@
 package Main.Entity;
-import Database.DB;
+
 
 import java.util.*;
 import java.sql.*;
+
+
+import Database.DB;
+
 public class Ticket {
     private DB db = new DB();
     private Connection conn = this.db.getConnection();

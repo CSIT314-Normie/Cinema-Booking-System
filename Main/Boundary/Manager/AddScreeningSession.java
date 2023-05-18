@@ -30,11 +30,11 @@ public class AddScreeningSession extends JFrame implements ActionListener {
     private ArrayList<String> cinema_halls; 
     private ArrayList<String> newScreening;
 
-    private JButton homeButton = new JButton("Home");
-    private JButton submitButton = new JButton("Submit");
-    private JDateChooser dateChooser = new JDateChooser();
+    private final JButton homeButton = new JButton("Home");
+    private final JButton submitButton = new JButton("Submit");
+    private final JDateChooser dateChooser = new JDateChooser();
 
-    private String[] labelList = {"Movie Name: ", "Hall: ", "Date: ", "Time Slot: "};  
+    private final String[] labelList = {"Movie Name: ", "Hall: ", "Date: ", "Time Slot: "};
     private String[] movieNames;
     private String[] halls;
     private String[] timeSlots = {"Morning", "Afternoon 1", "Afternoon 2" , "Evening 1", "Evening 2"};
@@ -79,9 +79,9 @@ public class AddScreeningSession extends JFrame implements ActionListener {
             }
         }
         
-        JComboBox<String> movieNameComboBox = new JComboBox<String>(movieNames);
-        JComboBox<String> hallComboBox = new JComboBox<String>(halls);
-        JComboBox<String> timeSlotComboBox = new JComboBox<String>(timeSlots);
+        JComboBox<String> movieNameComboBox = new JComboBox<>(movieNames);
+        JComboBox<String> hallComboBox = new JComboBox<>(halls);
+        JComboBox<String> timeSlotComboBox = new JComboBox<>(timeSlots);
 
         JPanel topPanel = new JPanel(new FlowLayout());
         topPanel.add(homeButton);
@@ -129,24 +129,12 @@ public class AddScreeningSession extends JFrame implements ActionListener {
         formPanel.add(submitPanel);
 
         // add listener to dropdowns and date chooser
-        movieNameComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { 
-                selectedInfo[0] = movieNameComboBox.getSelectedItem().toString(); 
-            }
-        });
+        movieNameComboBox.addActionListener(e -> selectedInfo[0] = movieNameComboBox.getSelectedItem().toString());
 
-        hallComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { 
-                selectedInfo[1] = hallComboBox.getSelectedItem().toString(); 
-            }
-        }); 
+        hallComboBox.addActionListener(e -> selectedInfo[1] = hallComboBox.getSelectedItem().toString());
 
         timeSlotComboBox.addActionListener(
-            new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) { 
+                e -> {
                     selectedInfo[3] = timeSlotComboBox.getSelectedItem().toString();
 
                     if (selectedInfo[3].equals("Morning")) {
@@ -165,8 +153,7 @@ public class AddScreeningSession extends JFrame implements ActionListener {
                         selectedInfo[4] = "22:00pm";
                         selectedInfo[5] = "01:00am";
                     }
-                }
-        }); 
+                });
         
         add(topPanel, BorderLayout.NORTH); 
         add(formPanel, BorderLayout.CENTER);
@@ -192,7 +179,7 @@ public class AddScreeningSession extends JFrame implements ActionListener {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                     selectedInfo[2] = dateFormat.format(selectedDate);
 
-                    this.newScreening = new ArrayList<String>(Arrays.asList(selectedInfo));
+                    this.newScreening = new ArrayList<>(Arrays.asList(selectedInfo));
                     this.newScreening.add("3 hours");
                     this.newScreening.add("Available");
                     System.out.println("new screening: " + newScreening);

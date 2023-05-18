@@ -1,5 +1,6 @@
 package Main.Boundary.Manager;
 
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -7,7 +8,6 @@ import javax.swing.table.*;
 import java.util.*;
 
 
-import Main.Controller.*;
 import Main.Controller.Manager.*;
 
 public class ManagerHome extends JFrame implements ActionListener {

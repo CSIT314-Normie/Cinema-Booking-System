@@ -6,10 +6,9 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.*;
 
-import Main.Boundary.Customer.CustomerHome;
+
 import Main.Controller.Customer.GetTicketTypesController;
 import Main.Controller.Customer.PurchaseTicketController;
 import Main.Controller.Customer.UpdateLoyaltyPointsController;
@@ -219,7 +218,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                     break;
                 }
 
-                // check whether card holder name is entered
+                // check whether cardholder name is entered
                 if (cardNameTextField.getText().isEmpty() || cardNameTextField.getText().equals("") || cardNameTextField.getText().equals(null)) {
                     JOptionPane.showMessageDialog(null, "Please enter card holder's name.", "Error", JOptionPane.ERROR_MESSAGE); 
                     break;

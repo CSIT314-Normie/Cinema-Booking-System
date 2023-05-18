@@ -26,10 +26,10 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
     private final JButton homeButton = new JButton("Home");
     private final JButton submitButton = new JButton("Submit");
 
-    private String[] labelList = {"Movie Title: ", "Movie Review: ", "Movie Rating: "};
+    private final String[] labelList = {"Movie Title: ", "Movie Review: ", "Movie Rating: "};
     private JTextArea movieReview = new JTextArea(5, 40);
     private String rating;
-    private ArrayList<String> reviewInfo = new ArrayList<String>();
+    private ArrayList<String> reviewInfo = new ArrayList<>();
 
     public AddMovieRatingAndReview(ArrayList<String> userInfo, String movieName) { 
         super("Add Movie Rating and Review - " + movieName);
@@ -110,25 +110,15 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
         submitButton.addActionListener(this);
 
         // add listener for ButtonGroup radio buttons
-        oneStar.addActionListener(e -> {
-            rating = e.getActionCommand();
-        });
+        oneStar.addActionListener(e -> rating = e.getActionCommand());
 
-        twoStar.addActionListener(e -> {
-            rating = e.getActionCommand();
-        });
+        twoStar.addActionListener(e -> rating = e.getActionCommand());
 
-        threeStar.addActionListener(e -> {
-            rating = e.getActionCommand();
-        });
+        threeStar.addActionListener(e -> rating = e.getActionCommand());
 
-        fourStar.addActionListener(e -> {
-            rating = e.getActionCommand();
-        }); 
+        fourStar.addActionListener(e -> rating = e.getActionCommand());
 
-        fiveStar.addActionListener(e -> {
-            rating = e.getActionCommand();
-        });
+        fiveStar.addActionListener(e -> rating = e.getActionCommand());
     }
 
     @Override
