@@ -30,7 +30,7 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
 
     
     private final transient CustomerLoginController loginController;
-    private final transient loyaltyPointController loyaltyPointController = new loyaltyPointController();
+    private final transient LoyaltyPointController loyaltyPointController = new LoyaltyPointController();
     private final transient AvailableMoviesController availableMoviesController = new AvailableMoviesController();
     
 

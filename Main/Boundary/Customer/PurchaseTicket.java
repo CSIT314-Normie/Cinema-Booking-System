@@ -13,7 +13,8 @@ import Main.Controller.Customer.GetTicketTypesController;
 import Main.Controller.Customer.PurchaseTicketController;
 import Main.Controller.Customer.UpdateLoyaltyPointsController;
 import Main.Controller.Customer.RedeemLoyaltyPointsController;
-import Main.Controller.Customer.loyaltyPointController;
+import Main.Controller.Customer.LoyaltyPointController;
+import Main.Controller.Customer.ConfirmSeatingController; 
 
 public class PurchaseTicket extends JFrame implements ActionListener{
     private ArrayList<String> userInfo;
@@ -44,7 +45,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
 
     // controllers
     private final GetTicketTypesController getTicketTypesController = new GetTicketTypesController();
-    private final loyaltyPointController loyaltyPointController = new loyaltyPointController();
+    private final LoyaltyPointController loyaltyPointController = new LoyaltyPointController(); 
     
     public PurchaseTicket(ArrayList<String> userInfo, ArrayList<String> screeningInfo, ArrayList<String> movieInfo, ArrayList<String> selectedSeats, String date) {
         super("CSIT 314 Cinema Booking System - Book movie");
@@ -224,11 +225,12 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                     break;
                 }
 
-                // make payment
+                // make payment and confirm seats booked
                 PurchaseTicketController purchaseTicketController = new PurchaseTicketController();
+                ConfirmSeatingController confirmSeatingController = new ConfirmSeatingController();
                 
-                if (purchaseTicketController.makePayment(userInfo.get(2), String.valueOf(totalPrice), date)) {
-                    JOptionPane.showMessageDialog(null, "Payment successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                if (purchaseTicketController.makePayment(userInfo.get(2), String.valueOf(totalPrice), date) && confirmSeatingController.confirmSeats(selectedSeats, screeningInfo.get(0), screeningInfo.get(1), userInfo.get(2), movieInfo.get(0), date)) {
+                    JOptionPane.showMessageDialog(null, "Payment successful. Seats booked.", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                     // AND update loyalty points
                     UpdateLoyaltyPointsController updateLoyaltyPointsController = new UpdateLoyaltyPointsController();
