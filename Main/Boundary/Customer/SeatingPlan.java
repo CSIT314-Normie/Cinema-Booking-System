@@ -8,7 +8,7 @@ import javax.swing.*;
 
 
 import Main.Controller.Customer.SeatingPlanController;
-import Main.Controller.Customer.ConfirmSeatingController;
+
 
 public class SeatingPlan extends JFrame implements ActionListener {
     private ArrayList<String> userInfo;
@@ -29,7 +29,7 @@ public class SeatingPlan extends JFrame implements ActionListener {
     JPanel ticketTypePanel = new JPanel(new FlowLayout());
 
     private final SeatingPlanController seatingPlanController = new SeatingPlanController();
-    private final ConfirmSeatingController confirmSeatingController = new ConfirmSeatingController();
+    
 
     private  JPanel selectedSeatsPanel = new JPanel(new FlowLayout());
 
@@ -161,20 +161,11 @@ public class SeatingPlan extends JFrame implements ActionListener {
                 if (selectedSeats.size() == 0) {
                     JOptionPane.showMessageDialog(null, "Please select at least one seat.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
-                } else {
-                    if (confirmSeatingController.confirmSeats(selectedSeats, selectedScreeningID, hall, userInfo.get(2), movieInfo.get(0), date)) { 
-                        // show success message
-                        JOptionPane.showMessageDialog(null, "Seats confirmed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        
-                        // redirect to purchase ticket page
-                        dispose();
-                        new PurchaseTicket(userInfo, screeningInfo, movieInfo, selectedSeats, date);
-                    } else {
-                        // show error message
-                        JOptionPane.showMessageDialog(null, "Error confirming seats.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+                } else {  
+                    // redirect to purchase ticket page
+                    dispose();
+                    new PurchaseTicket(userInfo, screeningInfo, movieInfo, selectedSeats, date);
                 }
-
                 break;
         }
     } 

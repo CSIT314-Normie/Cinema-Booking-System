@@ -4,10 +4,10 @@ import java.util.*;
 
 import Main.Entity.Customer;
 
-public class loyaltyPointController {
+public class LoyaltyPointController {
     private final Customer customer = new Customer();
 
-    public loyaltyPointController() {}
+    public LoyaltyPointController() {}
 
     /**
      * To get loyalty point of a customer
