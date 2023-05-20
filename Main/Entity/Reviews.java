@@ -5,13 +5,13 @@ import java.util.*;
 
 import Database.DB;
 
-public class ManageReviews {
+public class Reviews {
 
     private final DB db = new DB();
     private final Connection conn = db.getConnection();
     private PreparedStatement stmt;
 
-    public ManageReviews() {
+    public Reviews() {
     }
 
     /** 
@@ -28,8 +28,8 @@ public class ManageReviews {
 
             while (rs.next()) {
                 reviews.add(rs.getString("movieName"));
-                reviews.add(rs.getString("rating"));
                 reviews.add(rs.getString("review"));
+                reviews.add(rs.getString("rating"));
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());

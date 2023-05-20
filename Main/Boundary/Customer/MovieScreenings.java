@@ -1,18 +1,14 @@
 package Main.Boundary.Customer;
 
 import java.awt.*; 
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.event.*; 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import javax.swing.*;
 import java.util.*; 
 import com.toedter.calendar.JDateChooser;
 
-
 import Main.Controller.Customer.*;
-
 
 public class MovieScreenings extends JFrame implements ActionListener {
     private final ArrayList<String> userInfo;
@@ -22,25 +18,29 @@ public class MovieScreenings extends JFrame implements ActionListener {
     private final JLabel userRoleLabel = new JLabel();
     private final JButton homeButton = new JButton("Home"); 
     private final JButton profileButton = new JButton("Profile");
+    private final JButton searchButton = new JButton("Search");
     private final JButton bookButton = new JButton("Book");
-    private final JPanel panel = new JPanel(new FlowLayout());
-    private final JLabel movieNameLabel; 
+
+    private final JPanel panel = new JPanel(new FlowLayout()); 
     private final JLabel selectedScreeningLabel = new JLabel(); 
 
-    private final transient CustomerLoginController loginController;
-    private final transient GetMovieScreeningsController getScreeningsController = new GetMovieScreeningsController();
+    // controllers 
+    private final GetMovieScreeningsController getScreeningsController = new GetMovieScreeningsController();
+    private final GetCinemasController getCinemasController = new GetCinemasController();
+    private final GetMovieReviewsController getReviewsController = new GetMovieReviewsController();
 
+    // data
     private ArrayList<String> allScreeningsForMovie;
-
-    private final String[] cinemas = {"All", "Greenville Cinema", "Townsville Cinema"};
-    private final JComboBox<String> cinemaComboBox = new JComboBox<>(cinemas);
+    private ArrayList<String> allReviewsForMovie;
+    private ArrayList<String> allCinemas; 
+    private final JComboBox<String> cinemaComboBox;
     private JDateChooser dateChooser = new JDateChooser();
     private String selectedCinema = "All"; // by default
     private String dateString = "All"; // by default
     private String selectedScreeningID;
 
     private final JPanel movieBookingPanel = new JPanel(new BorderLayout());
-    private final JPanel screeningPanel = new JPanel(new FlowLayout());
+    private final JPanel screeningPanel = new JPanel(new FlowLayout()); 
 
     public MovieScreenings(ArrayList<String> userInfo, ArrayList<String> movieInfo) {
         super("CSIT 314 Cinema Booking System - Book movie: " + movieInfo.get(0));
@@ -54,11 +54,17 @@ public class MovieScreenings extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        loginController = new CustomerLoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
 
-        // GET ALL SCREENINGS FOR A MOVIE (ALL DATES)
-        allScreeningsForMovie = getScreeningsController.getAllScreenings(movieName, dateString);
+        // GET ALL REVIEWS FOR A MOVIE
+        allReviewsForMovie = getReviewsController.getMovieReviews(movieName);
+
+        // GET ALL SCREENINGS FOR A MOVIE 
+        allScreeningsForMovie = getScreeningsController.getAllScreenings(movieName);
+
+        // GET ALL CINEMAS 
+        this.allCinemas = getCinemasController.getCinemas();
+        this.allCinemas.add("All"); // to allow user to select all cinemas
 
         panel.setPreferredSize(new Dimension(1035, 50));
 
@@ -66,12 +72,16 @@ public class MovieScreenings extends JFrame implements ActionListener {
         panel.add(profileButton); 
         panel.add(homeButton); 
 
-        movieBookingPanel.setPreferredSize(new Dimension(1035, 650));
-        movieNameLabel = new JLabel("Booking Movie: " + movieName); 
+        movieBookingPanel.setPreferredSize(new Dimension(1035, 1000));
+        JLabel movieNameLabel = new JLabel("Booking Movie: " + movieName); 
 
         // add select cinema and date labels and combo boxes to the panel
         JPanel selectionPanel = new JPanel(new FlowLayout());
         selectionPanel.setPreferredSize(new Dimension(1035, 50));
+
+        // for user to select cinema 
+        cinemaComboBox = new JComboBox<>(allCinemas.toArray(new String[0]));
+        cinemaComboBox.setSelectedItem("All"); // by default
 
         JLabel selectCinemaLabel = new JLabel("Select Cinema: ");
         JLabel selectDateLabel = new JLabel("Select Date: ");
@@ -83,20 +93,7 @@ public class MovieScreenings extends JFrame implements ActionListener {
         selectionPanel.add(cinemaComboBox); 
         selectionPanel.add(selectDateLabel);
         selectionPanel.add(dateChooser);
- 
-        // Add a PropertyChangeListener to listen for changes to the selected date
-        dateChooser.addPropertyChangeListener(e -> {
-            if (e.getPropertyName().equals("date")) {
-                Date selectedDate = dateChooser.getDate();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                dateString = dateFormat.format(selectedDate);
-
-                System.out.println("Selected date: " + dateString);
-
-                // update the screening panel
-                displayMovieScreenings();
-            }
-        });
+        selectionPanel.add(searchButton);
 
         // add selection panel to the movie booking panel
         movieBookingPanel.add(selectionPanel, BorderLayout.NORTH);
@@ -111,7 +108,7 @@ public class MovieScreenings extends JFrame implements ActionListener {
         Image scaledImage = movieImage.getImage().getScaledInstance(337,450, Image.SCALE_SMOOTH);
         movieImage = new ImageIcon(scaledImage);
 
-        JLabel movieNameLabel = new JLabel(movieInfo.get(0)); 
+        // JLabel movieNameLabel = new JLabel(movieInfo.get(0)); 
         JLabel movieImageLabel = new JLabel(movieImage);
         JTextArea movieDescriptionText = new JTextArea(movieInfo.get(4), 10, 20);
 
@@ -123,14 +120,30 @@ public class MovieScreenings extends JFrame implements ActionListener {
         movieDescriptionText.setOpaque(false);
         movieDescriptionText.setEditable(false);
 
-        JScrollPane scrollPane = new JScrollPane(movieBookingPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(800, 650));
-        
         // add movie name, image and description to the movie info panel
         movieInfoPanel.add(movieNameLabel);
         movieInfoPanel.add(movieImageLabel);
         movieInfoPanel.add(movieDescriptionText); 
 
+        // reviews panel
+        JPanel reviewsPanel = new JPanel(new FlowLayout());
+        reviewsPanel.setPreferredSize(new Dimension(700, 200));
+        for (int i = 0; i < allReviewsForMovie.size(); i+=3) { 
+            JLabel reviewLabel = new JLabel( allReviewsForMovie.get(i + 1) + " : " + allReviewsForMovie.get(i+2) + "/5");
+            reviewLabel.setPreferredSize(new Dimension(700, 20));
+            reviewLabel.setFont(new Font("Serif", Font.PLAIN, 26));
+            reviewsPanel.add(reviewLabel);
+        }
+
+        // add movie info panel to the movie booking panel
+        movieBookingPanel.add(movieInfoPanel, BorderLayout.WEST); 
+        movieBookingPanel.add(screeningPanel, BorderLayout.EAST); 
+        movieBookingPanel.add(reviewsPanel, BorderLayout.SOUTH);
+
+        JScrollPane scrollPane = new JScrollPane(movieBookingPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(800, 650));
+        
+        // panel to display movie screenings - by default shows ALL screenings for ALL cinemas & ALL dates
         displayMovieScreenings(); 
 
         // add book button to the booking panel
@@ -139,9 +152,6 @@ public class MovieScreenings extends JFrame implements ActionListener {
         bookButtonPanel.add(selectedScreeningLabel);
         bookButtonPanel.add(bookButton);
 
-        // add movie info panel to the movie booking panel
-        movieBookingPanel.add(movieInfoPanel, BorderLayout.WEST); 
-        movieBookingPanel.add(screeningPanel, BorderLayout.EAST); 
         
         // add panels to the frame
         add(panel, BorderLayout.NORTH);
@@ -152,13 +162,23 @@ public class MovieScreenings extends JFrame implements ActionListener {
         homeButton.addActionListener(this); 
         profileButton.addActionListener(this);
         bookButton.addActionListener(this);
+        searchButton.addActionListener(this);
+
+        // Add a PropertyChangeListener to listen for changes to the selected date
+        dateChooser.addPropertyChangeListener(e -> {
+            if (e.getPropertyName().equals("date")) {
+                Date selectedDate = dateChooser.getDate();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                dateString = dateFormat.format(selectedDate);
+
+                System.out.println("Selected date: " + dateString); 
+            }
+        });
 
         // add listener to the combo box
         cinemaComboBox.addActionListener(e -> {
             selectedCinema = (String) cinemaComboBox.getSelectedItem();
-            System.out.println("Selected cinema: " + selectedCinema); // for debugging
-
-            displayMovieScreenings();
+            System.out.println("Selected cinema: " + selectedCinema); // for debugging 
         });
     }
 
@@ -168,25 +188,29 @@ public class MovieScreenings extends JFrame implements ActionListener {
             case "Home":
                 new CustomerHome(userInfo);
                 dispose();
-                break;
-
-            case "Logout":
-                loginController.logout(userInfo.get(0));
-                dispose();
-                new CustomerLogin();
-                System.out.println("[+] Successfully logged out");
-                break;
-
-            case "Update":
-                System.out.println("[+] Move to Update page");
-                dispose();
-                new CustomerUpdate(userInfo);
-                break;
+                break;  
 
             case "Profile":
                 System.out.println("[+] Move to Profile page");
                 dispose();
                 new CustomerProfile(userInfo);
+                break;
+            
+            case "Search":
+                System.out.println("[+] Search for movie screenings");
+
+                // search based on selected cinema 
+                SearchMovieScreeningCinemaController searchMovieScreeningCinemaController = new SearchMovieScreeningCinemaController();
+                allScreeningsForMovie = searchMovieScreeningCinemaController.searchMovieScreeningCinema(movieName, selectedCinema, dateString);
+                System.out.println("[cinema] allScreeningsForMovie: " + allScreeningsForMovie);
+                displayMovieScreenings(); 
+
+                // search based on selected date
+                SearchMovieScreeningDateController searchMovieScreeningDateController = new SearchMovieScreeningDateController();
+                allScreeningsForMovie = searchMovieScreeningDateController.searchMovieScreeningDate(movieName, dateString, selectedCinema);
+                System.out.println("[date] allScreeningsForMovie: " + allScreeningsForMovie);
+                displayMovieScreenings(); 
+                
                 break;
             
             case "Book": 
@@ -203,10 +227,11 @@ public class MovieScreenings extends JFrame implements ActionListener {
         }
     }
 
-    public void displayMovieScreenings(){    
-        // GET ALL SCREENINGS FOR A MOVIE
-        allScreeningsForMovie = getScreeningsController.getAllScreenings(movieName, dateString);
-
+    
+    /**
+     * Display all the movie screenings for the selected movie
+     */
+    public void displayMovieScreenings(){     
         screeningPanel.removeAll(); 
 
         // display movie screening information
@@ -217,12 +242,12 @@ public class MovieScreenings extends JFrame implements ActionListener {
         JPanel cinemaTwoPanel = new JPanel(new FlowLayout());
 
         cinemaOnePanel.setPreferredSize(new Dimension(400, 220));
-        cinemaOnePanel.setBorder(BorderFactory.createTitledBorder("Greenville Cinema"));
+        cinemaOnePanel.setBorder(BorderFactory.createTitledBorder(allCinemas.get(0)));
 
         cinemaTwoPanel.setPreferredSize(new Dimension(400, 220));
-        cinemaTwoPanel.setBorder(BorderFactory.createTitledBorder("Townsville Cinema")); 
+        cinemaTwoPanel.setBorder(BorderFactory.createTitledBorder(allCinemas.get(1))); 
 
-        for (int i = 0; i < allScreeningsForMovie.size(); i += 9) { 
+        for (int i = 0; i < allScreeningsForMovie.size(); i += 7) { 
             JButton sessionButton;
             String screeningID = allScreeningsForMovie.get(i);
             String date = allScreeningsForMovie.get(i + 3);
@@ -255,10 +280,10 @@ public class MovieScreenings extends JFrame implements ActionListener {
             }
         }
 
-        if (selectedCinema.equals("Greenville Cinema")) {
+        if (selectedCinema.equals(allCinemas.get(0))) {
             cinemaOnePanel.setVisible(true);
             cinemaTwoPanel.setVisible(false);
-        } else if (selectedCinema.equals("Townsville Cinema")) {
+        } else if (selectedCinema.equals(allCinemas.get(1))) {
             cinemaOnePanel.setVisible(false);
             cinemaTwoPanel.setVisible(true);
         } else {
