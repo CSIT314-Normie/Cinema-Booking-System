@@ -22,6 +22,7 @@ public class OwnerHome extends JFrame implements ActionListener{
     private final transient OwnerLoginController loginController;
 
 
+
     public OwnerHome(ArrayList<String> userInfo) {
         super("CSIT 314 Cinema Booking System - Home");
         this.userInfo = userInfo;
@@ -36,7 +37,6 @@ public class OwnerHome extends JFrame implements ActionListener{
         loginController = new OwnerLoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
         panel.setPreferredSize(new Dimension(1035, 50));
-
 
         panel.add(userRoleLabel);
         panel.add(updateButton);
@@ -60,7 +60,9 @@ public class OwnerHome extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Logout":
-                loginController.logout(userInfo.get(0));
+                OwnerLogoutController logoutController = new OwnerLogoutController();
+                logoutController.logout(userInfo.get(2));
+
                 dispose();
                 new OwnerLogin();
                 System.out.println("[+] Successfully logged out");

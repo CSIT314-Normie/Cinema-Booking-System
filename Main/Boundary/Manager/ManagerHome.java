@@ -25,9 +25,11 @@ public class ManagerHome extends JFrame implements ActionListener {
     private String[] selectedMovie;
     private final JButton editMovieButton = new JButton("Edit Movie Info");
 
-    private final transient ManagerLoginController loginController;
-    private final transient AllMoviesController allMoviesController = new AllMoviesController();
-    private final transient SearchMovieController searchMovieController = new SearchMovieController();
+    private final ManagerLoginController loginController;
+    private final ManagerLogoutController logoutController = new ManagerLogoutController();
+    private final AllMoviesController allMoviesController = new AllMoviesController();
+    private final SearchMovieController searchMovieController = new SearchMovieController();
+
 
     public ManagerHome(ArrayList<String> userInfo) {
         super("CSIT 314 Cinema Booking System - Home");
@@ -104,7 +106,7 @@ public class ManagerHome extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Logout":
-                loginController.logout(userInfo.get(0));
+                logoutController.logout(userInfo.get(2));
                 dispose();
                 new ManagerLogin();
                 System.out.println("[+] Successfully logged out");

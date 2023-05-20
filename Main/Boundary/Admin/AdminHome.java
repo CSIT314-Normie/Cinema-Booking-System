@@ -11,7 +11,6 @@ import Main.Boundary.Init;
 
 import Main.Controller.Admin.*;
 
-
 public class AdminHome extends JFrame implements ActionListener {
     private final JPanel panel = new JPanel(new FlowLayout());
     private final JPanel accountsPanel = new JPanel(new BorderLayout());
@@ -33,8 +32,10 @@ public class AdminHome extends JFrame implements ActionListener {
     private String[] selectedAccount;
 
 
-    private final transient AdminLoginController loginController;
-    private final transient SuspendAccountController suspendAccountController = new SuspendAccountController();
+    private final AdminLoginController loginController;
+    private final GetAllUserAccountsController getAllUserAccountsController = new GetAllUserAccountsController();
+    private final SuspendAccountController suspendAccountController = new SuspendAccountController();
+    private final AdminLogoutController logoutController = new AdminLogoutController();
     
 
     public AdminHome(ArrayList<String> userInfo) {
@@ -58,7 +59,7 @@ public class AdminHome extends JFrame implements ActionListener {
         panel.add(profileButton);
         panel.add(logoutButton);
 
-        this.allAccounts = loginController.getAllUserAccounts();
+        this.allAccounts = getAllUserAccountsController.getAllUserAccounts();
 
         accountsPanel.setPreferredSize(new Dimension(750, 600));
         editAccountButton.setSize(50, 30);
@@ -83,7 +84,9 @@ public class AdminHome extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Logout":
-                loginController.logout(userInfo.get(0));
+                AdminLogoutController logoutController = new AdminLogoutController();
+                logoutController.logout(userInfo.get(2));
+                
                 dispose();
                 new Init();
                 System.out.println("[+] Successfully logged out");
@@ -118,7 +121,7 @@ public class AdminHome extends JFrame implements ActionListener {
                     } else {
                         JOptionPane.showMessageDialog(null, "Error suspending account", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    allAccounts = loginController.getAllUserAccounts();
+                    allAccounts = getAllUserAccountsController.getAllUserAccounts();
                     displayAllAccounts();
                 }
                 break;
@@ -137,7 +140,7 @@ public class AdminHome extends JFrame implements ActionListener {
      */
     private void displayAllAccounts() {
         allAccounts.clear();
-        allAccounts = loginController.getAllUserAccounts();
+        allAccounts = getAllUserAccountsController.getAllUserAccounts();
 
         // Remove all components from the panel
         accountsPanel.removeAll();

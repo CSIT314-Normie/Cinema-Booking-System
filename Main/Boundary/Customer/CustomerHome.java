@@ -5,10 +5,14 @@ import java.awt.event.*;
 import java.io.File;
 import javax.swing.*;
 import javax.swing.table.*;
+
+import com.mysql.cj.log.Log;
+
 import java.util.*;
 
 
 import Main.Controller.Customer.*;
+import Main.Entity.Customer;
 
 
 public class CustomerHome extends JFrame implements ActionListener, MouseListener {
@@ -29,10 +33,11 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
     private final JTextField searchField = new JTextField(40);
 
     
-    private final transient CustomerLoginController loginController;
-    private final transient LoyaltyPointController loyaltyPointController = new LoyaltyPointController();
-    private final transient AvailableMoviesController availableMoviesController = new AvailableMoviesController();
-    private final transient SearchMovieTitleController searchMovieTitleController = new SearchMovieTitleController();
+    private final CustomerLoginController loginController;
+    private final LoyaltyPointController loyaltyPointController = new LoyaltyPointController();
+    private final AvailableMoviesController availableMoviesController = new AvailableMoviesController();
+    private final SearchMovieTitleController searchMovieTitleController = new SearchMovieTitleController();
+    private final CustomerLogoutController logoutController = new CustomerLogoutController();
     
 
     public CustomerHome(ArrayList<String> userInfo) {
@@ -118,7 +123,9 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Logout":
-                loginController.logout(userInfo.get(0));
+                CustomerLogoutController logoutController = new CustomerLogoutController();
+                logoutController.logout(userInfo.get(0));
+                
                 dispose();
                 new CustomerLogin();
                 break;

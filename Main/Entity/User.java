@@ -53,6 +53,36 @@ public class User {
     }
 
     /**
+     * This method is used to log in a user
+     * @param email is the email of the user
+     * @param password is the password of the user
+     * @param role
+     * @return boolean true if the user is logged in, false otherwise
+     */
+    public boolean login(String email, String password, String role) { 
+
+        try {
+            stmt = conn.prepareStatement("SELECT fname, lname, email, dob, role, password FROM users WHERE email = ? AND password = ? AND role = ? AND activeStatus = 'Active'");
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            stmt.setString(3, role);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return true; 
+            } 
+            else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+
+        return false;
+    }
+
+    /**
      * This method is used to insert a user into the database
      * @param values is an ArrayList of Strings that contains the information of user to be inserted into the database
      * @param role is the role of the user

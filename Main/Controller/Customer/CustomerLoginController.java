@@ -41,42 +41,18 @@ public class CustomerLoginController {
      * This method is used to log in a user
      * @return an ArrayList of Strings that contains the user's role, whether the user can log in or not, and the user's email
      */
-    public ArrayList<String> login() {
-        ArrayList<String> role = this.user.getDB().select("role", "email", this.email, "password", this.password);
-        String userRole = "";
+    public ArrayList<String> login() { 
+        String userRole = "Customer";
         String canLogin = "F";
-        String userEmail ="";       
+        String userEmail ="";     
 
-        if (!role.isEmpty()) {
-            userRole = "Customer";
+        // login customer, if successful, set canLogin to "T" 
+        if (this.user.login(this.email, this.password, userRole)) {
             canLogin = "T";
-            userEmail = this.user.getDB().select("email", "email", this.email, "password", this.password).get(0);
-        }
-        return new ArrayList<>(Arrays.asList(userRole, canLogin, userEmail));
-    }
+            userEmail = this.email;
+        }  
 
-    /**
-     * This method is used to log out a user
-     * @param userRole is the role of the user
-     * @return true if the user is logged out, false otherwise
-     */
-    public boolean logout(String userRole) {
-        Customer customer = (Customer) this.user;
-        customer.logout();
-        return true;
-
-    }
-
-    /**
-     * This method is used to get ALL user accounts from the database
-     * @return an ArrayList of String arrays that contains the information of all user accounts
-     */
-    public ArrayList<String[]> getAllUserAccounts() {
-        if (this.user instanceof UserAdmin) {
-            UserAdmin userAdmin = (UserAdmin) this.user;
-            return userAdmin.getAllUserAccounts();
-        }
-        return null;
+        return new ArrayList<>(Arrays.asList(userRole, canLogin, userEmail)); 
     }
 }
 
