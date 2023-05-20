@@ -18,17 +18,16 @@ public class ManagerHome extends JFrame implements ActionListener {
     private final JButton logoutButton = new JButton("Logout");
     private final JButton updateButton = new JButton("Update");
     private final JButton profileButton = new JButton("Profile");
-    
-
-    // View ALL movies (CINEMA MANAGER ONLY)
+    private JTextField searchField = new JTextField(20);
+     
     private final JPanel allMoviesPanel = new JPanel(new FlowLayout());
     private ArrayList<String> allMoviesList;
     private String[] selectedMovie;
     private final JButton editMovieButton = new JButton("Edit Movie Info");
 
-
     private final transient ManagerLoginController loginController;
     private final transient AllMoviesController allMoviesController = new AllMoviesController();
+    private final transient SearchMovieController searchMovieController = new SearchMovieController();
 
     public ManagerHome(ArrayList<String> userInfo) {
         super("CSIT 314 Cinema Booking System - Home");
@@ -49,40 +48,43 @@ public class ManagerHome extends JFrame implements ActionListener {
         panel.add(updateButton);
         panel.add(profileButton);
         panel.add(logoutButton);
+        
+        // get all movies
+        allMoviesList = allMoviesController.getAllMovies();
 
-        // To display different home page for different user role
-        switch (userInfo.get(0)) {
-            case "Cinema Manager":
-                allMoviesList = allMoviesController.getAllMovies();
+        // buttons for cinema manager - view ticket arrangement, add movie, edit movie,
+        // screenings page
+        JButton ticketArrangementButton = new JButton("Ticket Arrangement");
+        JButton addMovieButton = new JButton("Add Movie");
+        JButton screeningButton = new JButton("Screening");
 
-                // buttons for cinema manager - view ticket arrangement, add movie, edit movie,
-                // screenings page
-                JButton ticketArrangementButton = new JButton("Ticket Arrangement");
-                JButton addMovieButton = new JButton("Add Movie");
-                JButton screeningButton = new JButton("Screening");
+        JPanel cinemaManagerPanel = new JPanel(new FlowLayout());
+        cinemaManagerPanel.setPreferredSize(new Dimension(1035, 100));
+        allMoviesPanel.setPreferredSize(new Dimension(1035, 500));
 
-                JPanel cinemaManagerPanel = new JPanel(new FlowLayout());
-                cinemaManagerPanel.setPreferredSize(new Dimension(1035, 100));
-                allMoviesPanel.setPreferredSize(new Dimension(1035, 500));
+        cinemaManagerPanel.add(ticketArrangementButton);
+        cinemaManagerPanel.add(addMovieButton);
+        cinemaManagerPanel.add(editMovieButton);
+        cinemaManagerPanel.add(screeningButton);
 
-                cinemaManagerPanel.add(ticketArrangementButton);
-                cinemaManagerPanel.add(addMovieButton);
-                cinemaManagerPanel.add(editMovieButton);
-                cinemaManagerPanel.add(screeningButton);
+        // search panel to search for movies
+        JPanel searchPanel = new JPanel(new FlowLayout());
+        searchPanel.setPreferredSize(new Dimension(1035, 50)); 
+        JButton searchButton = new JButton("Search");
 
-                displayMovies();
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+        cinemaManagerPanel.add(searchPanel);
 
-                add(cinemaManagerPanel, BorderLayout.CENTER);
-                add(allMoviesPanel, BorderLayout.SOUTH);
+        displayMovies();
 
-                pack();
+        add(cinemaManagerPanel, BorderLayout.CENTER);
+        add(allMoviesPanel, BorderLayout.SOUTH); 
 
-                addMovieButton.addActionListener(this);
-                ticketArrangementButton.addActionListener(this);
-                editMovieButton.addActionListener(this);
-                screeningButton.addActionListener(this);
-                break;
-        }
+        addMovieButton.addActionListener(this);
+        ticketArrangementButton.addActionListener(this);
+        editMovieButton.addActionListener(this);
+        screeningButton.addActionListener(this); 
 
         // add panel to the frame
         add(panel, BorderLayout.NORTH);
@@ -92,6 +94,7 @@ public class ManagerHome extends JFrame implements ActionListener {
         logoutButton.addActionListener(this);
         updateButton.addActionListener(this);
         profileButton.addActionListener(this);
+        searchButton.addActionListener(this);
 
     }
 
@@ -121,6 +124,15 @@ public class ManagerHome extends JFrame implements ActionListener {
                 System.out.println("[+] Cinema Manager - Move to Ticketing Arrangement page");
                 dispose();
                 new TicketingArrangement(userInfo);
+                break;
+
+            case "Search":
+                String searchQuery = searchField.getText();
+
+                System.out.println("[+] Search for: " + searchQuery);
+                allMoviesList = searchMovieController.searchMovie(searchQuery);
+
+                displayMovies();
                 break;
 
             case "Add Movie":
