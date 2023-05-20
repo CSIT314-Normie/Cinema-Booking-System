@@ -4,8 +4,11 @@ import java.awt.*;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -125,8 +128,34 @@ public class ScreeningSessions extends JFrame implements ActionListener {
 
                 break;
             case "Delete Screening":
-                // DELETE SCREENING ONLY IF IT HAS ENDED
-                // doesnt actually delete, just set screening status to "Ended"
+                // check if a screening session is selected
+                if (selectedScreening == null) {
+                    JOptionPane.showMessageDialog(null, "Please select a screening session.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    // check if the date of screening has passed
+                    String date = selectedScreening[3];
+                    Date currentDate = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+                    try { 
+                        if (currentDate.after(sdf.parse(date))) {
+                            // delete screening session
+                            SuspendScreeningController deleteScreeningSessionController = new SuspendScreeningController();
+                            if (deleteScreeningSessionController.suspendScreening(selectedScreening[0])) {
+                                JOptionPane.showMessageDialog(null, "Screening session suspended.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                displayScreenings();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Suspend screening session failed.", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Cannot suspend screening session that has not ended.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        
+                    } catch (ParseException ex) {
+                        System.err.println("Error parsing date: " + ex.getMessage());
+                    }
+ 
+                }
                 break;
         }
          

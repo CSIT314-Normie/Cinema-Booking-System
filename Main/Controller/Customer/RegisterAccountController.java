@@ -17,10 +17,5 @@ public class RegisterAccountController {
 
     public boolean createUser(ArrayList<String> values, String role) {
         return this.customer.createUser(values, role);
-    }
-
-    public boolean updateUser(ArrayList<String> values, String role) {
-        return this.customer.updateUser(values, role);
-    }
-
+    } 
 }

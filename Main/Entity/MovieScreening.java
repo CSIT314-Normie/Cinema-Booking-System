@@ -379,6 +379,30 @@ public class MovieScreening {
         return true;
     } 
 
+    /**
+     * Suspend a screening - set screening status to "Suspended" after screening
+     * @param screeningID
+     * @return boolean - true if successful, false otherwise
+     */
+    public boolean suspendScreening(String screeningID) {
+        PreparedStatement stmt;
+    
+        try {
+            stmt = conn.prepareStatement("UPDATE movie_screening SET screeningStatus = 'Suspended' WHERE screeningID = ?");
+            stmt.setString(1, screeningID);  
+
+            stmt.executeUpdate(); 
+
+            System.out.println("screening " + screeningID + "'s screening status has been updated");
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return false;
+        
+    }
+
 
     /**
     * To get all the seat information for a hall
