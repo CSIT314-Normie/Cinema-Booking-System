@@ -14,7 +14,8 @@ import Main.Controller.Customer.PurchaseTicketController;
 import Main.Controller.Customer.UpdateLoyaltyPointsController;
 import Main.Controller.Customer.RedeemLoyaltyPointsController;
 import Main.Controller.Customer.LoyaltyPointController;
-import Main.Controller.Customer.ConfirmSeatingController; 
+import Main.Controller.Customer.ConfirmSeatingController;
+import Main.Controller.Customer.ConfirmationEmailController; 
 
 public class PurchaseTicket extends JFrame implements ActionListener{
     private ArrayList<String> userInfo;
@@ -38,7 +39,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
 
 
     private String[] movieBookingInfo = {"Movie Name: ", "Date: ", "Time: "};
-    private String selectedTicketType = "Adult";
+    private String selectedTicketType = "";
     private int noOfTicketsToPay;
     private double totalPrice = 0.0;
     private double priceForOneTicket = 0.0;
@@ -60,7 +61,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
-        setVisible(true);
+        setVisible(true); 
 
         JPanel topPanel = new JPanel(new FlowLayout());
         topPanel.setPreferredSize(new Dimension(700, 50));
@@ -133,8 +134,6 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                 selectedTicketType = e.getActionCommand();
                 priceForOneTicket = Double.parseDouble(ticketType[1]);
                 totalPrice = Double.parseDouble(ticketType[1]) * noOfTicketsToPay;
-                System.out.println("Selected ticket type: " + selectedTicketType);
-                System.out.println("Total price: " + totalPrice);
                 displayPrice();
             });
         }
@@ -206,7 +205,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                 new CustomerHome(userInfo);
                 
                 break;
-            case "Make Payment": 
+            case "Make Payment":   
                 // check whether ticket type is selected
                 if (selectedTicketType.equals("") || selectedTicketType.equals(null)) {
                     JOptionPane.showMessageDialog(null, "Please select a ticket type.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -225,11 +224,14 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                     break;
                 }
 
-                // make payment and confirm seats booked
+                // make payment, confirm seats booked AND send confirmation email
                 PurchaseTicketController purchaseTicketController = new PurchaseTicketController();
                 ConfirmSeatingController confirmSeatingController = new ConfirmSeatingController();
+                ConfirmationEmailController confirmationEmailController = new ConfirmationEmailController();
+
+                System.out.println("Confirmation: " + userInfo.get(2) + movieInfo.get(0) + date + selectedSeats + String.valueOf(totalPrice));
                 
-                if (purchaseTicketController.makePayment(userInfo.get(2), String.valueOf(totalPrice), date) && confirmSeatingController.confirmSeats(selectedSeats, screeningInfo.get(0), screeningInfo.get(1), userInfo.get(2), movieInfo.get(0), date)) {
+                if (purchaseTicketController.makePayment(userInfo.get(2), String.valueOf(totalPrice), date) && confirmSeatingController.confirmSeats(selectedSeats, screeningInfo.get(0), screeningInfo.get(2), userInfo.get(2), movieInfo.get(0), date) && confirmationEmailController.confirmationEmail(userInfo.get(2), movieInfo.get(0), date, selectedSeats, String.valueOf(totalPrice))) {
                     JOptionPane.showMessageDialog(null, "Payment successful. Seats booked.", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                     // AND update loyalty points
@@ -242,6 +244,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                     } else {
                         JOptionPane.showMessageDialog(null, "Loyalty points not updated.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
+
                     
                 } else {
                     JOptionPane.showMessageDialog(null, "Payment failed.", "Error", JOptionPane.ERROR_MESSAGE);

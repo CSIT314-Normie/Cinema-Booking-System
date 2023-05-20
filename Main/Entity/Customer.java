@@ -1,12 +1,14 @@
 package Main.Entity;
 
-
-import Database.DB;
-
+import Database.DB; 
 
 import java.util.*;
-import java.sql.*;
+import java.util.Date;
+import java.sql.*; 
 
+import javax.mail.*;
+import javax.mail.internet.*; 
+import javax.activation.*;
 
 public class Customer extends User {
     private final DB db = new DB();
@@ -176,6 +178,69 @@ public class Customer extends User {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+        return false;
+    }
+
+    /** 
+     * To receive confirmation email after ticketing
+     * @param String email of customer
+     * @param String movieName
+     * @param String date
+     * @param ArrayList<String> seats
+     * @param String total price paid
+     * @return boolean true if success, false if fail
+     */
+    public boolean confirmationEmail(String email, String movieName, String date, ArrayList<String> seatsArrayList, String totalPrice) {
+        Properties props = System.getProperties();
+
+	    props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host 
+        props.put("mail.smtp.port", "587"); //TLS Port
+        props.put("mail.smtp.auth", "true"); //enable authentication
+        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+
+	    Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("normiescinema@gmail.com", "ptosesouwaijppwa");
+            }
+        });
+
+        String seats = "";
+        for (String seat : seatsArrayList) {
+            seats += seat + "\t";
+        }
+
+        String subject = "Normies Cinema - Ticketing Confirmation";
+        String body = "Dear " + email + ",\n\n"
+                    + "Thank you for booking with us!\n\n"
+                    + "Movie: " + movieName + "\n"
+                    + "Date: " + date + "\n"
+                    + "Seats: " + seats + "\n"
+                    + "Total Price: " + totalPrice + "\n\n"
+                    + "We look forward to seeing you soon!\n\n"
+                    + "Regards,\n"
+                    + "Cinema Booking System";
+         
+        try {
+            MimeMessage msg = new MimeMessage(session);
+            msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+            msg.addHeader("format", "flowed");
+            msg.addHeader("Content-Transfer-Encoding", "8bit");
+
+            msg.setFrom(new InternetAddress("normiescinema@gmail.com"));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
+            msg.setSubject(subject);
+            msg.setSentDate(new Date());
+            msg.setText(body);
+
+            
+            
+            Transport.send(msg);
+
+            return true;
+        } catch (MessagingException mex) {
+            System.out.println("send failed, exception: " + mex);
+        }
+
         return false;
     }
 }
