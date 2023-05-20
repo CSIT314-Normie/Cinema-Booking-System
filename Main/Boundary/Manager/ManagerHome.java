@@ -52,11 +52,12 @@ public class ManagerHome extends JFrame implements ActionListener {
         // get all movies
         allMoviesList = allMoviesController.getAllMovies();
 
-        // buttons for cinema manager - view ticket arrangement, add movie, edit movie,
-        // screenings page
+        // buttons for cinema manager - view ticket arrangement, add movie, edit movie, screenings page and manage reviews
         JButton ticketArrangementButton = new JButton("Ticket Arrangement");
         JButton addMovieButton = new JButton("Add Movie");
+        JButton editMovieButton = new JButton("Edit Movie Info");
         JButton screeningButton = new JButton("Screening");
+        JButton manageReviewsButton = new JButton("Manage Reviews");
 
         JPanel cinemaManagerPanel = new JPanel(new FlowLayout());
         cinemaManagerPanel.setPreferredSize(new Dimension(1035, 100));
@@ -66,6 +67,7 @@ public class ManagerHome extends JFrame implements ActionListener {
         cinemaManagerPanel.add(addMovieButton);
         cinemaManagerPanel.add(editMovieButton);
         cinemaManagerPanel.add(screeningButton);
+        cinemaManagerPanel.add(manageReviewsButton);
 
         // search panel to search for movies
         JPanel searchPanel = new JPanel(new FlowLayout());
@@ -95,7 +97,7 @@ public class ManagerHome extends JFrame implements ActionListener {
         updateButton.addActionListener(this);
         profileButton.addActionListener(this);
         searchButton.addActionListener(this);
-
+        manageReviewsButton.addActionListener(this);
     }
 
     @Override
@@ -158,6 +160,13 @@ public class ManagerHome extends JFrame implements ActionListener {
                 System.out.println("[+] Cinema Manager - Move to Screening page");
                 dispose();
                 new ScreeningSessions(userInfo);
+                break;
+            
+            case "Manage Reviews":
+                // go to manage reviews page
+                System.out.println("[+] Cinema Manager - Move to Manage Reviews page");
+                dispose();
+                new ManageReviews(userInfo);
                 break;
         }
     }
