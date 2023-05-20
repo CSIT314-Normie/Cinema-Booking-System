@@ -32,6 +32,7 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
     private final transient CustomerLoginController loginController;
     private final transient LoyaltyPointController loyaltyPointController = new LoyaltyPointController();
     private final transient AvailableMoviesController availableMoviesController = new AvailableMoviesController();
+    private final transient SearchMovieTitleController searchMovieTitleController = new SearchMovieTitleController();
     
 
     public CustomerHome(ArrayList<String> userInfo) {
@@ -84,7 +85,10 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
 
                 searchButton.addActionListener(e -> {
                     System.out.println("[+] Customer - Search for movies");
-                    searchedMovies(searchField.getText().trim());
+                    
+                    // search movies
+                    searchedMovieList = searchMovieTitleController.searchMovieTitle(searchField.getText());
+
                     displaySearchedMovies();
                 });
 
@@ -149,41 +153,11 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
             movieInfo.add(searchedMovieList.get(i));
         }
 
-        System.out.println(movieInfo);
-
         // open Book.java with the movie title
         dispose();
         new MovieScreenings(userInfo, movieInfo);
     }
 
-    
-
-    /**
-     * Search for movies - CUSTOMER ONLY
-     * 
-     * @param searchQuery
-     */
-    public void searchedMovies(String searchQuery) {
-        searchedMovieList = availableMoviesController.getAvailableMovies();
-
-        if (searchQuery.equals("") || searchQuery.equals("Search for movies") || searchQuery.equals(" ")) {
-            System.out.println("[+] Search query is empty");
-        } else {
-            if (searchedMovieList.contains(searchQuery)) {
-                System.out.println("[+] Movie found");
-
-                // replace movies in searchMovieList with searched movies results
-                for (int i = 0; i < searchedMovieList.size(); i += 7) {
-                    if (!(searchedMovieList.get(i).toLowerCase().contains(searchQuery.toLowerCase()))) {
-                        searchedMovieList.subList(i, i + 7).clear();
-                    }
-                }
-
-            } else {
-                System.out.println("[+] Movie not found");
-            }
-        }
-    }
 
     /*
      * Display searched movies - CUSTOMER ONLY
@@ -247,20 +221,4 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
     @Override
     public void mouseExited(MouseEvent e) {}
 }
-
-class ImageRenderer extends DefaultTableCellRenderer {
-
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-            int row, int column) {
-        if (value instanceof ImageIcon) {
-            ImageIcon imageIcon = (ImageIcon) value;
-            JLabel label = new JLabel(imageIcon);
-            label.setOpaque(true);
-            label.setBackground(Color.WHITE);
-            return label;
-        } else {
-            return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        }
-    }
-}
+ 
