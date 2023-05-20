@@ -8,7 +8,7 @@ public class Main {
         String[] cmd = {
             "javac",
             "-classpath",
-            "./Out/;./lib/mysql-connector-j-8.0.32.jar;./lib/jcalendar-1.4.jar",
+            "./Out/;./lib/mysql-connector-j-8.0.32.jar;./lib/jcalendar-1.4.jar;./lib/javax.mail.jar;./lib/activation.jar",
             "-d",
             "Out",
 
@@ -31,7 +31,6 @@ public class Main {
 
             // Main/Entity java files
             "Main/Entity/*.java",
-
         };
 
         // print out cmd as a string
