@@ -31,7 +31,7 @@ public class GetScreeningsInfoController {
     }
 
     /**
-     * To get a screening for a specific hall
+     * To get a screening for a specific hall - for Manager
      * @param hall hall to get screening for
      * @return ArrayList<String> screenings
      */

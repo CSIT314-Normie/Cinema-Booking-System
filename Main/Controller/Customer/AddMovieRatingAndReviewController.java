@@ -2,11 +2,11 @@ package Main.Controller.Customer;
 
 import java.util.*;
 
-import Main.Entity.ManageReviews;
+import Main.Entity.Reviews;
 
 public class AddMovieRatingAndReviewController {
 
-    ManageReviews reviews = new ManageReviews();
+    Reviews reviews = new Reviews();
 
     public AddMovieRatingAndReviewController() {
     }

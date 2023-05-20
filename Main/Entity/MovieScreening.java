@@ -48,7 +48,7 @@ public class MovieScreening {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return allScreenings;
@@ -72,12 +72,199 @@ public class MovieScreening {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return allHalls;
     }
 
+
+    /**
+     * To get all cinemas
+     * @return ArrayList<String> cinemas
+     */
+    public ArrayList<String> getAllCinemas() {
+        ArrayList<String> allCinemas = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT DISTINCT cinemaName FROM cinema_halls");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){ 
+                allCinemas.add(rs.getString("cinemaName"));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return allCinemas;
+    }
+
+    /** 
+     * To get all screenings for a movie for a specific date - for customer
+     * @param String movieName
+     * @param String date
+     * @param String cinemaName
+     * @return ArrayList<String> screenings
+    */
+    public ArrayList<String> searchMovieScreeningForDate(String movieName, String date, String cinemaName) {
+        ArrayList<String> screenings = new ArrayList<>();
+
+        try {
+            if (date.equals("All") && cinemaName.equals("All")) {
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ? AND screeningStatus = 'Available'");
+                stmt.setString(1, movieName); 
+
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    screenings.add(rs.getString("screeningId"));
+                    screenings.add(rs.getString("movieName"));
+                    screenings.add(rs.getString("hall"));
+                    screenings.add(rs.getString("date"));
+                    screenings.add(rs.getString("startTime"));
+                    screenings.add(rs.getString("endTime"));
+                    screenings.add(rs.getString("duration")); 
+                }
+            } else if (date.equals("All") && !cinemaName.equals("All")) {
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ? AND Hall IN (SELECT Hall FROM cinema_halls WHERE cinemaName = ?) AND screeningStatus = 'Available'");
+                stmt.setString(1, movieName);
+                stmt.setString(2, cinemaName);
+
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    screenings.add(rs.getString("screeningId"));
+                    screenings.add(rs.getString("movieName"));
+                    screenings.add(rs.getString("hall"));
+                    screenings.add(rs.getString("date"));
+                    screenings.add(rs.getString("startTime"));
+                    screenings.add(rs.getString("endTime"));
+                    screenings.add(rs.getString("duration")); 
+                }
+            } else if (!date.equals("All") && !cinemaName.equals("All")) {
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ? AND Hall IN (SELECT Hall FROM cinema_halls WHERE cinemaName = ?) AND date = ? AND screeningStatus = 'Available'");
+                stmt.setString(1, movieName);
+                stmt.setString(2, cinemaName);
+                stmt.setString(3, date);
+
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    screenings.add(rs.getString("screeningId"));
+                    screenings.add(rs.getString("movieName"));
+                    screenings.add(rs.getString("hall"));
+                    screenings.add(rs.getString("date"));
+                    screenings.add(rs.getString("startTime"));
+                    screenings.add(rs.getString("endTime"));
+                    screenings.add(rs.getString("duration")); 
+                }
+            } else if (!date.equals("All") && cinemaName.equals("All")){
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ? AND date = ? AND screeningStatus = 'Available'");
+                stmt.setString(1, movieName);
+                stmt.setString(2, date);
+
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    screenings.add(rs.getString("screeningId"));
+                    screenings.add(rs.getString("movieName"));
+                    screenings.add(rs.getString("hall"));
+                    screenings.add(rs.getString("date"));
+                    screenings.add(rs.getString("startTime"));
+                    screenings.add(rs.getString("endTime"));
+                    screenings.add(rs.getString("duration")); 
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return screenings;
+    }
+
+    /** 
+     * To get all screenings for a movie for a specific cinema - for customer
+     * @param String movieName
+     * @param String cinemaName
+     * @param String date
+     * @return ArrayList<String> screenings
+    */
+    public ArrayList<String> searchMovieScreeningForCinema(String movieName, String cinemaName, String date) {
+        ArrayList<String> screenings = new ArrayList<>();
+
+        try {
+            if (date.equals("All") && cinemaName.equals("All")) {
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ? AND screeningStatus = 'Available'");
+                stmt.setString(1, movieName); 
+
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    screenings.add(rs.getString("screeningId"));
+                    screenings.add(rs.getString("movieName"));
+                    screenings.add(rs.getString("hall"));
+                    screenings.add(rs.getString("date"));
+                    screenings.add(rs.getString("startTime"));
+                    screenings.add(rs.getString("endTime"));
+                    screenings.add(rs.getString("duration")); 
+                }
+            } else if (date.equals("All") && !cinemaName.equals("All")) {
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ? AND Hall IN (SELECT Hall FROM cinema_halls WHERE cinemaName = ?) AND screeningStatus = 'Available'");
+                stmt.setString(1, movieName);
+                stmt.setString(2, cinemaName);
+
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    screenings.add(rs.getString("screeningId"));
+                    screenings.add(rs.getString("movieName"));
+                    screenings.add(rs.getString("hall"));
+                    screenings.add(rs.getString("date"));
+                    screenings.add(rs.getString("startTime"));
+                    screenings.add(rs.getString("endTime"));
+                    screenings.add(rs.getString("duration")); 
+                }
+            } else if (!date.equals("All") && !cinemaName.equals("All")) {
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ? AND Hall IN (SELECT Hall FROM cinema_halls WHERE cinemaName = ?) AND date = ? AND screeningStatus = 'Available'");
+                stmt.setString(1, movieName);
+                stmt.setString(2, cinemaName);
+                stmt.setString(3, date);
+
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    screenings.add(rs.getString("screeningId"));
+                    screenings.add(rs.getString("movieName"));
+                    screenings.add(rs.getString("hall"));
+                    screenings.add(rs.getString("date"));
+                    screenings.add(rs.getString("startTime"));
+                    screenings.add(rs.getString("endTime"));
+                    screenings.add(rs.getString("duration")); 
+                }
+            } else if (!date.equals("All") && cinemaName.equals("All")){
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ? AND date = ? AND screeningStatus = 'Available'");
+                stmt.setString(1, movieName);
+                stmt.setString(2, date);
+
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    screenings.add(rs.getString("screeningId"));
+                    screenings.add(rs.getString("movieName"));
+                    screenings.add(rs.getString("hall"));
+                    screenings.add(rs.getString("date"));
+                    screenings.add(rs.getString("startTime"));
+                    screenings.add(rs.getString("endTime"));
+                    screenings.add(rs.getString("duration")); 
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return screenings;
+    }
 
     /**
      * To get a screenings for a specific hall
@@ -104,7 +291,7 @@ public class MovieScreening {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return allScreenings;
@@ -214,7 +401,7 @@ public class MovieScreening {
                 allSeats.add(rs.getString("seatNumber"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return allSeats;
@@ -241,7 +428,7 @@ public class MovieScreening {
                 allSeats.add(rs.getString("seatId")); 
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return allSeats;
@@ -249,16 +436,14 @@ public class MovieScreening {
 
     /**
      * To get all screenings for a movie - CUSTOMER
-     * @param movieName
-     * @param date
+     * @param movieName 
      * @return ArrayList<String> screenings
      */
-    public ArrayList<String> getAllScreeningsForAMovie(String movieName, String date) {
+    public ArrayList<String> getAllScreeningsForAMovie(String movieName) {
         ArrayList<String> allScreenings = new ArrayList<>();
         
-        try {
-            if (date.equals("All")) {
-                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ?");
+        try { 
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ? AND screeningStatus = 'Available'");
                 stmt.setString(1, movieName);
                 ResultSet rs = stmt.executeQuery();
 
@@ -266,33 +451,13 @@ public class MovieScreening {
                     allScreenings.add(rs.getString("screeningId"));
                     allScreenings.add(rs.getString("movieName"));
                     allScreenings.add(rs.getString("hall"));
-                    allScreenings.add(rs.getString("Date"));
+                    allScreenings.add(rs.getString("date"));
                     allScreenings.add(rs.getString("startTime"));
                     allScreenings.add(rs.getString("endTime"));
-                    allScreenings.add(rs.getString("duration"));
-                    allScreenings.add(rs.getString("date"));
-                    allScreenings.add(rs.getString("screeningStatus"));
-                } 
-            } else {
-                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movie_screening WHERE movieName = ? AND date = ?");
-                stmt.setString(1, movieName);
-                stmt.setString(2, date);
-                ResultSet rs = stmt.executeQuery();
-
-                while (rs.next()){
-                    allScreenings.add(rs.getString("screeningId"));
-                    allScreenings.add(rs.getString("movieName"));
-                    allScreenings.add(rs.getString("hall"));
-                    allScreenings.add(rs.getString("Date"));
-                    allScreenings.add(rs.getString("startTime"));
-                    allScreenings.add(rs.getString("endTime"));
-                    allScreenings.add(rs.getString("duration"));
-                    allScreenings.add(rs.getString("date"));
-                    allScreenings.add(rs.getString("screeningStatus"));
-                }
-            }     
+                    allScreenings.add(rs.getString("duration")); 
+                }  
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return allScreenings;
@@ -323,7 +488,7 @@ public class MovieScreening {
                     screening.add(rs.getString("screeningStatus"));
                 }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return screening;
