@@ -50,7 +50,7 @@ public class Movie {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+           System.err.println(e.getMessage());
         }
 
         return movies;
@@ -74,7 +74,7 @@ public class Movie {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+           System.err.println(e.getMessage());
         }
 
         return allMovies;
@@ -98,10 +98,40 @@ public class Movie {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+           System.err.println(e.getMessage());
         }
 
         return allMovies;
+    }
+
+    /**
+     * For user to search for a movie by title - CUSTOMER
+     * @param String searchQuery
+     * @return ArrayList<String> movies
+     */
+    public ArrayList<String> searchMovieTitle(String searchQuery) {
+        ArrayList<String> movies = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movies WHERE name LIKE ? AND status = 'Available'");
+            stmt.setString(1, "%" + searchQuery + "%");
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                movies.add(rs.getString("name"));
+                movies.add(rs.getString("image"));
+                movies.add(rs.getString("rate"));
+                movies.add(rs.getString("review"));
+                movies.add(rs.getString("description"));
+                movies.add(rs.getString("status"));
+                movies.add(rs.getString("duration"));
+            }
+        } catch (SQLException e) {
+           System.err.println(e.getMessage());
+        }
+
+        return movies;
     }
 
 
@@ -121,27 +151,10 @@ public class Movie {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+           System.err.println(e.getMessage());
         }
 
         return movies;
-    }
-
-
-    public boolean updateMovieRR(String email, String movieName, String rate, String review) {
-        try {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE user_movies set rate = ?, review = ? where email = ? and movieName = ?");
-            stmt.setString(1, rate);
-            stmt.setString(2, review);
-            stmt.setString(3, email);
-            stmt.setString(4, movieName);
-            stmt.executeUpdate();
-
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
 

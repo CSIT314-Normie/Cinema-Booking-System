@@ -56,48 +56,48 @@ public class Review extends JFrame implements ActionListener {
         moviePanel.add(updateHeader);
         moviePanel.add(homeButton);
         
-        // Iterate through the list of movies
-        for (int i = 0; i < movieReviewController.getUserWatchedMovies().size(); i += 3) {
-            // Create a new JLabel and JTextField for each movie detail
-            JLabel movieNameLabel = new JLabel(movieReviewController.getUserWatchedMovies().get(i));
-            JTextField rateField = new JTextField(movieReviewController.getUserWatchedMovies().get(i + 1));
-            JTextField reviewField = new JTextField(movieReviewController.getUserWatchedMovies().get(i + 2));
-            JButton updateButton = new JButton("Update");
+        // // Iterate through the list of movies
+        // for (int i = 0; i < movieReviewController.getUserWatchedMovies().size(); i += 3) {
+        //     // Create a new JLabel and JTextField for each movie detail
+        //     JLabel movieNameLabel = new JLabel(movieReviewController.getUserWatchedMovies().get(i));
+        //     JTextField rateField = new JTextField(movieReviewController.getUserWatchedMovies().get(i + 1));
+        //     JTextField reviewField = new JTextField(movieReviewController.getUserWatchedMovies().get(i + 2));
+        //     JButton updateButton = new JButton("Update");
 
-            // Set default text for rating and review fields
-            rateField.setText(movieReviewController.getUserWatchedMovies().get(i + 1));
-            reviewField.setText(movieReviewController.getUserWatchedMovies().get(i + 2));
+        //     // Set default text for rating and review fields
+        //     rateField.setText(movieReviewController.getUserWatchedMovies().get(i + 1));
+        //     reviewField.setText(movieReviewController.getUserWatchedMovies().get(i + 2));
             
-            // Set padding for movie detail labels
-            movieNameLabel.setBorder(BorderFactory.createEmptyBorder(20, 50, 10, 50));
-            rateField.setBorder(BorderFactory.createEmptyBorder(20, 50, 10, 50));
-            reviewField.setBorder(BorderFactory.createEmptyBorder(20, 50, 10, 50));
-            updateButton.setBorder(BorderFactory.createEmptyBorder(20, 50, 10, 50));
+        //     // Set padding for movie detail labels
+        //     movieNameLabel.setBorder(BorderFactory.createEmptyBorder(20, 50, 10, 50));
+        //     rateField.setBorder(BorderFactory.createEmptyBorder(20, 50, 10, 50));
+        //     reviewField.setBorder(BorderFactory.createEmptyBorder(20, 50, 10, 50));
+        //     updateButton.setBorder(BorderFactory.createEmptyBorder(20, 50, 10, 50));
 
-            // Add the JLabels and JTextFields to the panel
-            moviePanel.add(movieNameLabel);
-            moviePanel.add(rateField);
-            moviePanel.add(reviewField);
-            moviePanel.add(updateButton);
+        //     // Add the JLabels and JTextFields to the panel
+        //     moviePanel.add(movieNameLabel);
+        //     moviePanel.add(rateField);
+        //     moviePanel.add(reviewField);
+        //     moviePanel.add(updateButton);
 
-            // Add the movie name label to the list of movie name labels
-            movieNameLabels.add(movieNameLabel);
+        //     // Add the movie name label to the list of movie name labels
+        //     movieNameLabels.add(movieNameLabel);
 
-            // Add the text fields to the list of text fields
-            rateFields.add(rateField);
-            reviewFields.add(reviewField);
+        //     // Add the text fields to the list of text fields
+        //     rateFields.add(rateField);
+        //     reviewFields.add(reviewField);
 
-            // Add the update button to the list of update buttons
-            updateButtons.add(updateButton);
-        }
+        //     // Add the update button to the list of update buttons
+        //     updateButtons.add(updateButton);
+        // }
 
-        // Add the panel to the frame
-        add(moviePanel);
+        // // Add the panel to the frame
+        // add(moviePanel);
     
 
-        // Add action listeners to the update buttons
-        updateButtons.forEach(button -> button.addActionListener(this));
-        homeButton.addActionListener(this);
+        // // Add action listeners to the update buttons
+        // updateButtons.forEach(button -> button.addActionListener(this));
+        // homeButton.addActionListener(this);
     }
 
     @Override
@@ -106,27 +106,27 @@ public class Review extends JFrame implements ActionListener {
             dispose();
             new CustomerHome(userInfo);
         } else {
-            int index = updateButtons.indexOf(e.getSource());
-            String movieName = movieNameLabels.get(index).getText();
-            String rating = rateFields.get(index).getText();
-            String review = reviewFields.get(index).getText();
+            // int index = updateButtons.indexOf(e.getSource());
+            // String movieName = movieNameLabels.get(index).getText();
+            // String rating = rateFields.get(index).getText();
+            // String review = reviewFields.get(index).getText();
     
-            if (rating.isEmpty() || review.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Please fill in all fields");
-                return;
-            }
+            // if (rating.isEmpty() || review.isEmpty()) {
+            //     JOptionPane.showMessageDialog(null, "Please fill in all fields");
+            //     return;
+            // }
     
-            if (Integer.parseInt(rating) < 1 || Integer.parseInt(rating) > 5) {
-                JOptionPane.showMessageDialog(null, "Rating must be between 1 and 5");
-                return;
-            }
+            // if (Integer.parseInt(rating) < 1 || Integer.parseInt(rating) > 5) {
+            //     JOptionPane.showMessageDialog(null, "Rating must be between 1 and 5");
+            //     return;
+            // }
     
             
-            if (movieReviewController.updateMovieRateReview(movieName, rating, review)) {
-                JOptionPane.showMessageDialog(null, "Movie details updated successfully");
-            } else {
-                JOptionPane.showMessageDialog(null, "Movie details update failed");
-            }
+            // if (movieReviewController.updateMovieRateReview(movieName, rating, review)) {
+            //     JOptionPane.showMessageDialog(null, "Movie details updated successfully");
+            // } else {
+            //     JOptionPane.showMessageDialog(null, "Movie details update failed");
+            // }
         }
     }
 }
