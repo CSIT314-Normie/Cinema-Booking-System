@@ -10,52 +10,18 @@ import java.sql.*;
 
 public class Movie {
     private final DB db = new DB();
-    private final Connection conn = this.db.getConnection();
-    private String name;
-    private String imageName;
-    private String rate;
-    private String review;
-    
-    public Movie(String name, String imageName, String rate, String review) {
-        this.name = name;
-        this.imageName = imageName;
-        this.rate = rate;
-        this.review = review;
-    }
-
+    private final Connection conn = this.db.getConnection();  
 
     public Movie() {}
 
-
     public DB getDB() {
         return db;
-    }
+    } 
 
-
-    public ArrayList<String> getMovies() {
-        ArrayList<String> movies = new ArrayList<>();
-
-        try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movies");
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                movies.add(rs.getString("name"));
-                movies.add(rs.getString("image"));
-                movies.add(rs.getString("rate"));
-                movies.add(rs.getString("review"));
-                movies.add(rs.getString("description"));
-                movies.add(rs.getString("status"));
-                movies.add(rs.getString("duration"));
-            }
-
-        } catch (SQLException e) {
-           System.err.println(e.getMessage());
-        }
-
-        return movies;
-    }
-
+    /**
+     * To get all movies - regardless of status
+     * @return ArrayList<String> allMovies
+     */
     public ArrayList<String> getAllMovies() {
         ArrayList<String> allMovies = new ArrayList<>();
 
@@ -80,6 +46,10 @@ public class Movie {
         return allMovies;
     }
 
+    /**
+     * To get all available movies 
+     * @return ArrayList<String> allMovies
+     */
     public ArrayList<String> getAvailableMovies() {
         ArrayList<String> allMovies = new ArrayList<>();
 
@@ -134,7 +104,11 @@ public class Movie {
         return movies;
     }
 
-
+    /**
+     * To get all movies a user has booked/watched - CUSTOMER
+     * @param String email
+     * @return ArrayList<String> movies
+     */
     public ArrayList<String> getUserWatchedMovies(String email) {
         ArrayList<String> movies = new ArrayList<>();
         
@@ -157,7 +131,43 @@ public class Movie {
         return movies;
     }
 
+    /**
+     * To search for a movie - MANAGER
+     * @param searchQuery
+     * @return
+     */
+    public ArrayList<String> searchMovie(String searchQuery) {
+        ArrayList<String> movies = new ArrayList<>();
 
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM movies WHERE name LIKE ?");
+            stmt.setString(1, "%" + searchQuery + "%");
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                movies.add(rs.getString("name"));
+                movies.add(rs.getString("image"));
+                movies.add(rs.getString("rate"));
+                movies.add(rs.getString("review"));
+                movies.add(rs.getString("description"));
+                movies.add(rs.getString("status"));
+                movies.add(rs.getString("duration"));
+            }
+
+        } catch (SQLException e) {
+           System.err.println(e.getMessage());
+        }
+
+        return movies;
+
+    }
+
+    /**
+     * To insert a movie into the database - Manager
+     * @param values
+     * @return ArrayList<String> movies
+     */
     public boolean insertMovie(ArrayList<String> values) {
         PreparedStatement stmt;
     
@@ -181,6 +191,12 @@ public class Movie {
         return true;
     }
 
+    /**
+     * To update a movie's information - Manager
+     * @param values
+     * @param movieName
+     * @return ArrayList<String> movies
+     */
     public boolean updateMovieInfo(ArrayList<String> values, String movieName) {
         PreparedStatement stmt;
     
@@ -202,6 +218,11 @@ public class Movie {
         return true;
     }
 
+    /**
+     * To suspend a movie's status after viewing period - Manager
+     * @param movieName
+     * @return ArrayList<String> movies
+     */
     public boolean suspendMovie(String movieName) {
         PreparedStatement stmt;
     
