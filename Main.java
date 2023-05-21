@@ -28,6 +28,7 @@ public class Main {
             "Main/Controller/Admin/*.java",
             "Main/Controller/Customer/*.java",
             "Main/Controller/Manager/*.java",
+            "Main/Controller/Owner/*.java",
 
             // Main/Entity java files
             "Main/Entity/*.java",
