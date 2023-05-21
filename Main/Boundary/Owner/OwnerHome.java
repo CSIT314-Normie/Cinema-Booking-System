@@ -21,8 +21,6 @@ public class OwnerHome extends JFrame implements ActionListener{
    
     private final transient OwnerLoginController loginController;
 
-
-
     public OwnerHome(ArrayList<String> userInfo) {
         super("CSIT 314 Cinema Booking System - Home");
         this.userInfo = userInfo;

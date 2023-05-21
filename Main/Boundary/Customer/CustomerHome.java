@@ -32,12 +32,11 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
     // search movies text field (CUSTOMER ONLY)
     private final JTextField searchField = new JTextField(40);
 
-    
-    private final CustomerLoginController loginController;
+    // Controllers
+    private CustomerLoginController loginController;
     private final LoyaltyPointController loyaltyPointController = new LoyaltyPointController();
     private final AvailableMoviesController availableMoviesController = new AvailableMoviesController();
-    private final SearchMovieTitleController searchMovieTitleController = new SearchMovieTitleController();
-    private final CustomerLogoutController logoutController = new CustomerLogoutController();
+    private final SearchMovieTitleController searchMovieTitleController = new SearchMovieTitleController(); 
     
 
     public CustomerHome(ArrayList<String> userInfo) {
@@ -61,52 +60,48 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
         panel.add(updateButton);
         panel.add(profileButton);
         panel.add(logoutButton);
+ 
+        // Customer Home page
+        searchedMovieList = availableMoviesController.getAvailableMovies();
 
-    
-        switch (userInfo.get(0)) {
-            case "Customer":
-                // Customer Home page
-                searchedMovieList = availableMoviesController.getAvailableMovies();
+        System.out.println("[+] Customer - Home Page");
 
-                System.out.println("[+] Customer - Home Page");
+        JButton viewTicketHistoryButton = new JButton("Ticketing History");
+        
+        panel.add(viewTicketHistoryButton);
+        viewTicketHistoryButton.addActionListener(this);
 
-                JButton viewTicketHistoryButton = new JButton("Ticketing History");
-                
-                panel.add(viewTicketHistoryButton);
-                viewTicketHistoryButton.addActionListener(this);
+        // Search panel for customer to search for movies
+        JPanel searchPanel = new JPanel();
+        searchPanel.setPreferredSize(new Dimension(1035, 50));
 
-                // Search panel for customer to search for movies
-                JPanel searchPanel = new JPanel();
-                searchPanel.setPreferredSize(new Dimension(1035, 50));
+        searchField.setToolTipText("Search for movies");
+        JButton searchButton = new JButton("Search");
 
-                searchField.setToolTipText("Search for movies");
-                JButton searchButton = new JButton("Search");
+        searchPanel.add(searchField, BorderLayout.WEST);
+        searchPanel.add(searchButton, BorderLayout.EAST);
 
-                searchPanel.add(searchField, BorderLayout.WEST);
-                searchPanel.add(searchButton, BorderLayout.EAST);
+        // Add movie list to the content panel
+        displaySearchedMovies();
 
-                // Add movie list to the content panel
-                displaySearchedMovies();
+        searchButton.addActionListener(e -> {
+            System.out.println("[+] Customer - Search for movies");
+            
+            // search movies
+            searchedMovieList = searchMovieTitleController.searchMovieTitle(searchField.getText());
 
-                searchButton.addActionListener(e -> {
-                    System.out.println("[+] Customer - Search for movies");
-                    
-                    // search movies
-                    searchedMovieList = searchMovieTitleController.searchMovieTitle(searchField.getText());
+            displaySearchedMovies();
+        });
 
-                    displaySearchedMovies();
-                });
+        scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(650, 650));
 
-                scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-                scrollPane.setPreferredSize(new Dimension(650, 650));
+        // add search panel to the frame
+        add(searchPanel, BorderLayout.CENTER);
 
-                // add search panel to the frame
-                add(searchPanel, BorderLayout.CENTER);
+        // add scroll pane to the frame
+        add(scrollPane, BorderLayout.SOUTH);
 
-                // add scroll pane to the frame
-                add(scrollPane, BorderLayout.SOUTH);
-                break;
-        }
 
         // add panel to the frame
         add(panel, BorderLayout.NORTH);

@@ -34,9 +34,7 @@ public class AdminHome extends JFrame implements ActionListener {
 
     private final AdminLoginController loginController;
     private final GetAllUserAccountsController getAllUserAccountsController = new GetAllUserAccountsController();
-    private final SuspendAccountController suspendAccountController = new SuspendAccountController();
-    private final AdminLogoutController logoutController = new AdminLogoutController();
-    
+    private final SuspendAccountController suspendAccountController = new SuspendAccountController(); 
 
     public AdminHome(ArrayList<String> userInfo) {
         super("CSIT 314 Cinema Booking System - Home");
