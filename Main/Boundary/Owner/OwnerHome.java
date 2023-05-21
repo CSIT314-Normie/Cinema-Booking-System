@@ -81,7 +81,7 @@ public class OwnerHome extends JFrame implements ActionListener{
             case "Report A":
                 System.out.println("[+] Cinema Owner - Move to Report A page");
                 dispose();
-                new ReportA();
+                new ReportA(this.userInfo);
                 break;
             case "Report B":
                 System.out.println("[+] Cinema Owner - Move to Report B page");
