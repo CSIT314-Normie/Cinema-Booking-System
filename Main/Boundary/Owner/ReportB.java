@@ -2,6 +2,7 @@ package Main.Boundary.Owner;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.awt.BorderLayout;
 
@@ -20,23 +21,23 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 
 public class ReportB extends JFrame implements ActionListener {
-
+    private ArrayList<String> userInfo;
+    
     JComboBox modeList;
     String currentMode;
     DefaultCategoryDataset dataset; 
     JFreeChart lineChart;
     ChartPanel chartPanel;
 
-    public ReportB() {
-        super("Report B");
-
+    public ReportB(ArrayList<String> userInfo) {
+        super("Report B");  
+        this.userInfo = userInfo;
         setLayout(new BorderLayout());
         setSize(1035, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-
 
         JPanel modePanel = new JPanel();
         modePanel.setBackground(Color.LIGHT_GRAY);
