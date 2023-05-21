@@ -8,7 +8,8 @@ public class Main {
         String[] cmd = {
             "javac",
             "-classpath",
-            "./Out/;./lib/mysql-connector-j-8.0.32.jar;./lib/jcalendar-1.4.jar;./lib/javax.mail.jar;./lib/activation.jar",
+            "./Out/;./lib/mysql-connector-j-8.0.32.jar;./lib/jcalendar-1.4.jar;./lib/javax.mail.jar;./lib/activation.jar;",
+          
             "-d",
             "Out",
 
@@ -28,6 +29,7 @@ public class Main {
             "Main/Controller/Admin/*.java",
             "Main/Controller/Customer/*.java",
             "Main/Controller/Manager/*.java",
+            "Main/Controller/Owner/*.java",
 
             // Main/Entity java files
             "Main/Entity/*.java",
