@@ -45,7 +45,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
     private final LoyaltyPointController loyaltyPointController = new LoyaltyPointController(); 
     
     public PurchaseTicket(ArrayList<String> userInfo, ArrayList<String> screeningInfo, ArrayList<String> movieInfo, ArrayList<String> selectedSeats, String date) {
-        super("CSIT 314 Cinema Booking System - Book movie");
+        super("Book Movie - Purchase Tickets");
         this.userInfo = userInfo;
         this.screeningInfo = screeningInfo;
         this.movieInfo = movieInfo;
