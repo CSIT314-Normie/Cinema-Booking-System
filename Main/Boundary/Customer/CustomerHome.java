@@ -4,15 +4,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import javax.swing.*;
-import javax.swing.table.*;
-
-import com.mysql.cj.log.Log;
-
 import java.util.*;
 
 
 import Main.Controller.Customer.*;
-import Main.Entity.Customer;
 
 
 public class CustomerHome extends JFrame implements ActionListener, MouseListener {
@@ -29,15 +24,11 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
     private final JPanel movieListPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
     private ArrayList<String> searchedMovieList;
 
-    // search movies text field (CUSTOMER ONLY)
     private final JTextField searchField = new JTextField(40);
-
     
-    private final CustomerLoginController loginController;
-    private final LoyaltyPointController loyaltyPointController = new LoyaltyPointController();
-    private final AvailableMoviesController availableMoviesController = new AvailableMoviesController();
-    private final SearchMovieTitleController searchMovieTitleController = new SearchMovieTitleController();
-    private final CustomerLogoutController logoutController = new CustomerLogoutController();
+    private final transient LoyaltyPointController loyaltyPointController = new LoyaltyPointController();
+    private final transient AvailableMoviesController availableMoviesController = new AvailableMoviesController();
+    private final transient SearchMovieTitleController searchMovieTitleController = new SearchMovieTitleController();
     
 
     public CustomerHome(ArrayList<String> userInfo) {
@@ -48,75 +39,52 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
-        setVisible(true); // Show the frame
+        setVisible(true);
 
-        // Login "SESSION" for user to allow user to logout, can be further implemented
-        loginController = new CustomerLoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
         JLabel loyaltyPoints = new JLabel(" | Loyalty Points: " + loyaltyPointController.getLoyaltyPoint(userInfo.get(2)));
-        
+        JPanel searchPanel = new JPanel();
+        JButton searchButton = new JButton("Search");
+        JButton viewTicketHistoryButton = new JButton("Ticketing History");
+
         panel.setPreferredSize(new Dimension(1035, 50));
+        searchPanel.setPreferredSize(new Dimension(1035, 50));
+
+
         panel.add(userRoleLabel);    
         panel.add(loyaltyPoints);
         panel.add(updateButton);
         panel.add(profileButton);
         panel.add(logoutButton);
-
+        panel.add(viewTicketHistoryButton);    
     
-        switch (userInfo.get(0)) {
-            case "Customer":
-                // Customer Home page
-                searchedMovieList = availableMoviesController.getAvailableMovies();
+        searchedMovieList = availableMoviesController.getAvailableMovies();
+    
+        searchField.setToolTipText("Search for movies");
+        
 
-                System.out.println("[+] Customer - Home Page");
+        searchPanel.add(searchField, BorderLayout.WEST);
+        searchPanel.add(searchButton, BorderLayout.EAST);
 
-                JButton viewTicketHistoryButton = new JButton("Ticketing History");
-                
-                panel.add(viewTicketHistoryButton);
-                viewTicketHistoryButton.addActionListener(this);
+        displaySearchedMovies();
 
-                // Search panel for customer to search for movies
-                JPanel searchPanel = new JPanel();
-                searchPanel.setPreferredSize(new Dimension(1035, 50));
+        searchButton.addActionListener(e -> {
+            searchedMovieList = searchMovieTitleController.searchMovieTitle(searchField.getText());
+            displaySearchedMovies();
+        });
 
-                searchField.setToolTipText("Search for movies");
-                JButton searchButton = new JButton("Search");
+        scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(650, 650));
 
-                searchPanel.add(searchField, BorderLayout.WEST);
-                searchPanel.add(searchButton, BorderLayout.EAST);
-
-                // Add movie list to the content panel
-                displaySearchedMovies();
-
-                searchButton.addActionListener(e -> {
-                    System.out.println("[+] Customer - Search for movies");
-                    
-                    // search movies
-                    searchedMovieList = searchMovieTitleController.searchMovieTitle(searchField.getText());
-
-                    displaySearchedMovies();
-                });
-
-                scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-                scrollPane.setPreferredSize(new Dimension(650, 650));
-
-                // add search panel to the frame
-                add(searchPanel, BorderLayout.CENTER);
-
-                // add scroll pane to the frame
-                add(scrollPane, BorderLayout.SOUTH);
-                break;
-        }
-
-        // add panel to the frame
+        add(searchPanel, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.SOUTH);
         add(panel, BorderLayout.NORTH);
         pack();
 
-        // add action listener to the buttons
         logoutButton.addActionListener(this);
         updateButton.addActionListener(this);
         profileButton.addActionListener(this);
-
+        viewTicketHistoryButton.addActionListener(this);
     }
 
     @Override
@@ -124,7 +92,7 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
         switch (e.getActionCommand()) {
             case "Logout":
                 CustomerLogoutController logoutController = new CustomerLogoutController();
-                logoutController.logout(userInfo.get(0));
+                logoutController.logout();
                 
                 dispose();
                 new CustomerLogin();

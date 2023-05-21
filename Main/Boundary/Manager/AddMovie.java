@@ -39,7 +39,7 @@ public class AddMovie extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null); 
-        setVisible(true); // Show the frame
+        setVisible(true);
 
         // add a top panel to contain the home and logout buttons
         topPanel = new JPanel(new FlowLayout());

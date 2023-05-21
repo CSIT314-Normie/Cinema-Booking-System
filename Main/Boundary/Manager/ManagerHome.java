@@ -12,23 +12,32 @@ import Main.Controller.Manager.*;
 
 public class ManagerHome extends JFrame implements ActionListener {
     private final ArrayList<String> userInfo;
+    private ArrayList<String> allMoviesList;
+    private String[] selectedMovie;
 
-    private final JLabel userRoleLabel = new JLabel();
     private final JPanel panel = new JPanel(new FlowLayout());
+    private final JPanel cinemaManagerPanel = new JPanel(new FlowLayout());        
+    private final JPanel searchPanel = new JPanel(new FlowLayout());
+    private final JPanel allMoviesPanel = new JPanel(new FlowLayout());
+
     private final JButton logoutButton = new JButton("Logout");
     private final JButton updateButton = new JButton("Update");
     private final JButton profileButton = new JButton("Profile");
+    private final JButton ticketArrangementButton = new JButton("Ticket Arrangement");
+    private final JButton addMovieButton = new JButton("Add Movie");
+    private final JButton screeningButton = new JButton("Screening");
+    private final JButton manageReviewsButton = new JButton("Manage Reviews");
+    private final JButton editMovieButton = new JButton("Edit Movie Info");
+    private final JButton searchButton = new JButton("Search");
+
     private JTextField searchField = new JTextField(20);
      
-    private final JPanel allMoviesPanel = new JPanel(new FlowLayout());
-    private ArrayList<String> allMoviesList;
-    private String[] selectedMovie;
-    private final JButton editMovieButton = new JButton("Edit Movie Info");
+    private final JLabel userRoleLabel = new JLabel();
 
-    private final ManagerLoginController loginController;
-    private final ManagerLogoutController logoutController = new ManagerLogoutController();
-    private final AllMoviesController allMoviesController = new AllMoviesController();
-    private final SearchMovieController searchMovieController = new SearchMovieController();
+   
+    private final transient ManagerLogoutController logoutController = new ManagerLogoutController();
+    private final transient AllMoviesController allMoviesController = new AllMoviesController();
+    private final transient SearchMovieController searchMovieController = new SearchMovieController();
 
 
     public ManagerHome(ArrayList<String> userInfo) {
@@ -39,13 +48,15 @@ public class ManagerHome extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
-        setVisible(true); // Show the frame
+        setVisible(true); 
 
-        // Login "SESSION" for user to allow user to logout, can be further implemented
-        loginController = new ManagerLoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
-        userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
         panel.setPreferredSize(new Dimension(1035, 50));
+        cinemaManagerPanel.setPreferredSize(new Dimension(1035, 100));
+        allMoviesPanel.setPreferredSize(new Dimension(1035, 500));
+        searchPanel.setPreferredSize(new Dimension(1035, 50)); 
 
+        userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
+        
         panel.add(userRoleLabel);
         panel.add(updateButton);
         panel.add(profileButton);
@@ -54,28 +65,11 @@ public class ManagerHome extends JFrame implements ActionListener {
         // get all movies
         allMoviesList = allMoviesController.getAllMovies();
 
-        // buttons for cinema manager - view ticket arrangement, add movie, edit movie, screenings page and manage reviews
-        JButton ticketArrangementButton = new JButton("Ticket Arrangement");
-        JButton addMovieButton = new JButton("Add Movie");
-        JButton editMovieButton = new JButton("Edit Movie Info");
-        JButton screeningButton = new JButton("Screening");
-        JButton manageReviewsButton = new JButton("Manage Reviews");
-
-        JPanel cinemaManagerPanel = new JPanel(new FlowLayout());
-        cinemaManagerPanel.setPreferredSize(new Dimension(1035, 100));
-        allMoviesPanel.setPreferredSize(new Dimension(1035, 500));
-
         cinemaManagerPanel.add(ticketArrangementButton);
         cinemaManagerPanel.add(addMovieButton);
         cinemaManagerPanel.add(editMovieButton);
         cinemaManagerPanel.add(screeningButton);
-        cinemaManagerPanel.add(manageReviewsButton);
-
-        // search panel to search for movies
-        JPanel searchPanel = new JPanel(new FlowLayout());
-        searchPanel.setPreferredSize(new Dimension(1035, 50)); 
-        JButton searchButton = new JButton("Search");
-
+        cinemaManagerPanel.add(manageReviewsButton);       
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
         cinemaManagerPanel.add(searchPanel);
@@ -84,17 +78,13 @@ public class ManagerHome extends JFrame implements ActionListener {
 
         add(cinemaManagerPanel, BorderLayout.CENTER);
         add(allMoviesPanel, BorderLayout.SOUTH); 
+        add(panel, BorderLayout.NORTH);
+        pack();
 
         addMovieButton.addActionListener(this);
         ticketArrangementButton.addActionListener(this);
         editMovieButton.addActionListener(this);
         screeningButton.addActionListener(this); 
-
-        // add panel to the frame
-        add(panel, BorderLayout.NORTH);
-        pack();
-
-        // add action listener to the buttons
         logoutButton.addActionListener(this);
         updateButton.addActionListener(this);
         profileButton.addActionListener(this);
@@ -106,52 +96,41 @@ public class ManagerHome extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Logout":
-                logoutController.logout(userInfo.get(2));
+                logoutController.logout();
                 dispose();
                 new ManagerLogin();
-                System.out.println("[+] Successfully logged out");
                 break;
 
             case "Update":
-                System.out.println("[+] Move to Update page");
                 dispose();
                 new ManagerUpdate(userInfo);
                 break;
 
             case "Profile":
-                System.out.println("[+] Move to Profile page");
                 dispose();
                 new ManagerProfile(userInfo);
                 break;
 
             case "Ticket Arrangement":
-                System.out.println("[+] Cinema Manager - Move to Ticketing Arrangement page");
                 dispose();
                 new TicketingArrangement(userInfo);
                 break;
 
             case "Search":
                 String searchQuery = searchField.getText();
-
-                System.out.println("[+] Search for: " + searchQuery);
                 allMoviesList = searchMovieController.searchMovie(searchQuery);
-
                 displayMovies();
                 break;
 
             case "Add Movie":
-                System.out.println("[+] Cinema Manager - Move to Add Movie page");
                 dispose();
                 new AddMovie(userInfo);
                 break;
 
             case "Edit Movie Info":
-                // check if a movie is selected
                 if (selectedMovie == null) {
-                    JOptionPane.showMessageDialog(null, "Please select a movie to edit", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please select a movie to edit", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    System.out.println("[+] Cinema Manager - Move to Edit Movie Info page");
                     dispose();
                     new UpdateMovieInfo(userInfo, selectedMovie);
                 }
@@ -159,14 +138,11 @@ public class ManagerHome extends JFrame implements ActionListener {
 
             case "Screening":
                 // go to screening sessions page
-                System.out.println("[+] Cinema Manager - Move to Screening page");
                 dispose();
                 new ScreeningSessions(userInfo);
                 break;
             
             case "Manage Reviews":
-                // go to manage reviews page
-                System.out.println("[+] Cinema Manager - Move to Manage Reviews page");
                 dispose();
                 new ManageReviews(userInfo);
                 break;

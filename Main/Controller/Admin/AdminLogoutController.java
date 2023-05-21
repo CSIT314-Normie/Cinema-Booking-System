@@ -14,7 +14,7 @@ public class AdminLogoutController {
      * @param userRole is the role of the user
      * @return true if the user is logged out, false otherwise
      */
-    public boolean logout(String userRole) { 
+    public boolean logout() { 
         userAdmin.logout();
         return true;
     }

@@ -13,7 +13,7 @@ public class ManagerLogoutController {
      * @param userRole is the role of the user
      * @return true if the user is logged out, false otherwise
      */
-    public boolean logout(String userEmail) { 
+    public boolean logout() { 
         manager.logout();
         return true;  
     } 
