@@ -30,18 +30,19 @@ public class Owner extends User {
         return super.updateAcc(information, role);
     }
 
+    
     /**
      * @param userEmail 
-     * @param seat_reserved 
+     * @param seatID
      * @param date 
      * @return boolean true if success, false if fail
      */
-    public boolean seat_reserved(String userEmail, String reservationID, String date) {
+    public boolean seat_reserved(String userEmail, String seatID, String date) {
         try {
-            stmt = conn.prepareStatement("INSERT INTO seat_reserved (email, date, reservationID) VALUES (?, ?, ?)");
+            stmt = conn.prepareStatement("INSERT INTO seat_reserved (email, date, seatID) VALUES (?, ?, ?)");
             stmt.setString(1, userEmail);
             stmt.setString(2, date);
-            stmt.setString(3, reservationID);
+            stmt.setString(3, seatID);
 
             stmt.executeUpdate();
             return true;
@@ -53,22 +54,22 @@ public class Owner extends User {
     } 
     //daily
     public HashMap<String, ArrayList<String>> getDailyReport(String monthYear) {
-        ArrayList<String> allOwner = new ArrayList<>();
+        ArrayList<String> allSeat = new ArrayList<>();
         ArrayList<String> allDates = new ArrayList<>();
         HashMap<String, ArrayList<String>> allData = new HashMap<>();
         try {
-            stmt = conn.prepareStatement("SELECT STR_TO_DATE(date, '%d/%m/%Y') AS day, SUM(reservationID) AS reservationID FROM seat_reserved WHERE date LIKE ? GROUP BY day");
+            stmt = conn.prepareStatement("SELECT STR_TO_DATE(date, '%d/%m/%Y') AS day, SUM(seatID) AS seatID FROM seat_reserved WHERE date LIKE ? GROUP BY day");
             stmt.setString(1, "%" + monthYear + "%");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
-                allOwner.add(rs.getString("reservationID"));
+                allSeat.add(rs.getString("seatID"));
                 allDates.add(rs.getString("day"));
             }
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        allData.put("reservationID", allOwner);
+        allData.put("seatID", allSeat);
         allData.put("date", allDates);
 
         return allData;
@@ -76,22 +77,22 @@ public class Owner extends User {
 
     // //weekly
     // public HashMap<String, ArrayList<String>> getWeeklyReport(String monthYear) {
-    //     ArrayList<String> allOwner = new ArrayList<>();
+    //     ArrayList<String> allSeat = new ArrayList<>();
     //     ArrayList<String> allDates = new ArrayList<>();
     //     HashMap<String, ArrayList<String>> allData = new HashMap<>();
     //     try {
-    //         stmt = conn.prepareStatement("SELECT STR_TO_DATE(date, '%d/%m/%Y') AS day, SUM(reservationID) AS reservationID FROM seat_reserved WHERE date LIKE ? GROUP BY day");
+    //         stmt = conn.prepareStatement("SELECT STR_TO_DATE(date, '%d/%m/%Y') AS day, SUM(seatID) AS seatID FROM seat_reserved WHERE date LIKE ? GROUP BY day");
     //         stmt.setString(1, "%" + monthYear + "%");
     //         ResultSet rs = stmt.executeQuery();
     //         while (rs.next()){
-    //             allOwner.add(rs.getString("reservationID"));
+    //             allSeat.add(rs.getString("seatID"));
     //             allDates.add(rs.getString("day"));
     //         }
 
     //     } catch (SQLException e) {
     //         System.err.println(e.getMessage());
     //     }
-    //     allData.put("reservationID", allOwner);
+    //     allData.put("seatID", allSeat);
     //     allData.put("date", allDates);
 
     //     return allData;
@@ -99,25 +100,25 @@ public class Owner extends User {
 
     // monthly
     public HashMap<String, ArrayList<String>> getMonthlyReport(String year) {
-        ArrayList<String> allOwner = new ArrayList<>();
+        ArrayList<String> allSeat = new ArrayList<>();
         ArrayList<String> allMonth = new ArrayList<>();
         HashMap<String, ArrayList<String>> allData = new HashMap<>();
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT EXTRACT(MONTH FROM STR_TO_DATE(date, '%d/%m/%Y')) AS month," +
-                                                            "SUM(reservationID) AS total_reservationID FROM seat_reserved " +
+                                                            "SUM(seatID) AS total_seatID FROM seat_reserved " +
                                                             "WHERE EXTRACT(YEAR FROM STR_TO_DATE(date, '%d/%m/%Y')) = ? GROUP BY month");
             stmt.setString(1, year); 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()){
                 allMonth.add(rs.getString("month"));
-                allOwner.add(rs.getString("total_reservationID"));
+                allSeat.add(rs.getString("total_seatID"));
             }
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        allData.put("reservationID", allOwner);
+        allData.put("seatID", allSeat);
         allData.put("month", allMonth);
 
         return allData;
