@@ -75,6 +75,8 @@ public class CustomerHome extends JFrame implements ActionListener, MouseListene
 
         scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setPreferredSize(new Dimension(650, 650));
+        scrollPane = new JScrollPane(movieListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(650, 650));
 
         add(searchPanel, BorderLayout.CENTER);
         add(scrollPane, BorderLayout.SOUTH);
