@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import javax.swing.*;
+
 import java.util.*; 
 import com.toedter.calendar.JDateChooser;
 
@@ -128,11 +129,25 @@ public class MovieScreenings extends JFrame implements ActionListener {
         // reviews panel
         JPanel reviewsPanel = new JPanel(new FlowLayout());
         reviewsPanel.setPreferredSize(new Dimension(700, 200));
+        reviewsPanel.setBorder(BorderFactory.createTitledBorder("Movie Reviews"));
+
+        // add all reviews for the movie to the reviews panel
         for (int i = 0; i < allReviewsForMovie.size(); i+=3) { 
-            JLabel reviewLabel = new JLabel( allReviewsForMovie.get(i + 1) + " : " + allReviewsForMovie.get(i+2) + "/5");
+            JPanel panel = new JPanel(new FlowLayout());
+            panel.setPreferredSize(new Dimension(900, 30)); 
+            panel.setBorder(BorderFactory.createLoweredBevelBorder());
+
+            JLabel reviewLabel = new JLabel(allReviewsForMovie.get(i + 1));
+            JLabel ratingLabel = new JLabel("Rated: " + allReviewsForMovie.get(i + 2) + "/5");
             reviewLabel.setPreferredSize(new Dimension(700, 20));
-            reviewLabel.setFont(new Font("Serif", Font.PLAIN, 26));
-            reviewsPanel.add(reviewLabel);
+            ratingLabel.setPreferredSize(new Dimension(100, 20));
+            reviewLabel.setFont(new Font("Serif", Font.LAYOUT_LEFT_TO_RIGHT, 12));
+            ratingLabel.setFont(new Font("Serif", Font.LAYOUT_LEFT_TO_RIGHT, 12));
+
+            panel.add(reviewLabel);
+            panel.add(ratingLabel);
+
+            reviewsPanel.add(panel);
         }
 
         // add movie info panel to the movie booking panel
@@ -186,19 +201,16 @@ public class MovieScreenings extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Home":
-                new CustomerHome(userInfo);
                 dispose();
+                new CustomerHome(userInfo);
                 break;  
 
-            case "Profile":
-                System.out.println("[+] Move to Profile page");
+            case "Profile": 
                 dispose();
                 new CustomerProfile(userInfo);
                 break;
             
-            case "Search":
-                System.out.println("[+] Search for movie screenings");
-
+            case "Search": 
                 // search based on selected cinema 
                 SearchMovieScreeningCinemaController searchMovieScreeningCinemaController = new SearchMovieScreeningCinemaController();
                 allScreeningsForMovie = searchMovieScreeningCinemaController.searchMovieScreeningCinema(movieName, selectedCinema, dateString);
@@ -213,9 +225,7 @@ public class MovieScreenings extends JFrame implements ActionListener {
                 
                 break;
             
-            case "Book": 
-                System.out.println("[+] Move to Booking page");
-                System.out.println("selected screening's date: " + dateString);
+            case "Book":  
                 if (selectedScreeningID == null) {
                     JOptionPane.showMessageDialog(null, "Please select a screening", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
