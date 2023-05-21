@@ -5,24 +5,20 @@ import java.awt.Dimension;
 import java.awt.FlowLayout; 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 import javax.swing.*;
 
-
-import Main.Controller.Customer.GetTicketTypesController;
-import Main.Controller.Customer.PurchaseTicketController;
-import Main.Controller.Customer.UpdateLoyaltyPointsController;
-import Main.Controller.Customer.RedeemLoyaltyPointsController;
-import Main.Controller.Customer.LoyaltyPointController;
-import Main.Controller.Customer.ConfirmSeatingController;
-import Main.Controller.Customer.ConfirmationEmailController; 
+import Main.Controller.Customer.*;
 
 public class PurchaseTicket extends JFrame implements ActionListener{
     private ArrayList<String> userInfo;
     private ArrayList<String> screeningInfo;
     private ArrayList<String> movieInfo;
     private ArrayList<String> selectedSeats;
-    private String date;
+    private String date; // screening date
+    private String bookingDate; // booking date - present date for payments
     private int loyaltyPts;
 
     private ArrayList<String[]> ticketTypes = new ArrayList<String[]>();
@@ -62,6 +58,13 @@ public class PurchaseTicket extends JFrame implements ActionListener{
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true); 
+
+        // initialise booking date
+        Date currentDate = new Date();
+
+        String pattern = "dd/MM/yyyy"; // Specify the desired format pattern
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        bookingDate = dateFormat.format(currentDate);
 
         JPanel topPanel = new JPanel(new FlowLayout());
         topPanel.setPreferredSize(new Dimension(700, 50));
@@ -228,10 +231,8 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                 PurchaseTicketController purchaseTicketController = new PurchaseTicketController();
                 ConfirmSeatingController confirmSeatingController = new ConfirmSeatingController();
                 ConfirmationEmailController confirmationEmailController = new ConfirmationEmailController();
-
-                System.out.println("Confirmation: " + userInfo.get(2) + movieInfo.get(0) + date + selectedSeats + String.valueOf(totalPrice));
                 
-                if (purchaseTicketController.makePayment(userInfo.get(2), String.valueOf(totalPrice), date) && confirmSeatingController.confirmSeats(selectedSeats, screeningInfo.get(0), screeningInfo.get(2), userInfo.get(2), movieInfo.get(0), date) && confirmationEmailController.confirmationEmail(userInfo.get(2), movieInfo.get(0), date, selectedSeats, String.valueOf(totalPrice))) {
+                if (purchaseTicketController.makePayment(userInfo.get(2), String.valueOf(totalPrice), bookingDate) && confirmSeatingController.confirmSeats(selectedSeats, screeningInfo.get(0), screeningInfo.get(2), userInfo.get(2), movieInfo.get(0), date) && confirmationEmailController.confirmationEmail(userInfo.get(2), movieInfo.get(0), date, selectedSeats, String.valueOf(totalPrice))) {
                     JOptionPane.showMessageDialog(null, "Payment successful. Seats booked.", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                     // AND update loyalty points
