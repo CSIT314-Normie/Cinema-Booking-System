@@ -38,7 +38,7 @@ public class Owner extends User {
      */
     public boolean seat_reserved(String userEmail, String reservationID, String date) {
         try {
-            stmt = conn.prepareStatement("INSERT INTO payments (email, date, reservationID) VALUES (?, ?, ?)");
+            stmt = conn.prepareStatement("INSERT INTO seat_reserved (email, date, reservationID) VALUES (?, ?, ?)");
             stmt.setString(1, userEmail);
             stmt.setString(2, date);
             stmt.setString(3, reservationID);
