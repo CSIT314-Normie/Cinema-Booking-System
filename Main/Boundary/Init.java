@@ -28,7 +28,7 @@ public class Init extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
-        setVisible(true);
+
 
         // grid bag constraints
         GridBagConstraints gbc = new GridBagConstraints();
@@ -71,6 +71,7 @@ public class Init extends JFrame implements ActionListener {
         // Check if the database is connected
         if (initController.isInit()) {
             System.out.println("Compiled");
+            setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Database is not connected\nRestart application", "Error", JOptionPane.ERROR_MESSAGE);
         }
