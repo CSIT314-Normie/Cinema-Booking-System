@@ -8,7 +8,7 @@ public class WeeklyReportBController {
     public WeeklyReportBController(){}
 
     /**
-     * To get weekly visitors 
+     * To get weekly visitors - Report B
      * @return HashMap<String, ArrayList<String>> dailyReport
      */
     public HashMap<String, ArrayList<String>> getWeeklyReport(ArrayList<String> datesOfWeek) {

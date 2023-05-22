@@ -52,24 +52,26 @@ public class Owner extends User {
 
         return false;
     } 
+
     //daily
     public HashMap<String, ArrayList<String>> getDailyVisitorsReport(String monthYear) {
         ArrayList<String> allSeat = new ArrayList<>();
         ArrayList<String> allDates = new ArrayList<>();
         HashMap<String, ArrayList<String>> allData = new HashMap<>();
+        
         try {
-            stmt = conn.prepareStatement("SELECT STR_TO_DATE(date, '%d/%m/%Y') AS day, SUM(seatID) AS seatID FROM seat_reserved WHERE date LIKE ? GROUP BY day");
+            stmt = conn.prepareStatement("SELECT STR_TO_DATE(date, '%d/%m/%Y') AS day, COUNT(seatID) AS totalSeats FROM seat_reserved WHERE date LIKE ? GROUP BY day");
             stmt.setString(1, "%" + monthYear + "%");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
-                allSeat.add(rs.getString("seatID"));
+                allSeat.add(rs.getString("totalSeats"));
                 allDates.add(rs.getString("day"));
             }
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        allData.put("seatID", allSeat);
+        allData.put("totalSeats", allSeat);
         allData.put("date", allDates);
 
         return allData;
@@ -86,24 +88,24 @@ public class Owner extends User {
         HashMap<String, ArrayList<String>> allData = new HashMap<>();
 
         String firstDayOfWeek = datesOfWeek.get(0);
-        String lastDayOfWeek = datesOfWeek.get(datesOfWeek.size() - 1);
+        String lastDayOfWeek = datesOfWeek.get(6);
 
         try {
-            stmt = conn.prepareStatement("SELECT date, SUM(seatID) FROM seat_reserved WHERE date BETWEEN ? AND ? GROUP BY date");
+            stmt = conn.prepareStatement("SELECT date, COUNT(seatID) AS totalSeats FROM seat_reserved WHERE date BETWEEN ? AND ? GROUP BY date");
             stmt.setString(1, firstDayOfWeek);
             stmt.setString(2, lastDayOfWeek);
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 allDates.add(rs.getString("date"));
-                allSeat.add(rs.getString("seatID"));
+                allSeat.add(rs.getString("totalSeats"));
             }
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        allData.put("seatID", allSeat);
-        allData.put("date", allDates);
+        allData.put("totalSeats", allSeat);
+        allData.put("day", allDates);
 
         return allData;
     }
@@ -115,20 +117,20 @@ public class Owner extends User {
         HashMap<String, ArrayList<String>> allData = new HashMap<>();
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT EXTRACT(MONTH FROM STR_TO_DATE(date, '%d/%m/%Y')) AS month," +
-                                                            "SUM(seatID) AS total_seatID FROM seat_reserved " +
+                                                            "COUNT (seatID) AS totalSeats FROM seat_reserved " +
                                                             "WHERE EXTRACT(YEAR FROM STR_TO_DATE(date, '%d/%m/%Y')) = ? GROUP BY month");
             stmt.setString(1, year); 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()){
                 allMonth.add(rs.getString("month"));
-                allSeat.add(rs.getString("total_seatID"));
+                allSeat.add(rs.getString("totalSeats"));
             }
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        allData.put("seatID", allSeat);
+        allData.put("totalSeats", allSeat);
         allData.put("month", allMonth);
 
         return allData;

@@ -7,6 +7,10 @@ public class MonthlyReportBController {
 
     public MonthlyReportBController(){}
 
+    /**
+     * To get monthly visitors - Report B
+     * @return HashMap<String, ArrayList<String>> monthlyReport
+     */
     public HashMap<String, ArrayList<String>> getMonthlyReport(String year) {
         HashMap<String, ArrayList<String>> monthlyReport = owner.getMonthlyVisitorsReport(year);
         return monthlyReport;
