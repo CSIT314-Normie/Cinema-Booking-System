@@ -61,7 +61,7 @@ public class SeatingPlan extends JFrame implements ActionListener {
 
         JPanel movieInfoPanel = new JPanel(new FlowLayout());
         movieInfoPanel.setPreferredSize(new Dimension(1035, 100));
-        JLabel movieinfoLabel = new JLabel("Movie: " + movieInfo.get(0) + " | Hall: " + hall + " | Time: " + screeningInfo.get(5));
+        JLabel movieinfoLabel = new JLabel("Movie: " + movieInfo.get(0) + " | Hall: " + hall + " | Time: " + screeningInfo.get(4));
         movieInfoPanel.add(movieinfoLabel);
         
         // legend panel shows what the different colors mean
