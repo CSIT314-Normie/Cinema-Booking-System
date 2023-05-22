@@ -85,12 +85,7 @@ public class ReportA extends JFrame implements ActionListener {
         JPanel datePanel = new JPanel();
         datePanel.add(new JLabel("Select :"));
         datePanel.add(dateChooser);
-        datePanel.add(confirmBtn);
-
-        // Create initial data
-        // dataset = new TimeSeriesCollection();
-        // series = new TimeSeries("Price");
-        // dataset.addSeries(series);
+        datePanel.add(confirmBtn); 
 
         // Create chart
         JFreeChart chart = ChartFactory.createBarChart(
@@ -103,6 +98,7 @@ public class ReportA extends JFrame implements ActionListener {
                                 true,
                                 false
                             );
+
         // Create chart panel
         chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(900,500));
@@ -194,7 +190,7 @@ public class ReportA extends JFrame implements ActionListener {
             }
 
         } else if (currentMode == "Weekly") {
-            DateFormat dateFormat = new SimpleDateFormat("dd//MM/yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String selectedDateStr = dateFormat.format(selectedDate).toString();
 
             try {
@@ -210,21 +206,19 @@ public class ReportA extends JFrame implements ActionListener {
 
             // get week of the year from the selected date
             int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
-
+  
             // Set the calendar to the first day of the specified week
             calendar.set(Calendar.WEEK_OF_YEAR, weekOfYear);
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-
-            // Print all the dates in the week
-            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY); 
+ 
             for (int i = 0; i < 7; i++) {
                 Date currentDate = calendar.getTime();
-                String formattedDate = outputFormat.format(currentDate);
+                String formattedDate = dateFormat.format(currentDate);
                 datesOfWeek.add(formattedDate);
 
                 // Move to the next day
                 calendar.add(Calendar.DAY_OF_WEEK, 1);
-            } 
+            }  
 
             // controller to get the weekly report
             WeeklyReportAController weeklyReportController = new WeeklyReportAController();
@@ -233,7 +227,7 @@ public class ReportA extends JFrame implements ActionListener {
             List<String> week = new ArrayList<>();
             List<Double> amount = new ArrayList<>();
 
-            for(String x: weeklyReport.get("week")){
+            for(String x: weeklyReport.get("day")){
                 week.add(x);
                 
             }
