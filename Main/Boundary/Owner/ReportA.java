@@ -89,7 +89,7 @@ public class ReportA extends JFrame implements ActionListener {
 
         // Create chart
         JFreeChart chart = ChartFactory.createBarChart(
-                                "Amount vs. Date",    // Chart title
+                                "Revenue",    // Chart title
                                 "Date",               // X-Axis label
                                 "Amount",             // Y-Axis label
                                 dataset,              // Dataset

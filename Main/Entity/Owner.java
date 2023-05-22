@@ -60,7 +60,7 @@ public class Owner extends User {
         HashMap<String, ArrayList<String>> allData = new HashMap<>();
         
         try {
-            stmt = conn.prepareStatement("SELECT STR_TO_DATE(date, '%d/%m/%Y') AS day, COUNT(seatID) AS totalSeats FROM seat_reserved WHERE date LIKE ? GROUP BY day");
+            stmt = conn.prepareStatement("SELECT STR_TO_DATE(date, '%d/%m/%Y') AS day, COUNT(*) AS totalSeats FROM seat_reserved WHERE date LIKE ? GROUP BY day");
             stmt.setString(1, "%" + monthYear + "%");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
@@ -91,13 +91,13 @@ public class Owner extends User {
         String lastDayOfWeek = datesOfWeek.get(6);
 
         try {
-            stmt = conn.prepareStatement("SELECT date, COUNT(seatID) AS totalSeats FROM seat_reserved WHERE date BETWEEN ? AND ? GROUP BY date");
+            stmt = conn.prepareStatement("SELECT STR_TO_DATE(date, '%d/%m/%Y') AS day, COUNT(*) AS totalSeats FROM seat_reserved WHERE STR_TO_DATE(date, '%d/%m/%Y') BETWEEN STR_TO_DATE(?, '%d/%m/%Y') AND STR_TO_DATE(?, '%d/%m/%Y') GROUP BY date");
             stmt.setString(1, firstDayOfWeek);
             stmt.setString(2, lastDayOfWeek);
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
-                allDates.add(rs.getString("date"));
+                allDates.add(rs.getString("day"));
                 allSeat.add(rs.getString("totalSeats"));
             }
 
@@ -117,7 +117,7 @@ public class Owner extends User {
         HashMap<String, ArrayList<String>> allData = new HashMap<>();
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT EXTRACT(MONTH FROM STR_TO_DATE(date, '%d/%m/%Y')) AS month," +
-                                                            "COUNT (seatID) AS totalSeats FROM seat_reserved " +
+                                                            "COUNT (*) AS totalSeats FROM seat_reserved " +
                                                             "WHERE EXTRACT(YEAR FROM STR_TO_DATE(date, '%d/%m/%Y')) = ? GROUP BY month");
             stmt.setString(1, year); 
             ResultSet rs = stmt.executeQuery();

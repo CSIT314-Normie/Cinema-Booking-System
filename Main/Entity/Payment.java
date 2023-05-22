@@ -111,14 +111,14 @@ public class Payment {
         String lastDayOfWeek = datesOfWeek.get(6);
 
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM payments WHERE date BETWEEN ? AND ? ORDER BY date ASC");
-            stmt.setString(1, firstDayOfWeek); 
+            PreparedStatement stmt = conn.prepareStatement("SELECT STR_TO_DATE(date, '%d/%m/%Y') AS day, amount FROM payments WHERE STR_TO_DATE(date, '%d/%m/%Y') BETWEEN STR_TO_DATE(?, '%d/%m/%Y') AND STR_TO_DATE(?, '%d/%m/%Y') ORDER BY date ASC");
+            stmt.setString(1, firstDayOfWeek);
             stmt.setString(2, lastDayOfWeek); 
 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()){
-                allWeek.add(rs.getString("date"));
+                allWeek.add(rs.getString("day"));
                 allPayments.add(rs.getString("amount"));
             }
 

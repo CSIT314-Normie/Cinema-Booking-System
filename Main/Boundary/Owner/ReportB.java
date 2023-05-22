@@ -2,29 +2,18 @@ package Main.Boundary.Owner;
 
 import java.awt.*;
 import java.awt.event.*; 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 
 import java.time.Month;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List; 
-import java.util.Locale;
-
-import java.awt.BorderLayout;
+import java.util.List;
+import java.util.*;
 
 import javax.swing.*;
 
-import org.jfree.chart.ChartFactory; 
-import org.jfree.chart.ChartPanel;  
-
 import com.toedter.calendar.JDateChooser;
-
-import org.jfree.chart.JFreeChart;
+import org.jfree.chart.*;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset; 
 
@@ -34,13 +23,16 @@ import Main.Controller.Owner.*;
 public class ReportB extends JFrame implements ActionListener {
     private ArrayList<String> userInfo;
     
-    JComboBox modeList;
-    String currentMode;
-    JDateChooser dateChooser;
+    private JComboBox modeList;
+    private String currentMode;
+    private JDateChooser dateChooser;
 
-    ChartPanel chartPanel;
-    DefaultCategoryDataset dataset; 
-    JFreeChart chart;
+    // button to return to home page
+    private JButton homeButton = new JButton("Home");
+
+    private ChartPanel chartPanel;
+    private DefaultCategoryDataset dataset; 
+    private JFreeChart chart;
 
     public ReportB(ArrayList<String> userInfo) {
         super("Report B");  
@@ -51,13 +43,19 @@ public class ReportB extends JFrame implements ActionListener {
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
+
+        // top panel to return to home page
+        JPanel topPanel = new JPanel(new FlowLayout());
+        topPanel.setPreferredSize(new Dimension(1035, 40));
+        topPanel.add(homeButton);
  
         // Create dataset
         dataset = new DefaultCategoryDataset();
  
+        // mode panel to select report type
         JPanel modePanel = new JPanel();
         modePanel.setBackground(Color.LIGHT_GRAY);
-        modePanel.setSize(100,50);
+        modePanel.setPreferredSize(new Dimension(1035, 50));
 
         JLabel modeLabel = new JLabel();
         modeLabel.setText("Report type");
@@ -69,15 +67,15 @@ public class ReportB extends JFrame implements ActionListener {
         modePanel.add(modeLabel);
         modePanel.add(modeList);
         
+         // report panel to display the chart
         JPanel reportPanel = new JPanel();
         reportPanel.setBackground(Color.GRAY );
-        reportPanel.setSize(900,600);
+        reportPanel.setPreferredSize(new Dimension(900, 630));
 
         dateChooser = new JDateChooser();
         dateChooser.setLocale(Locale.US);
         dateChooser.setPreferredSize(new Dimension(250, 30));
   
-
         // btn to trigger the combobox and chart
         JButton confirmBtn = new JButton("Confirm");
         confirmBtn.addActionListener(new ActionListener(){
@@ -94,9 +92,9 @@ public class ReportB extends JFrame implements ActionListener {
 
         // Create chart
         JFreeChart chart = ChartFactory.createBarChart(
-                                "SeatID vs. Date",    // Chart title
+                                "No. of Vistors",    // Chart title
                                 "Date",               // X-Axis label
-                                "SeatID",             // Y-Axis label
+                                "Visitors",             // Y-Axis label
                                 dataset,              // Dataset
                                 PlotOrientation.VERTICAL,
                                 true,
@@ -112,8 +110,19 @@ public class ReportB extends JFrame implements ActionListener {
         reportPanel.add(chartPanel, BorderLayout.PAGE_END);
 
 
-        this.add(modePanel,BorderLayout.PAGE_START);
-        this.add(reportPanel,BorderLayout.CENTER);
+        // add all panels to the frame
+        this.add(topPanel,BorderLayout.NORTH);
+        this.add(modePanel,BorderLayout.CENTER);
+        this.add(reportPanel,BorderLayout.SOUTH); 
+
+        // add action listener to home button to return to owner's home page
+        homeButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new OwnerHome(userInfo);
+            }
+        });
     }
 
     @Override
@@ -137,19 +146,19 @@ public class ReportB extends JFrame implements ActionListener {
             DailyReportBController dailyReportController = new DailyReportBController();
             HashMap<String, ArrayList<String>> dailyReport = dailyReportController.getDailyReport(monthYear);
             List<String> dates = new ArrayList<>();
-            List<Double> seatID = new ArrayList<>();
+            List<Double> visitors = new ArrayList<>();
 
             for(String x: dailyReport.get("date")){
                 dates.add(x);
-                
             }
+
             for(String x: dailyReport.get("totalSeats")){
                 Double convertSeatID = Double.parseDouble(x);
-                seatID.add(convertSeatID); 
+                visitors.add(convertSeatID); 
             }
 
             for (int i = 0; i < dates.size(); i++) {
-                dataset.addValue(seatID.get(i), "SeatID", dates.get(i));
+                dataset.addValue(visitors.get(i), "visitors", dates.get(i));
             }
 
         }else if(currentMode == "Monthly"){
@@ -158,21 +167,23 @@ public class ReportB extends JFrame implements ActionListener {
             MonthlyReportBController monthlyReportController = new MonthlyReportBController();
             HashMap<String, ArrayList<String>> monthlyReport = monthlyReportController.getMonthlyReport(year);
             List<String> month = new ArrayList<>();
-            List<Double> seatID = new ArrayList<>();
+            List<Double> visitors = new ArrayList<>();
 
             for(String x: monthlyReport.get("month")){
                 int monthNumber = Integer.parseInt(x);
                 String monthName = Month.of(monthNumber).name();
-                month.add(monthName);
-                
+                month.add(monthName); 
             }
+
             for(String x: monthlyReport.get("totalSeats")){
                 Double convertSeatID = Double.parseDouble(x);
-                seatID.add(convertSeatID); 
+                visitors.add(convertSeatID); 
             }
+
             for (int i = 0; i < month.size(); i++) {
-                dataset.addValue(seatID.get(i), "seatID", month.get(i));
+                dataset.addValue(visitors.get(i), "visitors", month.get(i));
             }
+
         } else if(currentMode == "Weekly"){
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String selectedDateStr = dateFormat.format(selectedDate).toString();
@@ -212,18 +223,19 @@ public class ReportB extends JFrame implements ActionListener {
             HashMap<String, ArrayList<String>> weeklyReport = weeklyReportBController.getWeeklyReport(datesOfWeek);
 
             List<String> week = new ArrayList<>();
-            List<Double> seatID = new ArrayList<>();
+            List<Double> visitors = new ArrayList<>();
 
             for(String x: weeklyReport.get("day")){
                 week.add(x);
-                
             }
+
             for(String x: weeklyReport.get("totalSeats")){
                 Double convertSeatID = Double.parseDouble(x);
-                seatID.add(convertSeatID); 
+                visitors.add(convertSeatID); 
             }
+
             for (int i = 0; i < week.size(); i++) {
-                dataset.addValue(seatID.get(i), "seatID", week.get(i));
+                dataset.addValue(visitors.get(i), "visitors", week.get(i));
             }
         }
         chartPanel.repaint();
