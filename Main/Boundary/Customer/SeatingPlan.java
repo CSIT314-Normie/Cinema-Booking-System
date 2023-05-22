@@ -22,6 +22,7 @@ public class SeatingPlan extends JFrame implements ActionListener {
 
     private ArrayList<String> selectedSeats = new ArrayList<String>();
     private String hall;   
+    private String cinemaName;
 
     private final JButton homeButton = new JButton("Home");
     private final JButton backButton = new JButton("Back");
@@ -29,7 +30,6 @@ public class SeatingPlan extends JFrame implements ActionListener {
     JPanel ticketTypePanel = new JPanel(new FlowLayout());
 
     private final transient SeatingPlanController seatingPlanController = new SeatingPlanController();
-    
 
     private  JPanel selectedSeatsPanel = new JPanel(new FlowLayout());
 
@@ -96,6 +96,8 @@ public class SeatingPlan extends JFrame implements ActionListener {
         JPanel seatsPanel = new JPanel(new GridLayout(4, 4, 10, 10));
         seatsPanel.setPreferredSize(new Dimension(400, 300));
         seatsPanel.setBorder(BorderFactory.createTitledBorder("Select seats"));
+
+        this.cinemaName = seats.get(4); 
 
         for (int i = 0; i < seats.size(); i += 5) {
             String seatID = seats.get(i); 
@@ -164,7 +166,7 @@ public class SeatingPlan extends JFrame implements ActionListener {
                 } else {  
                     // redirect to purchase ticket page
                     dispose();
-                    new PurchaseTicket(userInfo, screeningInfo, movieInfo, selectedSeats, date);
+                    new PurchaseTicket(userInfo, screeningInfo, movieInfo, selectedSeats, date, cinemaName);
                 }
                 break;
         }

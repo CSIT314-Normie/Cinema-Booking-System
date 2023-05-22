@@ -110,7 +110,7 @@ public class DB {
                 + "Hall VARCHAR(10) NOT NULL,"
                 + "seatRow VARCHAR(10) NOT NULL,"
                 + "seatNumber VARCHAR(10) NOT NULL,"
-                + "cinemaName VARCHAR(255) NOT NULL"
+                + "cinemaName VARCHAR(255) NOT NULL,"
                 + "FOREIGN KEY (Hall) REFERENCES cinema_halls(Hall))"));
 
             // ceate movie screening table (movie name, screening ID, Hall ID)

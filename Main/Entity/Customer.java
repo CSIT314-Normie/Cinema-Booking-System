@@ -187,26 +187,11 @@ public class Customer extends User {
      * @param String movieName
      * @param String date
      * @param ArrayList<String> seats
+     * @param String[] bookingInfo
      * @param String total price paid
      * @return boolean true if success, false if fail
      */
-    public boolean confirmationEmail(String email, String movieName, String date, ArrayList<String> seatsArrayList, String totalPrice) {
-
-        // GET CINEMA NAME
-        String cinemaName = ""; 
-
-        try {
-            stmt = conn.prepareStatement("SELECT cinemaName FROM seats WHERE seatID = ?");
-            stmt.setString(1, seatsArrayList.get(0));
-
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                cinemaName = rs.getString("cinemaName");
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
+    public boolean confirmationEmail(String email, String movieName, String date, ArrayList<String> seatsArrayList, String[] bookingInfo, String totalPrice) {
         Properties props = System.getProperties();
 
 	    props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host 
@@ -222,7 +207,7 @@ public class Customer extends User {
 
         String seats = "";
         for (String seat : seatsArrayList) {
-            seats += seat + "\t";
+            seats += seat + " ";
         }
 
         String subject = "Normies Cinema - Ticketing Confirmation";
@@ -230,7 +215,8 @@ public class Customer extends User {
                     + "Thank you for booking with us!\n\n"
                     + "Movie: " + movieName + "\n"
                     + "Date: " + date + "\n"
-                    + "Cinema: " + cinemaName + "\n"
+                    + "Time: " + bookingInfo[0] + "\n"
+                    + "Cinema: " + bookingInfo[1] + "\n"
                     + "Seats: " + seats + "\n"
                     + "Total Price: $" + totalPrice + "0\n\n"
                     + "We look forward to seeing you soon!\n\n"

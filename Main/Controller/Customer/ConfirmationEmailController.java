@@ -11,7 +11,7 @@ public class ConfirmationEmailController {
     public ConfirmationEmailController() {
     }
 
-    public boolean confirmationEmail(String email, String movieName, String date, ArrayList<String> seats, String totalPrice) {
-        return customer.confirmationEmail(email, movieName, date, seats, totalPrice);
+    public boolean confirmationEmail(String email, String movieName, String date, ArrayList<String> seats, String[] bookingInfo, String totalPrice) {
+        return customer.confirmationEmail(email, movieName, date, seats, bookingInfo, totalPrice);
     }
 }
