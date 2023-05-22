@@ -21,7 +21,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
     private String bookingDate; // booking date - present date for payments
     private int loyaltyPts;
 
-    private ArrayList<String[]> ticketTypes = new ArrayList<String[]>();
+    private ArrayList<String[]> ticketTypes = new ArrayList<>();
 
     private final JButton homeButton = new JButton("Home");  
     private final JButton paymentButton = new JButton("Make Payment");
@@ -41,8 +41,8 @@ public class PurchaseTicket extends JFrame implements ActionListener{
     private double priceForOneTicket = 0.0;
 
     // controllers
-    private final GetTicketTypesController getTicketTypesController = new GetTicketTypesController();
-    private final LoyaltyPointController loyaltyPointController = new LoyaltyPointController(); 
+    private final transient GetTicketTypesController getTicketTypesController = new GetTicketTypesController();
+    private final transient LoyaltyPointController loyaltyPointController = new LoyaltyPointController(); 
     
     public PurchaseTicket(ArrayList<String> userInfo, ArrayList<String> screeningInfo, ArrayList<String> movieInfo, ArrayList<String> selectedSeats, String date) {
         super("Book Movie - Purchase Tickets");
