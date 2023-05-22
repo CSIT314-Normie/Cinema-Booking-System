@@ -26,9 +26,9 @@ public class MovieScreenings extends JFrame implements ActionListener {
     private final JLabel selectedScreeningLabel = new JLabel(); 
 
     // controllers 
-    private final GetMovieScreeningsController getScreeningsController = new GetMovieScreeningsController();
-    private final GetCinemasController getCinemasController = new GetCinemasController();
-    private final GetMovieReviewsController getReviewsController = new GetMovieReviewsController();
+    private final transient GetMovieScreeningsController getScreeningsController = new GetMovieScreeningsController();
+    private final transient GetCinemasController getCinemasController = new GetCinemasController();
+    private final transient GetMovieReviewsController getReviewsController = new GetMovieReviewsController();
 
     // data
     private ArrayList<String> allScreeningsForMovie;

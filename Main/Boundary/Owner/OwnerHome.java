@@ -101,7 +101,7 @@ public class OwnerHome extends JFrame implements ActionListener{
                 break;
             case "Report B":
                 dispose();
-                //new ReportB(this.userInfo);
+                new ReportB(this.userInfo);
                 break;
         }
     }

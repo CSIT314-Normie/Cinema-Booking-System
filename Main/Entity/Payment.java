@@ -108,12 +108,12 @@ public class Payment {
         ArrayList<String> allWeek = new ArrayList<>();
         HashMap<String, ArrayList<String>> allData = new HashMap<>();
         String firstDayOfWeek = datesOfWeek.get(0);
-        String lastDayOfWeek = datesOfWeek.get(datesOfWeek.size() - 1);
+        String lastDayOfWeek = datesOfWeek.get(6);
 
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM payments WHERE date BETWEEN ? AND ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM payments WHERE date BETWEEN ? AND ? ORDER BY date ASC");
             stmt.setString(1, firstDayOfWeek); 
-            stmt.setString(2, lastDayOfWeek);
+            stmt.setString(2, lastDayOfWeek); 
 
             ResultSet rs = stmt.executeQuery();
 
@@ -126,7 +126,7 @@ public class Payment {
             System.err.println(e.getMessage());
         }
         allData.put("amount", allPayments);
-        allData.put("week", allWeek);
+        allData.put("day", allWeek);
 
         return allData;
     }

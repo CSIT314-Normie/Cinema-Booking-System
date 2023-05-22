@@ -3,11 +3,13 @@ package Main.Boundary.Owner;
 import java.awt.*;
 import java.awt.event.*; 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.time.Month;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List; 
@@ -141,7 +143,7 @@ public class ReportB extends JFrame implements ActionListener {
                 dates.add(x);
                 
             }
-            for(String x: dailyReport.get("seatID")){
+            for(String x: dailyReport.get("totalSeats")){
                 Double convertSeatID = Double.parseDouble(x);
                 seatID.add(convertSeatID); 
             }
@@ -164,12 +166,64 @@ public class ReportB extends JFrame implements ActionListener {
                 month.add(monthName);
                 
             }
-            for(String x: monthlyReport.get("seatID")){
+            for(String x: monthlyReport.get("totalSeats")){
                 Double convertSeatID = Double.parseDouble(x);
                 seatID.add(convertSeatID); 
             }
             for (int i = 0; i < month.size(); i++) {
                 dataset.addValue(seatID.get(i), "seatID", month.get(i));
+            }
+        } else if(currentMode == "Weekly"){
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String selectedDateStr = dateFormat.format(selectedDate).toString();
+
+            try {
+                selectedDate = dateFormat.parse(selectedDateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } 
+            
+            // get the week of the month
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(selectedDate);
+
+            int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+
+            // get date of the first day of the week
+            ArrayList<String> datesOfWeek = new ArrayList<>();
+
+            // Set the calendar to the first day of the specified week
+            calendar.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY); 
+
+            for (int i = 1; i <= 7; i++) { 
+                Date date = calendar.getTime();
+                String dateOfWeek = dateFormat.format(date).toString();
+
+                datesOfWeek.add(dateOfWeek);
+
+                // move to the next day
+                calendar.add(Calendar.DAY_OF_WEEK, 1);
+            }
+
+            System.out.println("datesOfWeek: " + datesOfWeek);
+
+            WeeklyReportBController weeklyReportBController = new WeeklyReportBController();
+            HashMap<String, ArrayList<String>> weeklyReport = weeklyReportBController.getWeeklyReport(datesOfWeek);
+
+            List<String> week = new ArrayList<>();
+            List<Double> seatID = new ArrayList<>();
+
+            for(String x: weeklyReport.get("day")){
+                week.add(x);
+                
+            }
+            for(String x: weeklyReport.get("totalSeats")){
+                Double convertSeatID = Double.parseDouble(x);
+                seatID.add(convertSeatID); 
+            }
+            for (int i = 0; i < week.size(); i++) {
+                dataset.addValue(seatID.get(i), "seatID", week.get(i));
             }
         }
         chartPanel.repaint();
