@@ -8,7 +8,15 @@ import Main.Entity.Payment;
 public class WeeklyReportAController {
     Payment payment = new Payment();
 
-    public HashMap<String, ArrayList<String>> getWeeklyReport(ArrayList<String> dates) {
-        return payment.getWeeklyReport(dates);
+    public WeeklyReportAController() {
+    }
+
+    /**
+     * Get all payments made in a week - REPORT A
+     * @param dates of the week
+     * @return Hashmap of all payments made in a week
+     */
+    public HashMap<String, ArrayList<String>> getWeeklyReport(ArrayList<String> datesOfWeek) {
+        return payment.getWeeklyReport(datesOfWeek);
     }
 }

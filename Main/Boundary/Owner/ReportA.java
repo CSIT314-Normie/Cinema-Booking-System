@@ -23,13 +23,10 @@ public class ReportA extends JFrame implements ActionListener {
     private JComboBox modeList;
     private String currentMode;
     private JDateChooser dateChooser;
-
-    // private TimeSeriesCollection dataset;
-    // private TimeSeries series;
+ 
     private ChartPanel chartPanel;
     private DefaultCategoryDataset dataset; 
-    private JFreeChart chart;
-    // ChartPanel chartPanel;
+    private JFreeChart chart; 
 
     // button to return to home page
     private JButton homeButton = new JButton("Home");

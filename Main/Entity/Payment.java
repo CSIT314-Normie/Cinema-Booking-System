@@ -100,15 +100,15 @@ public class Payment {
 
     /**
      * Get all payments made in a week - REPORT A
-     * @param dates - all dates in a specific week
+     * @param datesOfWeek - all dates in a specific week
      * @return Hashmap of all payments made in a week
      */
-    public HashMap<String, ArrayList<String>> getWeeklyReport(ArrayList<String> dates) {
+    public HashMap<String, ArrayList<String>> getWeeklyReport(ArrayList<String> datesOfWeek) {
         ArrayList<String> allPayments = new ArrayList<>();
         ArrayList<String> allWeek = new ArrayList<>();
         HashMap<String, ArrayList<String>> allData = new HashMap<>();
-        String firstDayOfWeek = dates.get(0);
-        String lastDayOfWeek = dates.get(dates.size() - 1);
+        String firstDayOfWeek = datesOfWeek.get(0);
+        String lastDayOfWeek = datesOfWeek.get(datesOfWeek.size() - 1);
 
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM payments WHERE date BETWEEN ? AND ?");
