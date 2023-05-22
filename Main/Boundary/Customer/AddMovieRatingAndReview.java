@@ -101,8 +101,6 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
         submitPanel.setPreferredSize(new Dimension(1035, 50));
         submitPanel.add(submitButton);
 
-        
-
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
         add(submitPanel, BorderLayout.SOUTH);
@@ -152,14 +150,14 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
                     break;
                 } else {
                     // add review and rating to database
-                    AddMovieRatingAndReviewController addMovieRatingAndReviewController = new AddMovieRatingAndReviewController();
-                    if (addMovieRatingAndReviewController.addReviewRating(reviewInfo)) {
-                        JOptionPane.showMessageDialog(null, "Movie rating and review added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    AddMovieRatingAndReviewController reviewController = new AddMovieRatingAndReviewController();
+                    if (reviewController.addReviewRating(reviewInfo)) {
+                        JOptionPane.showMessageDialog(null, "Movie rating and review submitted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
                         
                         dispose();
                         new CustomerHome(userInfo); 
                     } else {
-                        JOptionPane.showMessageDialog(null, "Movie rating and review failed to be added.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Add movie rating and review failed.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } 
                 
