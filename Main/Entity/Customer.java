@@ -215,7 +215,7 @@ public class Customer extends User {
                     + "Movie: " + movieName + "\n"
                     + "Date: " + date + "\n"
                     + "Seats: " + seats + "\n"
-                    + "Total Price: " + totalPrice + "\n\n"
+                    + "Total Price: $" + totalPrice + "0\n\n"
                     + "We look forward to seeing you soon!\n\n"
                     + "Regards,\n"
                     + "Cinema Booking System";
