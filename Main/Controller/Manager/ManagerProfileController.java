@@ -7,10 +7,10 @@ import Main.Entity.*;
 import java.util.*;
 
 public class ManagerProfileController {
-    User user = new User();
+    Manager manager = new Manager();
 
     public ArrayList<String> getUserInfo(String email) {
-        return user.getDB().select("*", email);
+        return manager.getDB().select("*", email);
     }
     
 }
