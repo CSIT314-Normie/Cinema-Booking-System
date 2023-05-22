@@ -53,7 +53,7 @@ public class Owner extends User {
         return false;
     } 
     //daily
-    public HashMap<String, ArrayList<String>> getDailyReport(String monthYear) {
+    public HashMap<String, ArrayList<String>> getDailyVisitorsReport(String monthYear) {
         ArrayList<String> allSeat = new ArrayList<>();
         ArrayList<String> allDates = new ArrayList<>();
         HashMap<String, ArrayList<String>> allData = new HashMap<>();
@@ -75,31 +75,41 @@ public class Owner extends User {
         return allData;
     }
 
-    // //weekly
-    // public HashMap<String, ArrayList<String>> getWeeklyReport(String monthYear) {
-    //     ArrayList<String> allSeat = new ArrayList<>();
-    //     ArrayList<String> allDates = new ArrayList<>();
-    //     HashMap<String, ArrayList<String>> allData = new HashMap<>();
-    //     try {
-    //         stmt = conn.prepareStatement("SELECT STR_TO_DATE(date, '%d/%m/%Y') AS day, SUM(seatID) AS seatID FROM seat_reserved WHERE date LIKE ? GROUP BY day");
-    //         stmt.setString(1, "%" + monthYear + "%");
-    //         ResultSet rs = stmt.executeQuery();
-    //         while (rs.next()){
-    //             allSeat.add(rs.getString("seatID"));
-    //             allDates.add(rs.getString("day"));
-    //         }
+    /**
+     * To get weekly visitors 
+     * @param ArrayList<String> datesOfWeek
+     * @return HashMap<String, ArrayList<String>> weeklyReport
+     */
+    public HashMap<String, ArrayList<String>> getWeeklyVisitorsReport(ArrayList<String> datesOfWeek) {
+        ArrayList<String> allSeat = new ArrayList<>();
+        ArrayList<String> allDates = new ArrayList<>();
+        HashMap<String, ArrayList<String>> allData = new HashMap<>();
 
-    //     } catch (SQLException e) {
-    //         System.err.println(e.getMessage());
-    //     }
-    //     allData.put("seatID", allSeat);
-    //     allData.put("date", allDates);
+        String firstDayOfWeek = datesOfWeek.get(0);
+        String lastDayOfWeek = datesOfWeek.get(datesOfWeek.size() - 1);
 
-    //     return allData;
-    // }
+        try {
+            stmt = conn.prepareStatement("SELECT date, SUM(seatID) FROM seat_reserved WHERE date BETWEEN ? AND ? GROUP BY date");
+            stmt.setString(1, firstDayOfWeek);
+            stmt.setString(2, lastDayOfWeek);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                allDates.add(rs.getString("date"));
+                allSeat.add(rs.getString("seatID"));
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        allData.put("seatID", allSeat);
+        allData.put("date", allDates);
+
+        return allData;
+    }
 
     // monthly
-    public HashMap<String, ArrayList<String>> getMonthlyReport(String year) {
+    public HashMap<String, ArrayList<String>> getMonthlyVisitorsReport(String year) {
         ArrayList<String> allSeat = new ArrayList<>();
         ArrayList<String> allMonth = new ArrayList<>();
         HashMap<String, ArrayList<String>> allData = new HashMap<>();
