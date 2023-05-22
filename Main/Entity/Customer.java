@@ -191,6 +191,22 @@ public class Customer extends User {
      * @return boolean true if success, false if fail
      */
     public boolean confirmationEmail(String email, String movieName, String date, ArrayList<String> seatsArrayList, String totalPrice) {
+
+        // GET CINEMA NAME
+        String cinemaName = ""; 
+
+        try {
+            stmt = conn.prepareStatement("SELECT cinemaName FROM seats WHERE seatID = ?");
+            stmt.setString(1, seatsArrayList.get(0));
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                cinemaName = rs.getString("cinemaName");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
         Properties props = System.getProperties();
 
 	    props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host 
@@ -214,6 +230,7 @@ public class Customer extends User {
                     + "Thank you for booking with us!\n\n"
                     + "Movie: " + movieName + "\n"
                     + "Date: " + date + "\n"
+                    + "Cinema: " + cinemaName + "\n"
                     + "Seats: " + seats + "\n"
                     + "Total Price: $" + totalPrice + "0\n\n"
                     + "We look forward to seeing you soon!\n\n"
@@ -231,8 +248,6 @@ public class Customer extends User {
             msg.setSubject(subject);
             msg.setSentDate(new Date());
             msg.setText(body);
-
-            
             
             Transport.send(msg);
 

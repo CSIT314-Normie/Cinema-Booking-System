@@ -423,6 +423,7 @@ public class MovieScreening {
                 allSeats.add(rs.getString("Hall"));
                 allSeats.add(rs.getString("seatRow"));
                 allSeats.add(rs.getString("seatNumber"));
+                allSeats.add(rs.getString("cinemaName"));
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());

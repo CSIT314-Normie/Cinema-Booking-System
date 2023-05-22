@@ -97,7 +97,7 @@ public class SeatingPlan extends JFrame implements ActionListener {
         seatsPanel.setPreferredSize(new Dimension(400, 300));
         seatsPanel.setBorder(BorderFactory.createTitledBorder("Select seats"));
 
-        for (int i = 0; i < seats.size(); i += 4) {
+        for (int i = 0; i < seats.size(); i += 5) {
             String seatID = seats.get(i); 
 
             JButton seatButton = new JButton(seatID); 

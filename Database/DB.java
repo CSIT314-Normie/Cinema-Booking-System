@@ -110,6 +110,7 @@ public class DB {
                 + "Hall VARCHAR(10) NOT NULL,"
                 + "seatRow VARCHAR(10) NOT NULL,"
                 + "seatNumber VARCHAR(10) NOT NULL,"
+                + "cinemaName VARCHAR(255) NOT NULL"
                 + "FOREIGN KEY (Hall) REFERENCES cinema_halls(Hall))"));
 
             // ceate movie screening table (movie name, screening ID, Hall ID)
@@ -180,7 +181,7 @@ public class DB {
                 "   FOR EACH ROW " +
                 "   BEGIN " +
                 "       UPDATE movies " +
-                "           SET rate = (SELECT AVG(rating) FROM reviews WHERE movieName = NEW.movieName), " +
+                "           SET rate = (SELECT ROUND(AVG(rating), 2) FROM reviews WHERE movieName = NEW.movieName), " +
                 "               review = (SELECT COUNT(*) FROM reviews WHERE movieName = NEW.movieName) " +
                 "       WHERE name = NEW.movieName; " +
                 "   END"));
@@ -193,7 +194,7 @@ public class DB {
                 "   FOR EACH ROW " +
                 "   BEGIN " +
                 "       UPDATE movies " +
-                "           SET rate = IFNULL((SELECT AVG(rating) FROM reviews WHERE movieName = OLD.movieName), 0), " +
+                "           SET rate = IFNULL((SELECT ROUND(AVG(rating), 2) FROM reviews WHERE movieName = OLD.movieName), 0), " +
                 "               review = IFNULL((SELECT COUNT(*) FROM reviews WHERE movieName = OLD.movieName), 0) " +
                 "       WHERE name = OLD.movieName; " +
                 "   END"));
