@@ -39,7 +39,7 @@ public class Reviews {
     }
 
     /**
-     * Add a review and rating for a movie
+     * Add a review and rating for a movie - CUSTOMER
      * @param ArrayList<String> reviewInfo
      * @return boolean true if success, false if fail
      */
@@ -51,6 +51,50 @@ public class Reviews {
             stmt.setString(3, reviewInfo.get(2));
             stmt.setString(4, reviewInfo.get(3));
 
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return false;
+    }
+
+    /**
+     * Get all reviews and ratings - MANAGER 
+     * @return ArrayList<String> of all reviews & ratings for a movie
+     */
+    public ArrayList<String> getAllReviews() {
+        ArrayList<String> allReviews = new ArrayList<String>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM reviews");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                allReviews.add(rs.getString("reviewID"));
+                allReviews.add(rs.getString("email"));
+                allReviews.add(rs.getString("movieName"));
+                allReviews.add(rs.getString("review"));
+                allReviews.add(rs.getString("rating"));
+            }
+        
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return allReviews;
+    }
+
+    /**
+     * delete an inappropiate review - MANAGER
+     * @param String reviewID
+     * @return boolean true if success, false if fail
+     */
+    public boolean deleteReview(String reviewID) {
+        try {
+            stmt = conn.prepareStatement("DELETE FROM reviews WHERE reviewID = ?");
+            stmt.setString(1, reviewID);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {

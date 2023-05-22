@@ -28,7 +28,7 @@ public class SeatingPlan extends JFrame implements ActionListener {
     private final JButton confirmButton = new JButton("Confirm");
     JPanel ticketTypePanel = new JPanel(new FlowLayout());
 
-    private final SeatingPlanController seatingPlanController = new SeatingPlanController();
+    private final transient SeatingPlanController seatingPlanController = new SeatingPlanController();
     
 
     private  JPanel selectedSeatsPanel = new JPanel(new FlowLayout());

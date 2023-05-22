@@ -1,8 +1,7 @@
 package Main.Boundary.Owner;
 
 import java.awt.*;
-import java.awt.event.*;
-
+import java.awt.event.*; 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -11,7 +10,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+import java.util.List; 
 import java.util.Locale;
 
 import java.awt.BorderLayout;
@@ -31,7 +30,8 @@ import Main.Controller.Owner.*;
 
 
 public class ReportB extends JFrame implements ActionListener {
-
+    private ArrayList<String> userInfo;
+    
     JComboBox modeList;
     String currentMode;
     JDateChooser dateChooser;
@@ -40,19 +40,19 @@ public class ReportB extends JFrame implements ActionListener {
     DefaultCategoryDataset dataset; 
     JFreeChart chart;
 
-    public ReportB() {
-        super("Report B");
-
+    public ReportB(ArrayList<String> userInfo) {
+        super("Report B");  
+        this.userInfo = userInfo;
         setLayout(new BorderLayout());
         setSize(1035, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-
+ 
         // Create dataset
         dataset = new DefaultCategoryDataset();
-
+ 
         JPanel modePanel = new JPanel();
         modePanel.setBackground(Color.LIGHT_GRAY);
         modePanel.setSize(100,50);

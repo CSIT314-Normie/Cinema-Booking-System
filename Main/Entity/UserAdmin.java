@@ -121,5 +121,4 @@ public class UserAdmin extends User {
             return false; // Email is in the database
         }
     }
-
 }

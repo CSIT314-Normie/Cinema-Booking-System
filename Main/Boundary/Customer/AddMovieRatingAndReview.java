@@ -24,11 +24,12 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
     private String movieName;
 
     private final JButton homeButton = new JButton("Home");
+    private final JButton backButton = new JButton("Back");
     private final JButton submitButton = new JButton("Submit");
 
     private final String[] labelList = {"Movie Title: ", "Movie Review: ", "Movie Rating: "};
     private JTextArea movieReview = new JTextArea(5, 40);
-    private String rating;
+    private String rating = "";
     private ArrayList<String> reviewInfo = new ArrayList<>();
 
     public AddMovieRatingAndReview(ArrayList<String> userInfo, String movieName) { 
@@ -45,6 +46,7 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
         JPanel topPanel = new JPanel(new FlowLayout());
         topPanel.setPreferredSize(new Dimension(1035, 50));
         topPanel.add(homeButton);
+        topPanel.add(backButton);
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS)); 
@@ -108,6 +110,7 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
         // add listener for buttons
         homeButton.addActionListener(this);
         submitButton.addActionListener(this);
+        backButton.addActionListener(this);
 
         // add listener for ButtonGroup radio buttons
         oneStar.addActionListener(e -> rating = e.getActionCommand());
@@ -125,17 +128,26 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Home":
-                new CustomerHome(userInfo);
                 dispose();
+                new CustomerHome(userInfo);
                 break;
+            
+            case "Back":
+                dispose();
+                new TicketingHistory(userInfo);
+                break;
+
             case "Submit":
+                reviewInfo.clear();
                 reviewInfo.add(userInfo.get(2)); // userEmail
                 reviewInfo.add(movieName);
-                reviewInfo.add(movieReview.getText());
+                reviewInfo.add(movieReview.getText().toString());
                 reviewInfo.add(rating);
 
+                System.out.println(reviewInfo);
+
                 // check if any fields are empty
-                if (movieReview.getText().equals("")) {
+                if (reviewInfo.contains("")) {
                     JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 } else {

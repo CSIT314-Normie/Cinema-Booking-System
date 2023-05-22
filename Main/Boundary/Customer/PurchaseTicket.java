@@ -5,23 +5,20 @@ import java.awt.Dimension;
 import java.awt.FlowLayout; 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 import javax.swing.*;
 
-
-import Main.Controller.Customer.GetTicketTypesController;
-import Main.Controller.Customer.PurchaseTicketController;
-import Main.Controller.Customer.UpdateLoyaltyPointsController;
-import Main.Controller.Customer.RedeemLoyaltyPointsController;
-import Main.Controller.Customer.LoyaltyPointController;
-import Main.Controller.Customer.ConfirmSeatingController; 
+import Main.Controller.Customer.*;
 
 public class PurchaseTicket extends JFrame implements ActionListener{
     private ArrayList<String> userInfo;
     private ArrayList<String> screeningInfo;
     private ArrayList<String> movieInfo;
     private ArrayList<String> selectedSeats;
-    private String date;
+    private String date; // screening date
+    private String bookingDate; // booking date - present date for payments
     private int loyaltyPts;
 
     private ArrayList<String[]> ticketTypes = new ArrayList<String[]>();
@@ -38,7 +35,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
 
 
     private String[] movieBookingInfo = {"Movie Name: ", "Date: ", "Time: "};
-    private String selectedTicketType = "Adult";
+    private String selectedTicketType = "";
     private int noOfTicketsToPay;
     private double totalPrice = 0.0;
     private double priceForOneTicket = 0.0;
@@ -48,7 +45,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
     private final LoyaltyPointController loyaltyPointController = new LoyaltyPointController(); 
     
     public PurchaseTicket(ArrayList<String> userInfo, ArrayList<String> screeningInfo, ArrayList<String> movieInfo, ArrayList<String> selectedSeats, String date) {
-        super("CSIT 314 Cinema Booking System - Book movie");
+        super("Book Movie - Purchase Tickets");
         this.userInfo = userInfo;
         this.screeningInfo = screeningInfo;
         this.movieInfo = movieInfo;
@@ -60,7 +57,14 @@ public class PurchaseTicket extends JFrame implements ActionListener{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
-        setVisible(true);
+        setVisible(true); 
+
+        // initialise booking date
+        Date currentDate = new Date();
+
+        String pattern = "dd/MM/yyyy"; // Specify the desired format pattern
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        bookingDate = dateFormat.format(currentDate);
 
         JPanel topPanel = new JPanel(new FlowLayout());
         topPanel.setPreferredSize(new Dimension(700, 50));
@@ -133,8 +137,6 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                 selectedTicketType = e.getActionCommand();
                 priceForOneTicket = Double.parseDouble(ticketType[1]);
                 totalPrice = Double.parseDouble(ticketType[1]) * noOfTicketsToPay;
-                System.out.println("Selected ticket type: " + selectedTicketType);
-                System.out.println("Total price: " + totalPrice);
                 displayPrice();
             });
         }
@@ -206,7 +208,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                 new CustomerHome(userInfo);
                 
                 break;
-            case "Make Payment": 
+            case "Make Payment":   
                 // check whether ticket type is selected
                 if (selectedTicketType.equals("") || selectedTicketType.equals(null)) {
                     JOptionPane.showMessageDialog(null, "Please select a ticket type.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -225,11 +227,12 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                     break;
                 }
 
-                // make payment and confirm seats booked
+                // make payment, confirm seats booked AND send confirmation email
                 PurchaseTicketController purchaseTicketController = new PurchaseTicketController();
                 ConfirmSeatingController confirmSeatingController = new ConfirmSeatingController();
+                ConfirmationEmailController confirmationEmailController = new ConfirmationEmailController();
                 
-                if (purchaseTicketController.makePayment(userInfo.get(2), String.valueOf(totalPrice), date) && confirmSeatingController.confirmSeats(selectedSeats, screeningInfo.get(0), screeningInfo.get(1), userInfo.get(2), movieInfo.get(0), date)) {
+                if (purchaseTicketController.makePayment(userInfo.get(2), String.valueOf(totalPrice), bookingDate) && confirmSeatingController.confirmSeats(selectedSeats, screeningInfo.get(0), screeningInfo.get(2), userInfo.get(2), movieInfo.get(0), date) && confirmationEmailController.confirmationEmail(userInfo.get(2), movieInfo.get(0), date, selectedSeats, String.valueOf(totalPrice))) {
                     JOptionPane.showMessageDialog(null, "Payment successful. Seats booked.", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                     // AND update loyalty points
@@ -242,6 +245,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                     } else {
                         JOptionPane.showMessageDialog(null, "Loyalty points not updated.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
+
                     
                 } else {
                     JOptionPane.showMessageDialog(null, "Payment failed.", "Error", JOptionPane.ERROR_MESSAGE);

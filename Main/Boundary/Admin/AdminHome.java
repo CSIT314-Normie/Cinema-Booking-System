@@ -11,7 +11,6 @@ import Main.Boundary.Init;
 
 import Main.Controller.Admin.*;
 
-
 public class AdminHome extends JFrame implements ActionListener {
     private final JPanel panel = new JPanel(new FlowLayout());
     private final JPanel accountsPanel = new JPanel(new BorderLayout());
@@ -32,11 +31,10 @@ public class AdminHome extends JFrame implements ActionListener {
     private DefaultTableModel tableModel;
     private String[] selectedAccount;
 
-
-    private final transient AdminLoginController loginController;
+    private final transient GetAllUserAccountsController getAllUserAccountsController = new GetAllUserAccountsController();
     private final transient SuspendAccountController suspendAccountController = new SuspendAccountController();
-    
 
+    
     public AdminHome(ArrayList<String> userInfo) {
         super("CSIT 314 Cinema Booking System - Home");
         this.userInfo = userInfo;
@@ -45,12 +43,14 @@ public class AdminHome extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
-        setVisible(true); // Show the frame
+        setVisible(true);
+        
+        this.allAccounts = getAllUserAccountsController.getAllUserAccounts();
 
-        // Login "SESSION" for user to allow user to logout, can be further implemented
-        loginController = new AdminLoginController(userInfo.get(0), userInfo.get(1), userInfo.get(2));
         userRoleLabel.setText("User Role: " + userInfo.get(0) + " | Email: " + userInfo.get(2));
         panel.setPreferredSize(new Dimension(1035, 50));
+        accountsPanel.setPreferredSize(new Dimension(750, 600));
+
 
         // add user role label and buttons to the panel
         panel.add(userRoleLabel);
@@ -58,9 +58,6 @@ public class AdminHome extends JFrame implements ActionListener {
         panel.add(profileButton);
         panel.add(logoutButton);
 
-        this.allAccounts = loginController.getAllUserAccounts();
-
-        accountsPanel.setPreferredSize(new Dimension(750, 600));
         editAccountButton.setSize(50, 30);
 
 
@@ -83,10 +80,10 @@ public class AdminHome extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Logout":
-                loginController.logout(userInfo.get(0));
+                AdminLogoutController logoutController = new AdminLogoutController();
+                logoutController.logout();
                 dispose();
                 new Init();
-                System.out.println("[+] Successfully logged out");
                 break;
 
             case "Update":
@@ -118,7 +115,7 @@ public class AdminHome extends JFrame implements ActionListener {
                     } else {
                         JOptionPane.showMessageDialog(null, "Error suspending account", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    allAccounts = loginController.getAllUserAccounts();
+                    allAccounts = getAllUserAccountsController.getAllUserAccounts();
                     displayAllAccounts();
                 }
                 break;
@@ -137,7 +134,7 @@ public class AdminHome extends JFrame implements ActionListener {
      */
     private void displayAllAccounts() {
         allAccounts.clear();
-        allAccounts = loginController.getAllUserAccounts();
+        allAccounts = getAllUserAccountsController.getAllUserAccounts();
 
         // Remove all components from the panel
         accountsPanel.removeAll();

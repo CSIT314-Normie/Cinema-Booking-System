@@ -19,7 +19,7 @@ public class Payment {
     } 
 
     /**
-     * Make payment
+     * Make payment - Customer
      * @param userEmail of customer
      * @param amount to pay
      * @param date of payment
@@ -40,7 +40,12 @@ public class Payment {
 
         return false;
     } 
-    //days in the month
+
+    /**
+     * Get all payments made in a day - REPORT A
+     * @param monthYear month of the year
+     * @return Hashmap of all payments made in a day
+     */ 
     public HashMap<String, ArrayList<String>> getDailyReport(String monthYear) {
         ArrayList<String> allPayments = new ArrayList<>();
         ArrayList<String> allDates = new ArrayList<>();
@@ -63,6 +68,11 @@ public class Payment {
         return allData;
     }
 
+    /**
+     * Get all payments made in a month - REPORT A
+     * @param year 
+     * @return Hashmap 
+     */
     public HashMap<String, ArrayList<String>> getMonthlyReport(String year) {
         ArrayList<String> allPayments = new ArrayList<>();
         ArrayList<String> allMonth = new ArrayList<>();
@@ -87,13 +97,37 @@ public class Payment {
 
         return allData;
     }
-}
 
+    /**
+     * Get all payments made in a week - REPORT A
+     * @param datesOfWeek - all dates in a specific week
+     * @return Hashmap of all payments made in a week
+     */
+    public HashMap<String, ArrayList<String>> getWeeklyReport(ArrayList<String> datesOfWeek) {
+        ArrayList<String> allPayments = new ArrayList<>();
+        ArrayList<String> allWeek = new ArrayList<>();
+        HashMap<String, ArrayList<String>> allData = new HashMap<>();
+        String firstDayOfWeek = datesOfWeek.get(0);
+        String lastDayOfWeek = datesOfWeek.get(datesOfWeek.size() - 1);
 
-// SELECT WEEK(STR_TO_DATE(date, '%d/%m/%Y')) AS week,
-//        DATE_ADD(DATE(STR_TO_DATE(date, '%d/%m/%Y')), INTERVAL(1 - DAYOFWEEK(STR_TO_DATE(date, '%d/%m/%Y'))) DAY) AS week_start_date,
-//        DATE_ADD(DATE(STR_TO_DATE(date, '%d/%m/%Y')), INTERVAL(7 - DAYOFWEEK(STR_TO_DATE(date, '%d/%m/%Y'))) DAY) AS week_end_date,
-//        SUM(amount) AS total_amount
-// FROM payments
-// WHERE MONTH(STR_TO_DATE(date, '%d/%m/%Y')) = 06
-// GROUP BY week;
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM payments WHERE date BETWEEN ? AND ?");
+            stmt.setString(1, firstDayOfWeek); 
+            stmt.setString(2, lastDayOfWeek);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                allWeek.add(rs.getString("date"));
+                allPayments.add(rs.getString("amount"));
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        allData.put("amount", allPayments);
+        allData.put("week", allWeek);
+
+        return allData;
+    }
+} 

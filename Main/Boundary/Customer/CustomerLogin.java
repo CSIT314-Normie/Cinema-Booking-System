@@ -6,9 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-
 import Main.Controller.Customer.*;
-
 
 public class CustomerLogin extends JFrame implements ActionListener {
     private final JLabel welcomeLabel = new JLabel("Welcome to CSIT 314 Cinema Booking System");

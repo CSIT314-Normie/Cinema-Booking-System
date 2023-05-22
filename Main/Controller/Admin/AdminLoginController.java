@@ -6,9 +6,9 @@ import Main.Entity.*;
 
 import java.util.*;
 
-
 public class AdminLoginController {
     private User user;
+    private UserAdmin admin;
     private String email;
     private String password;
 
@@ -32,9 +32,10 @@ public class AdminLoginController {
     public AdminLoginController(String userRole, String canLogin, String email) {
         if (canLogin.equals("T")) {
             this.user = new User();
+            this.admin = new UserAdmin();
             ArrayList<String> userInfo = this.user.getDB().select("*", email);
 
-                this.user = new UserAdmin(userInfo.get(0), userInfo.get(1), email, userInfo.get(3), userInfo.get(4), userRole);
+                this.admin = new UserAdmin(userInfo.get(0), userInfo.get(1), email, userInfo.get(3), userInfo.get(4), userRole);
 
         }
     }
@@ -43,41 +44,18 @@ public class AdminLoginController {
      * This method is used to log in a user
      * @return an ArrayList of Strings that contains the user's role, whether the user can log in or not, and the user's email
      */
-    public ArrayList<String> login() {
-        ArrayList<String> role = this.user.getDB().select("role", "email", this.email, "password", this.password);
-        String userRole = "";
+    public ArrayList<String> login() { 
+        String userRole = "User Admin";
         String canLogin = "F";
-        String userEmail ="";       
+        String userEmail ="";   
 
-        if (!role.isEmpty()) {
-            userRole = "User Admin";
+        // admin login, if successful, set canLogin to "T"
+        if (this.user.login(this.email, this.password, userRole) == true) { 
             canLogin = "T";
-            userEmail = this.user.getDB().select("email", "email", this.email, "password", this.password).get(0);
+            userEmail = this.email;
         }
+
         return new ArrayList<>(Arrays.asList(userRole, canLogin, userEmail));
-    }
-
-    /**
-     * This method is used to log out a user
-     * @param userRole is the role of the user
-     * @return true if the user is logged out, false otherwise
-     */
-    public boolean logout(String userRole) {
-        UserAdmin userAdmin = (UserAdmin) this.user;
-        userAdmin.logout();
-        return true;
-    }
-
-    /**
-     * This method is used to get ALL user accounts from the database
-     * @return an ArrayList of String arrays that contains the information of all user accounts
-     */
-    public ArrayList<String[]> getAllUserAccounts() {
-        if (this.user instanceof UserAdmin) {
-            UserAdmin userAdmin = (UserAdmin) this.user;
-            return userAdmin.getAllUserAccounts();
-        }
-        return null;
     }
 }
 

@@ -59,6 +59,7 @@ public class DB {
                 "Add Screening",
                 "Add Loyal Points",
                 "Add Trigger",
+                "Add Trigger 2"
             };
 
             // Create users table
@@ -171,6 +172,7 @@ public class DB {
             // insert customers into loyal_points so that they can keep track of their points
             insertion.add(conn.prepareStatement("INSERT IGNORE INTO loyal_points(email) SELECT email FROM users WHERE role = 'customer';"));
 
+            // trigger to update the rate and review of a movie when a new review is added
             insertion.add(conn.prepareStatement(
                 "CREATE TRIGGER update_movies_rate_review " +
                 "   AFTER INSERT " +
@@ -181,6 +183,19 @@ public class DB {
                 "           SET rate = (SELECT AVG(rating) FROM reviews WHERE movieName = NEW.movieName), " +
                 "               review = (SELECT COUNT(*) FROM reviews WHERE movieName = NEW.movieName) " +
                 "       WHERE name = NEW.movieName; " +
+                "   END"));
+
+            // trigger to update the rate and review of a movie when a review is deleted
+            insertion.add(conn.prepareStatement(
+                "CREATE TRIGGER update_movies_rate_review_delete " +
+                "   AFTER DELETE " +
+                "   ON reviews " + 
+                "   FOR EACH ROW " +
+                "   BEGIN " +
+                "       UPDATE movies " +
+                "           SET rate = IFNULL((SELECT AVG(rating) FROM reviews WHERE movieName = OLD.movieName), 0), " +
+                "               review = IFNULL((SELECT COUNT(*) FROM reviews WHERE movieName = OLD.movieName), 0) " +
+                "       WHERE name = OLD.movieName; " +
                 "   END"));
 
             stmts.forEach(stmt -> {
