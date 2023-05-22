@@ -3,6 +3,7 @@ package Main.Boundary.Owner;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.*;
@@ -142,8 +143,10 @@ public class ReportA extends JFrame implements ActionListener {
      */
     private void updateChart(){
         dataset.clear();
+
         // Get selected date from the date chooser
-        Date selectedDate = dateChooser.getDate();
+        Date selectedDate = dateChooser.getDate(); 
+
         if(currentMode == "Daily"){
             DateFormat monthYearFormat = new SimpleDateFormat("MM/yyyy");
             String monthYear = monthYearFormat.format(selectedDate).toString();
@@ -191,6 +194,58 @@ public class ReportA extends JFrame implements ActionListener {
             }
             for (int i = 0; i < month.size(); i++) {
                 dataset.addValue(amount.get(i), "Amount", month.get(i));
+            }
+
+        } else if (currentMode == "Weekly") {
+            DateFormat dateFormat = new SimpleDateFormat("dd//MM/yyyy");
+            String selectedDateStr = dateFormat.format(selectedDate).toString();
+
+            try {
+                selectedDate = dateFormat.parse(selectedDateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } 
+            
+            ArrayList<String> datesOfWeek = new ArrayList<>();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(selectedDate);
+
+            // get week of the year from the selected date
+            int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+
+            // Set the calendar to the first day of the specified week
+            calendar.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+
+            // Print all the dates in the week
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            for (int i = 0; i < 7; i++) {
+                Date currentDate = calendar.getTime();
+                String formattedDate = outputFormat.format(currentDate);
+                datesOfWeek.add(formattedDate);
+
+                // Move to the next day
+                calendar.add(Calendar.DAY_OF_WEEK, 1);
+            } 
+
+            // controller to get the weekly report
+            WeeklyReportAController weeklyReportController = new WeeklyReportAController();
+            HashMap<String, ArrayList<String>> weeklyReport = weeklyReportController.getWeeklyReport(datesOfWeek); 
+
+            List<String> week = new ArrayList<>();
+            List<Double> amount = new ArrayList<>();
+
+            for(String x: weeklyReport.get("week")){
+                week.add(x);
+                
+            }
+            for(String x: weeklyReport.get("amount")){
+                Double convertAmount = Double.parseDouble(x);
+                amount.add(convertAmount); 
+            }
+            for (int i = 0; i < week.size(); i++) {
+                dataset.addValue(amount.get(i), "Amount", week.get(i));
             }
         }
         chartPanel.repaint();
