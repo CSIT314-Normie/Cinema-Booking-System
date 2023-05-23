@@ -103,7 +103,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
         }  
 
         // display selected seats - middle panel
-        for (int i = 0; i < selectedSeats.size(); i+=2) { 
+        for (int i = 0; i < selectedSeats.size(); i++) { 
             String seatID = selectedSeats.get(i);
             JPanel panel = new JPanel(new BorderLayout()); 
             JLabel seatLabel = new JLabel("Seat: " + seatID);
