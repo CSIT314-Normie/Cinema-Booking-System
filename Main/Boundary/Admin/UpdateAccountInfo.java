@@ -67,10 +67,20 @@ public class UpdateAccountInfo extends JFrame implements ActionListener, MouseLi
 
             fieldList.add(field);
 
-            if (i == 4) { // drop down menu for role
-                roleList.setSelectedIndex(accountInfo[i].equals("User Admin") ? 0 : 1);
+            if (i == 4) { // drop down menu for role if is User Admin or Manager
                 panel.add(label, BorderLayout.WEST);
-                panel.add(roleList, BorderLayout.EAST);
+
+                if (accountInfo[i].equals("Customer")) {
+                    // display customer
+                    JLabel roleLabel = new JLabel("Customer");
+                    roleLabel.setFont(new Font("Serif", Font.PLAIN, 15));
+                    panel.add(roleLabel, BorderLayout.EAST);
+                } else { 
+                    // display drop down menu
+                    roleList.setSelectedIndex(accountInfo[i].equals("User Admin") ? 0 : 1);
+                    panel.add(roleList, BorderLayout.EAST);
+                }
+                
                 panel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
             } else {
                 // add label and field to the form panel

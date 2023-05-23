@@ -108,14 +108,16 @@ public class UpdateMovieInfo extends JFrame implements ActionListener {
                 modifiedMovieInfo.add(2, selectedStatus); // add movie status
                 modifiedMovieInfo.add(3, textfieldList.get(2).getText()); // add movie duration
 
+                System.out.println("[+] Modified Movie Info: " + modifiedMovieInfo);
+
                 // check if all fields are filled
                 if (modifiedMovieInfo.contains("")) {
                     JOptionPane.showMessageDialog(null, "Please fill in all the fields"); 
                 } else {
                     if (updateMovieInfoController.updateMovieInfo(modifiedMovieInfo, movieInfo[0])) {
                         JOptionPane.showMessageDialog(null, "Movie info updated successfully");
-                        // dispose();
-                        // new ManagerHome(userInfo);
+                        dispose();
+                        new ManagerHome(userInfo);
                     } else {
                         JOptionPane.showMessageDialog(null, "Movie info update failed");
                     }

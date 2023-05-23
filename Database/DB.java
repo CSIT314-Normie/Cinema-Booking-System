@@ -59,7 +59,8 @@ public class DB {
                 "Add Screening",
                 "Add Loyal Points",
                 "Add Trigger",
-                "Add Trigger 2"
+                "Add Trigger 2",
+                "Add Trigger 3"
             };
 
             // Create users table
@@ -169,7 +170,6 @@ public class DB {
 
             insertion.add(conn.prepareStatement("INSERT INTO movie_screening (movieName, Hall, date, timeSlot, startTime, endTime, duration, screeningStatus) SELECT 'Barbie Movie', 'A', '12/06/2023', 'Afternoon 1', '12:15pm', '15:15pm', '3 hours', 'Available' FROM dual WHERE NOT EXISTS (SELECT * FROM movie_screening WHERE screeningID = '1');"));
 
-            
             // insert customers into loyal_points so that they can keep track of their points
             insertion.add(conn.prepareStatement("INSERT IGNORE INTO loyal_points(email) SELECT email FROM users WHERE role = 'customer';"));
 
@@ -198,6 +198,18 @@ public class DB {
                 "               review = IFNULL((SELECT COUNT(*) FROM reviews WHERE movieName = OLD.movieName), 0) " +
                 "       WHERE name = OLD.movieName; " +
                 "   END"));
+
+            // trigger to update movie name
+            insertion.add(conn.prepareStatement(
+                "CREATE TRIGGER update_movie_name " +
+                "   AFTER UPDATE " +
+                "   ON movies " + 
+                "   FOR EACH ROW " +
+                "   BEGIN " +
+                "       UPDATE movie_screening " +
+                "           SET movieName = NEW.name " +
+                "       WHERE movieName = OLD.name; " +
+                "   END")); 
 
             stmts.forEach(stmt -> {
                 try {

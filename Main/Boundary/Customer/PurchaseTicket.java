@@ -58,7 +58,7 @@ public class PurchaseTicket extends JFrame implements ActionListener{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
-        setVisible(true);  
+        setVisible(true);   
 
         // initialise booking date
         Date currentDate = new Date();

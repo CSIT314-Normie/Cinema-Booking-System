@@ -202,7 +202,7 @@ public class Movie {
     
         try {
             // Comments on this function are in the same function in User.java
-            stmt = conn.prepareStatement("UPDATE movies set name = ?, description = ?, status = ?, duration = ? where name = ?");
+            stmt = conn.prepareStatement("UPDATE movies SET name = ?, description = ?, status = ?, duration = ? WHERE name = ?");
             stmt.setString(1, values.get(0));
             stmt.setString(2, values.get(1));
             stmt.setString(3, values.get(2));
