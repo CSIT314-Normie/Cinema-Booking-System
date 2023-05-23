@@ -99,8 +99,7 @@ public class CustomerLogin extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Invalid email or password", "Error", JOptionPane.ERROR_MESSAGE);
             }
             
-        } else if (e.getSource() == createButton) {
-            System.out.println("[*] Create button clicked from Login.java");
+        } else if (e.getSource() == createButton) { 
             dispose();
             new Register();
         }

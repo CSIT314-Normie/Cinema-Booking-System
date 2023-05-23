@@ -54,9 +54,6 @@ public class CustomerProfile extends JFrame implements ActionListener {
         JPanel middleRow = new JPanel();
         middleRow.setLayout(new BoxLayout(middleRow, BoxLayout.Y_AXIS));
 
-        System.out.println(DBUserInfo);
-        System.out.println(labelNameList);
-
         for (int i = 0; i < labelNameList.size(); i++) {
             // Create a label with the label name E.g "First Name", "Last Name", etc
             JLabel label = new JLabel(labelNameList.get(i));

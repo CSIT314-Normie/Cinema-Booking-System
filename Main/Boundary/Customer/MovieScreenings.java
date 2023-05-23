@@ -184,16 +184,13 @@ public class MovieScreenings extends JFrame implements ActionListener {
             if (e.getPropertyName().equals("date")) {
                 Date selectedDate = dateChooser.getDate();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                dateString = dateFormat.format(selectedDate);
-
-                System.out.println("Selected date: " + dateString); 
+                dateString = dateFormat.format(selectedDate); 
             }
         });
 
         // add listener to the combo box
         cinemaComboBox.addActionListener(e -> {
-            selectedCinema = (String) cinemaComboBox.getSelectedItem();
-            System.out.println("Selected cinema: " + selectedCinema); // for debugging 
+            selectedCinema = (String) cinemaComboBox.getSelectedItem(); 
         });
     }
 
@@ -213,14 +210,12 @@ public class MovieScreenings extends JFrame implements ActionListener {
             case "Search": 
                 // search based on selected cinema 
                 SearchMovieScreeningCinemaController searchMovieScreeningCinemaController = new SearchMovieScreeningCinemaController();
-                allScreeningsForMovie = searchMovieScreeningCinemaController.searchMovieScreeningCinema(movieName, selectedCinema, dateString);
-                System.out.println("[cinema] allScreeningsForMovie: " + allScreeningsForMovie);
+                allScreeningsForMovie = searchMovieScreeningCinemaController.searchMovieScreeningCinema(movieName, selectedCinema, dateString); 
                 displayMovieScreenings(); 
 
                 // search based on selected date
                 SearchMovieScreeningDateController searchMovieScreeningDateController = new SearchMovieScreeningDateController();
-                allScreeningsForMovie = searchMovieScreeningDateController.searchMovieScreeningDate(movieName, dateString, selectedCinema);
-                System.out.println("[date] allScreeningsForMovie: " + allScreeningsForMovie);
+                allScreeningsForMovie = searchMovieScreeningDateController.searchMovieScreeningDate(movieName, dateString, selectedCinema); 
                 displayMovieScreenings(); 
                 
                 break;

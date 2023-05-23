@@ -182,8 +182,7 @@ public class Movie {
             stmt.setString(6, values.get(3));
             stmt.setString(7, values.get(4));
             stmt.executeUpdate();
-
-            System.out.println(values.get(0) + " has been inserted into the database");
+ 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -209,8 +208,7 @@ public class Movie {
             stmt.setString(4, values.get(3));
             stmt.setString(5, movieName); 
             stmt.executeUpdate();
-
-            System.out.println(movieName + " has been updated in the database");
+ 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -232,8 +230,7 @@ public class Movie {
             stmt.setString(1,  "suspended");
             stmt.setString(5, movieName); 
             stmt.executeUpdate();
-
-            System.out.println(movieName + " has been suspended in the database");
+ 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
