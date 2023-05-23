@@ -140,7 +140,7 @@ public class ReportB extends JFrame implements ActionListener {
         dataset.clear();
         // Get selected date from the date chooser
         Date selectedDate = dateChooser.getDate();
-        if(currentMode == "Daily"){
+        if("Daily".equals(currentMode)){
             DateFormat monthYearFormat = new SimpleDateFormat("MM/yyyy");
             String monthYear = monthYearFormat.format(selectedDate).toString();
             DailyReportBController dailyReportController = new DailyReportBController();
@@ -161,7 +161,7 @@ public class ReportB extends JFrame implements ActionListener {
                 dataset.addValue(visitors.get(i), "visitors", dates.get(i));
             }
 
-        }else if(currentMode == "Monthly"){
+        }else if("Monthly".equals(currentMode)){
             DateFormat monthFormat = new SimpleDateFormat("yyyy");
             String year = monthFormat.format(selectedDate).toString();
             MonthlyReportBController monthlyReportController = new MonthlyReportBController();
@@ -184,7 +184,7 @@ public class ReportB extends JFrame implements ActionListener {
                 dataset.addValue(visitors.get(i), "visitors", month.get(i));
             }
 
-        } else if(currentMode == "Weekly"){
+        } else if("Weekly".equals(currentMode)){
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String selectedDateStr = dateFormat.format(selectedDate).toString();
 
