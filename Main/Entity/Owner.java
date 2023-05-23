@@ -30,6 +30,34 @@ public class Owner extends User {
         return super.updateAcc(information, role);
     }
 
+    /**
+     * Retrieve OWNER information (for profile) from database - fname, lname, email, dob, password
+     * @param String email
+     * @return ArrayList<String> values
+     */
+    public ArrayList<String> retriveOwnerInfo(String email) {
+        ArrayList<String> values = new ArrayList<>();
+
+        try {
+            stmt = conn.prepareStatement("SELECT * FROM users WHERE email = ? AND role = 'Cinema Owner'");
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                values.add(rs.getString("fname"));
+                values.add(rs.getString("lname"));
+                values.add(rs.getString("email"));
+                values.add(rs.getString("dob"));
+                values.add(rs.getString("password"));
+            }
+            
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return values;
+    }
+
     
     /**
      * @param userEmail 

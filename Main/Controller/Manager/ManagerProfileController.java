@@ -10,7 +10,7 @@ public class ManagerProfileController {
     Manager manager = new Manager();
 
     public ArrayList<String> getUserInfo(String email) {
-        return manager.getDB().select("*", email);
+        return manager.retriveManagerInfo(email);
     }
     
 }

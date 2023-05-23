@@ -28,6 +28,34 @@ public class UserAdmin extends User {
     } 
 
     /**
+     * Retrieve manager information (for profile) from database - fname, lname, email, dob, password
+     * @param String email
+     * @return ArrayList<String> values
+     */
+    public ArrayList<String> retriveAdminInfo(String email) {
+        ArrayList<String> values = new ArrayList<>();
+
+        try {
+            stmt = conn.prepareStatement("SELECT * FROM users WHERE email = ? AND role = 'User Admin'");
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                values.add(rs.getString("fname"));
+                values.add(rs.getString("lname"));
+                values.add(rs.getString("email"));
+                values.add(rs.getString("dob"));
+                values.add(rs.getString("password"));
+            }
+            
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return values;
+    }
+
+    /**
      * Select ALL users from the database using 2 columns of information from the
      * user
      * E.g. SELECT role FROM users WHERE email = '' AND password = '';

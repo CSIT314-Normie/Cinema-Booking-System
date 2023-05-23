@@ -55,7 +55,7 @@ public class Customer extends User {
         ArrayList<String> values = new ArrayList<>();
 
         try {
-            stmt = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
+            stmt = conn.prepareStatement("SELECT * FROM users WHERE email = ? AND role = 'Customer'");
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
 
