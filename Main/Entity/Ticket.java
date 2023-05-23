@@ -65,8 +65,7 @@ public class Ticket {
             stmt.setString(1, price);
             stmt.setString(2, type);
             stmt.executeUpdate();
-
-            System.out.println(type + "ticket price has been updated in the database");
+ 
             return true;
 
         } catch (SQLException e) {

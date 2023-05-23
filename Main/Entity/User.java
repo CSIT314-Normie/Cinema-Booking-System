@@ -99,8 +99,7 @@ public class User {
             stmt.setString(6, role);
             stmt.setString(7, "Active");
             stmt.executeUpdate();
-
-            System.out.println(values.get(3) + " has been inserted into the database");
+ 
         } catch (SQLException e) { 
             System.err.println(e.getMessage());
         }
@@ -126,8 +125,7 @@ public class User {
             stmt.setString(5, values.get(4));
             stmt.setString(6, email);
             stmt.executeUpdate();
-
-            System.out.println(values.get(2) + " has been updated in the database");
+ 
             return true;
 
         } catch (SQLException e) {
@@ -151,8 +149,7 @@ public class User {
             stmt.setString(1, role);
             stmt.setString(2, email);
             stmt.executeUpdate();
-
-            System.out.println(email + "'s role has been updated in the database");
+ 
             return true;
 
         } catch (SQLException e) {

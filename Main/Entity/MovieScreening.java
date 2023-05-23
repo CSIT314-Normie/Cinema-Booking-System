@@ -348,9 +348,7 @@ public class MovieScreening {
             stmt.setString(7, values.get(6));
             stmt.setString(8, values.get(7));
 
-            stmt.executeUpdate();
-
-            System.out.println(values.get(0) + " has been inserted into the database");
+            stmt.executeUpdate(); 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -369,9 +367,7 @@ public class MovieScreening {
             stmt.setString(1, newScreeningStatus);
             stmt.setString(2, screeningID);  
 
-            stmt.executeUpdate(); 
-
-            System.out.println("screening " + screeningID + "'s screening status has been updated");
+            stmt.executeUpdate();  
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -392,8 +388,7 @@ public class MovieScreening {
             stmt.setString(1, screeningID);  
 
             stmt.executeUpdate(); 
-
-            System.out.println("screening " + screeningID + "'s screening status has been updated");
+ 
             return true;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -546,9 +541,7 @@ public class MovieScreening {
                 stmt.setString(5, screeningID);
                 stmt.setString(6, date);
                 
-                stmt.executeUpdate(); 
-
-                System.out.println("seat " + seatID + " has been reserved");
+                stmt.executeUpdate();  
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());

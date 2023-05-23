@@ -142,8 +142,6 @@ public class AddMovieRatingAndReview extends JFrame implements ActionListener{
                 reviewInfo.add(movieReview.getText().toString());
                 reviewInfo.add(rating);
 
-                System.out.println(reviewInfo);
-
                 // check if any fields are empty
                 if (reviewInfo.contains("")) {
                     JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
