@@ -535,7 +535,7 @@ public class MovieScreening {
         String seatID; 
 
         try {
-            for (int i = 0; i < selectedSeats.size(); i+=2) {
+            for (int i = 0; i < selectedSeats.size(); i++) {
                 seatID = selectedSeats.get(i); 
 
                 stmt = conn.prepareStatement("INSERT INTO seat_reserved (Hall, seatID, userEmail, movieName, screeningID, date) VALUES (?, ?, ?, ?, ?, ?)");  
