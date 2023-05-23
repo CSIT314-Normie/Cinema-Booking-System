@@ -77,11 +77,11 @@ public class Customer extends User {
     /**
      * Update user with arraylist information and role
      * @param information arraylist of information 
-     * @param role role 
+     * @param email email 
      * @return boolean true if success, false if fail
      */
-    public boolean updateUser(ArrayList<String> information, String role) {
-        return super.updateAcc(information, role);
+    public boolean updateAcc(ArrayList<String> information, String email) {
+        return super.updateAcc(information, email);
     }
 
 

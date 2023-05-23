@@ -23,8 +23,8 @@ public class Manager extends User {
         return super.insertUser(information, role);
     }
 
-    public boolean updateUser(ArrayList<String> information, String role) {
-        return super.updateAcc(information, role);
+    public boolean updateUser(ArrayList<String> information, String email) {
+        return super.updateAcc(information, email);
     }
 
     /**

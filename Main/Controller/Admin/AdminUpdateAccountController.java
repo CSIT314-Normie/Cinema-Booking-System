@@ -12,7 +12,7 @@ import java.util.*;
  */
 
 public class AdminUpdateAccountController {
-    private final User user = new User();
+    private UserAdmin userAdmin = new UserAdmin();
 
     /**
      * To handle the update of account information - USER 
@@ -21,6 +21,6 @@ public class AdminUpdateAccountController {
      * @return boolean true if account information is updated successfully, false otherwise
      */
     public boolean updateAccount(ArrayList<String> updatedInfo, String email) {
-        return user.updateAcc(updatedInfo, email);
+        return userAdmin.updateAcc(updatedInfo, email);
     }
 }
