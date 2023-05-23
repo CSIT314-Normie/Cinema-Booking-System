@@ -214,19 +214,19 @@ public class PurchaseTicket extends JFrame implements ActionListener{
                 break;
             case "Make Payment":   
                 // check whether ticket type is selected
-                if (selectedTicketType.equals("") || selectedTicketType.equals(null)) {
+                if (selectedTicketType.equals("") || selectedTicketType == null) {
                     JOptionPane.showMessageDialog(null, "Please select a ticket type.", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
 
                 // check whether card number is entered
-                if (cardNumberTextField.getText().isEmpty() || cardNumberTextField.getText().equals("") || cardNumberTextField.getText().equals(null)) {
+                if (cardNumberTextField.getText().isEmpty() || cardNumberTextField.getText().equals("") || cardNumberTextField.getText() == null) {
                     JOptionPane.showMessageDialog(null, "Please enter card number.", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
 
                 // check whether cardholder name is entered
-                if (cardNameTextField.getText().isEmpty() || cardNameTextField.getText().equals("") || cardNameTextField.getText().equals(null)) {
+                if (cardNameTextField.getText().isEmpty() || cardNameTextField.getText().equals("") || cardNameTextField.getText() == null) {
                     JOptionPane.showMessageDialog(null, "Please enter card holder's name.", "Error", JOptionPane.ERROR_MESSAGE); 
                     break;
                 }

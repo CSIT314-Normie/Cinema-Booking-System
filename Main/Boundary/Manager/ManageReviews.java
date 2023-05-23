@@ -26,8 +26,8 @@ public class ManageReviews extends JFrame implements ActionListener {
     private JPanel reviewsPanel = new JPanel(new FlowLayout());
     private JScrollPane scrollPane;
 
-    private final GetAllReviewsController getAllReviewsController = new GetAllReviewsController();
-    private final DeleteReviewController deleteReviewController = new DeleteReviewController();
+    private final transient GetAllReviewsController getAllReviewsController = new GetAllReviewsController();
+    private final transient DeleteReviewController deleteReviewController = new DeleteReviewController();
 
 
     public ManageReviews(ArrayList<String> userInfo) {

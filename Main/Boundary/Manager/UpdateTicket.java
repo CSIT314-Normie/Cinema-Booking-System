@@ -10,7 +10,6 @@ import Main.Controller.Manager.*;
 
 public class UpdateTicket extends JFrame implements ActionListener{
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("Ticket Type:", "Price"));
-    //private final ArrayList<JTextField> textfieldList = new ArrayList<>();
 
     private final JLabel updateTicketPrice = new JLabel("Update Ticket Price");
     private final JButton updateButton = new JButton("Update");

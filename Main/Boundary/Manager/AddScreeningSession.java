@@ -170,21 +170,17 @@ public class AddScreeningSession extends JFrame implements ActionListener {
                 new ManagerHome(userInfo);
                 break;
             case "Submit":
-                // Get the selected date
                 Date selectedDate = dateChooser.getDate();
                 if (selectedDate == null) {
                     JOptionPane.showMessageDialog(null, "Please select a date", "Error", JOptionPane.ERROR_MESSAGE); 
                 } else {
-                    // Convert the date to a string
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                     selectedInfo[2] = dateFormat.format(selectedDate);
 
                     this.newScreening = new ArrayList<>(Arrays.asList(selectedInfo));
                     this.newScreening.add("3 hours");
                     this.newScreening.add("Available");
-                    System.out.println("new screening: " + newScreening);
 
-                    // check if all fields are filled
                     if (newScreening.contains("")) {
                         JOptionPane.showMessageDialog(null, "Please fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {

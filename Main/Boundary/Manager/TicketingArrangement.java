@@ -8,9 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 
 
-import Main.Controller.*;
-import Main.Controller.Manager.*;
-
 
 public class TicketingArrangement extends JFrame implements ActionListener{
     private final ArrayList<String> labelNameList = new ArrayList<>(Arrays.asList("Ticket Type:", "Price:"));

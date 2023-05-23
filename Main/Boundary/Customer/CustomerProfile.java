@@ -17,8 +17,8 @@ public class CustomerProfile extends JFrame implements ActionListener {
     private final JButton updateButton = new JButton("Edit Profile");
     private final JButton homeButton = new JButton("Home");  
 
-    private final CustomerProfileController profileController = new CustomerProfileController();
-    private final LoyaltyPointController loyaltyPointController = new LoyaltyPointController();
+    private final transient CustomerProfileController profileController = new CustomerProfileController();
+    private final transient LoyaltyPointController loyaltyPointController = new LoyaltyPointController();
 
     // Frame's top, middle and bottom row
     private final JPanel topRow = new JPanel();

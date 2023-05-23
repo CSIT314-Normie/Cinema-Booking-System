@@ -77,7 +77,6 @@ public class UpdateMovieInfo extends JFrame implements ActionListener {
         // add listener for status dropdown
         statusDropDown.addActionListener(e -> {
             selectedStatus = Objects.requireNonNull(statusDropDown.getSelectedItem()).toString();
-            System.out.println("[+] Selected Status: " + selectedStatus);
         });
 
         // add update button
@@ -107,8 +106,6 @@ public class UpdateMovieInfo extends JFrame implements ActionListener {
                 modifiedMovieInfo.add(1, textfieldList.get(1).getText()); // add movie description
                 modifiedMovieInfo.add(2, selectedStatus); // add movie status
                 modifiedMovieInfo.add(3, textfieldList.get(2).getText()); // add movie duration
-
-                System.out.println("[+] Modified Movie Info: " + modifiedMovieInfo);
 
                 // check if all fields are filled
                 if (modifiedMovieInfo.contains("")) {

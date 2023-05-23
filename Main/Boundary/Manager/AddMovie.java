@@ -156,8 +156,6 @@ public class AddMovie extends JFrame implements ActionListener {
                     } catch (Exception ex) {
                         System.out.println("[-] Error copying file to /Boundary/assets");
                     }
-
-                    System.out.println("[+] Selected file: " + absPath + " , " + movieImgFileName);
                 }
                 displayUploadedImage();
                 break;

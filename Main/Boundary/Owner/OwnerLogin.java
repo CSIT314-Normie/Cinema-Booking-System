@@ -102,7 +102,6 @@ public class OwnerLogin extends JFrame implements ActionListener {
             }
             
         } else if (e.getSource() == createButton) {
-            System.out.println("[*] Create button clicked from Login.java");
             dispose();
             new Init();
         }

@@ -126,7 +126,6 @@ public class ManagerUpdate extends JFrame implements ActionListener {
                 break;
 
             case "Home":
-                System.out.println("[+] Move to Home page");
                 dispose();
                 new ManagerHome(userInfo);
                 break;

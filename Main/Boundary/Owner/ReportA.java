@@ -125,9 +125,7 @@ public class ReportA extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==modeList){
-            System.out.println(modeList.getSelectedItem());
             currentMode = modeList.getSelectedItem().toString();
-    
         }
     }
 
@@ -140,7 +138,7 @@ public class ReportA extends JFrame implements ActionListener {
         // Get selected date from the date chooser
         Date selectedDate = dateChooser.getDate(); 
 
-        if(currentMode == "Daily"){
+        if("Daily".equals(currentMode)){
             DateFormat monthYearFormat = new SimpleDateFormat("MM/yyyy");
             String monthYear = monthYearFormat.format(selectedDate).toString();
 
@@ -164,7 +162,7 @@ public class ReportA extends JFrame implements ActionListener {
                 dataset.addValue(amount.get(i), "Amount", dates.get(i));
             }
 
-        } else if(currentMode == "Monthly"){
+        } else if("Monthly".equals(currentMode)){
             DateFormat monthFormat = new SimpleDateFormat("yyyy");
             String year = monthFormat.format(selectedDate).toString();
 
@@ -189,7 +187,7 @@ public class ReportA extends JFrame implements ActionListener {
                 dataset.addValue(amount.get(i), "Amount", month.get(i));
             }
 
-        } else if (currentMode == "Weekly") {
+        } else if ("Weekly".equals(currentMode)) {
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String selectedDateStr = dateFormat.format(selectedDate).toString();
 

@@ -29,7 +29,7 @@ public class TicketingHistory extends JFrame implements ActionListener{
         setLocationRelativeTo(null);
 
         this.ticketHistory = ticketingHistoryController.getTicketingHistory(this.userInfo.get(2));
-        System.out.println("ticketHistory: " + ticketHistory);
+
 
         JPanel ticketingHistoryPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
 

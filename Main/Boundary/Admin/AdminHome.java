@@ -109,7 +109,6 @@ public class AdminHome extends JFrame implements ActionListener {
                 if (selectedAccount == null) {
                     JOptionPane.showMessageDialog(null, "Please select an account to delete", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    System.out.println("[+] Admin - Suspend account");
                     if (suspendAccountController.suspendAccount(selectedAccount[2])) {
                         JOptionPane.showMessageDialog(null, "Account suspended successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     } else {

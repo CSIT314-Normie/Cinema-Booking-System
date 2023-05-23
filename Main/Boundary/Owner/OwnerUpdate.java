@@ -126,7 +126,6 @@ public class OwnerUpdate extends JFrame implements ActionListener {
                 break;
 
             case "Home":
-                System.out.println("[+] Move to Home page");
                 dispose();
                 new OwnerHome(userInfo);
                 break;

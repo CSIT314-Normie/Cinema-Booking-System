@@ -31,9 +31,6 @@ public class DB {
         try {
             conn = DriverManager.getConnection(url);
 
-            // Check if connection is successful
-            System.out.println("[+] Connected to the database on initialisation");
-
             ArrayList<PreparedStatement> stmts = new ArrayList<>();
             ArrayList<PreparedStatement> insertion = new ArrayList<>();
 
@@ -214,11 +211,8 @@ public class DB {
             stmts.forEach(stmt -> {
                 try {
                     stmt.execute();
-                    if (stmt.getUpdateCount() == 0) {
-                        System.out.println("[+] Table " + tables[stmts.indexOf(stmt)] + " create");
-                    }
                 } catch (SQLException e) {
-                    System.err.println("[!!]" + e.getMessage());
+                    System.err.println(e.getMessage());
                 }
             });
 
@@ -226,11 +220,11 @@ public class DB {
             insertion.forEach(inserts -> {
                 try {
                     inserts.execute();
-                    if (inserts.getUpdateCount() == 0) {
-                        System.out.println("[+] Data inserted into " + insert[insertion.indexOf(inserts)]);
-                    }
                 } catch (SQLException e) {
-                    System.err.println("[!!]" + e.getMessage());
+                    if (e.getErrorCode() != 1359) {
+                        System.err.println(e.getMessage());
+                    }
+
                 }
             });
         } catch (SQLException ex) {
